@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-<<<<<<< HEAD:frontend/src/Navbar.jsx
-import logo from "./assets/logo.png";
-=======
 import logo from "./../assets/main_logo.png";
->>>>>>> 856527bc2279f28dae5385cbd07ddf434cacfeb7:frontend/src/components/Navbar.jsx
 
 const Navbar = () => {
   const location = useLocation();
