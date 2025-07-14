@@ -1,16 +1,19 @@
-import { useState } from 'react'
-import HomePage from './pages/HomePage'
-
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './Navbar';
+import HomePage from './pages/HomePage';
+import Team from './pages/Team';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div>
-      <HomePage />
-      
-    </div>
-  )
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/team" element={<Team />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
