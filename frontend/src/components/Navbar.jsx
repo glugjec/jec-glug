@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "./../assets/logo.png";
+import logo from "./assets/main_logo.png";
 
 const Navbar = () => {
   const location = useLocation();
@@ -15,7 +15,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="w-full bg-transparent backdrop-blur-md text-white px-4 sm:px-6 py-4 shadow-md">
+    <nav className="w-full bg-black backdrop-blur-md text-white px-4 sm:px-6 py-4 shadow-md">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
         <Link to="/">
