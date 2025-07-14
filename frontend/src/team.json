@@ -1,0 +1,163 @@
+[
+    {
+      "title": "CLUB LEADERSHIP",
+      "members": [
+        {
+          "name": "Abhilash Kashyap",
+          "role": "CLUB HEAD",
+          "description": "Overall leadership and management"
+        },
+        {
+          "name": "Ashish Saikia",
+          "role": "CO-HEAD",
+          "description": "Club co-leadership"
+        },
+        {
+          "name": "Dorothy Gogoi",
+          "role": "CO-HEAD",
+          "description": "Club co-leadership"
+        },
+        {
+          "name": "Ritu Raj Bora",
+          "role": "CO-HEAD",
+          "description": "Club co-leadership"
+        },
+        {
+          "name": "Ishan Bharadwaj",
+          "role": "CO-HEAD",
+          "description": "Club co-leadership"
+        }
+
+      ]
+    },
+    {
+      "title": "TECHNICAL TEAM",
+      "members": [
+        {
+          "name": "Abhimanyu Saikia",
+          "role": "TECH LEAD",
+          "description": "Full-stack developer and technical mentor"
+        },
+        {
+          "name": "Sivanuj Dutta",
+          "role": "COORDINATOR",
+          "description": "Technical coordination"
+        },
+        {
+          "name": "Rittam Dutta",
+          "role": "COORDINATOR",
+          "description": "Technical coordination"
+        },
+        {
+          "name": "Kaushik Ranjan Rajkumar",
+          "role": "COORDINATOR",
+          "description": "Technical coordination"
+        }
+      ]
+    },
+    {
+      "title": "DESIGN TEAM",
+      "members": [
+        {
+          "name": "Ritu Raj Bora",
+          "role": "LEAD",
+          "description": "Design team leadership"
+        },
+        {
+          "name": "Arnold Saikia",
+          "role": "COORDINATOR",
+          "description": "Design coordination"
+        },
+        {
+          "name": "Ayushman Lahon",
+          "role": "COORDINATOR",
+          "description": "Design coordination"
+        },
+        {
+          "name": "Nibir Kalita",
+          "role": "COORDINATOR",
+          "description": "Design coordination"
+        }
+      ]
+    },
+    {
+      "title": "MANAGEMENT TEAM",
+      "members": [
+        {
+          "name": "Bishal Ranjan Nath",
+          "role": "LEAD",
+          "description": "Management team leadership"
+        },
+        {
+          "name": "Priyam Nath",
+          "role": "COORDINATOR",
+          "description": "Management coordination"
+        },
+        {
+          "name": "Arindom Mahanta",
+          "role": "COORDINATOR",
+          "description": "Management coordination"
+        },
+        {
+          "name": "Ananya Das",
+          "role": "COORDINATOR",
+          "description": "Management coordination"
+        },
+        {
+          "name": "Sumanta Bhargab",
+          "role": "COORDINATOR",
+          "description": "Management coordination"
+        }
+      ]
+    },
+    {
+      "title": "SOCIAL MEDIA TEAM",
+      "members": [
+        {
+          "name": "Tushar Haloi",
+          "role": "LEAD",
+          "description": "Social media strategy and leadership"
+        },
+        {
+          "name": "Koustab Saikia",
+          "role": "COORDINATOR",
+          "description": "Content creation and management"
+        },
+        {
+          "name": "Bivamoni Amchi",
+          "role": "COORDINATOR",
+          "description": "Content creation and management"
+        },
+        {
+          "name": "Jyotismita Bhuyan",
+          "role": "COORDINATOR",
+          "description": "Content creation and management"
+        }
+      ]
+    },
+    {
+      "title": "GENERAL COORDINATORS",
+      "members": [
+        {
+          "name": "Rajdeep Dutta",
+          "role": "GENERAL COORDINATOR",
+          "description": "General club coordination"
+        },
+        {
+          "name": "Dreamsea Dutta",
+          "role": "GENERAL COORDINATOR",
+          "description": "General club coordination"
+        },
+        {
+          "name": "Mriganka Mahanta",
+          "role": "GENERAL COORDINATOR",
+          "description": "General club coordination"
+        },
+        {
+          "name": "Pranjal Nath",
+          "role": "GENERAL COORDINATOR",
+          "description": "General club coordination"
+        }
+      ]
+    }
+  ]
