@@ -1,3 +1,9 @@
+import assamLogo from '../assets/sponsor_logo/assam.png';
+import frintLogo from '../assets/sponsor_logo/frint.jpg';
+import saurabhiLogo from '../assets/sponsor_logo/saurabhi.png';
+import oilLogo from '../assets/sponsor_logo/oil.jpg';
+import instrumentLogo from '../assets/sponsor_logo/instrument.jpg';
+
 const AboutGLUG = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -47,22 +53,27 @@ const AboutGLUG = () => {
 
       {/* Sponsors Section (below in column) */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Our Sponsors</h2>
-        <div className="flex flex-wrap justify-center items-center gap-8">
-          <div className="bg-gray-100 p-4 rounded-lg w-32 h-20 flex items-center justify-center">
-            <span className="font-medium text-gray-700">ascam</span>
-          </div>
-          <div className="bg-gray-100 p-4 rounded-lg w-32 h-20 flex items-center justify-center">
-            <span className="font-medium text-gray-700">Fruit</span>
-          </div>
-          <div className="bg-gray-100 p-4 rounded-lg w-32 h-20 flex items-center justify-center">
-            <span className="font-medium text-gray-700">SUBIBRI</span>
-          </div>
-          <div className="bg-gray-100 p-4 rounded-lg w-32 h-20 flex items-center justify-center">
-            <span className="font-medium text-gray-700">MEDIA</span>
-          </div>
-        </div>
+  <h2 className="text-2xl font-bold text-gray-800 mb-6">Our Sponsors</h2>
+    <div className="flex justify-center items-center gap-4 overflow-x-auto">
+      <div className="bg-black p-2 rounded-lg w-32 h-20 flex items-center justify-center">
+        <img src={assamLogo} alt="Assam" className="w-full h-full object-contain" />
       </div>
+      <div className="bg-gray-100 p-2 rounded-lg w-32 h-20 flex items-center justify-center">
+        <img src={saurabhiLogo} alt="Saurabhi" className="w-full h-full object-contain" />
+      </div>
+      <div className="bg-black p-2 rounded-lg w-32 h-20 flex items-center justify-center">
+        <img src={frintLogo} alt="Frint" className="w-full h-full object-contain" />
+      </div>
+      <div className="bg-gray-100 p-2 rounded-lg w-32 h-20 flex items-center justify-center">
+        <img src={instrumentLogo} alt="Instrument" className="w-full h-full object-contain" />
+      </div>
+      <div className="bg-black p-2 rounded-lg w-32 h-20 flex items-center justify-center">
+        <img src={oilLogo} alt="Oil" className="w-full h-full object-contain" />
+      </div>
+    </div>
+
+</div>
+
     </div>
   );
 };
