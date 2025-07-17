@@ -1,26 +1,19 @@
-import assamLogo from '../assets/sponsor_logo/assam.png';
-import frintLogo from '../assets/sponsor_logo/frint.jpg';
-import saurabhiLogo from '../assets/sponsor_logo/saurabhi.png';
-import oilLogo from '../assets/sponsor_logo/oil.jpg';
-import instrumentLogo from '../assets/sponsor_logo/instrument.jpg';
 
 const AboutGLUG = () => {
   return (
     <>
-      <div
-        style={{
-        background: "linear-gradient(to bottom, #03022C, #161D58)",
-        }}
-          className="w-screen relative left-1/2 right-1/2 -translate-x-1/2">
-            
-        <div className="max-w-5xl mx-auto px-4 py-8">
+      <div className="w-screen relative left-1/2 right-1/2 -translate-x-1/2 py-12">
+        <div className="px-4 sm:px-6 lg:px-12 py-8 w-full">
           {/* Header and Goals Side-by-side */}
-          <div className="flex flex-col md:flex-row gap-12 mb-12">
+          <div className="flex flex-col xl:flex-row gap-12 mb-12">
+            
             {/* Header Content */}
-            <div className="md:w-1/2">
+            <div className="w-full xl:w-1/2 px-2 sm:px-4 lg:px-6 xl:px-8 pb-2 sm:pb-4 lg:pb-6 xl:pb-8">
               <div className="flex flex-col">
                 <h1 className="text-4xl font-bold text-gray-100 mb-4">About us</h1>
-                <p className="text-xl text-gray-300 italic mb-6">Born from curiosity, powered by community.</p>
+                <p className="text-xl text-gray-300 italic mb-6">
+                  Born from curiosity, powered by community.
+                </p>
                 <div className="space-y-6">
                   <p className="text-lg text-gray-200">
                     The GNU/Linux Users Group (GLUG) of Jontet Engineering College is a student-led community of passionate developers, designers, and tech enthusiasts committed to promoting open-source software and collaborative learning.
@@ -33,35 +26,30 @@ const AboutGLUG = () => {
             </div>
 
             {/* Our Goal Section */}
-            <div className="md:w-1/2">
-              <div className="h-full flex flex-col justify-center">
-                <h2 className="text-2xl font-bold text-gray-100 mb-6">Our Goal</h2>
-                <ul className="grid grid-cols-1 gap-4">
-                  <li className="flex items-start">
-                    <span className="text-green-400 mr-2">-</span>
-                    <span className="text-gray-200">Promote open-source culture</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-400 mr-2">-</span>
-                    <span className="text-gray-200">Build technical skills</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-400 mr-2">-</span>
-                    <span className="text-gray-200">Foster collaboration</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-400 mr-2">-</span>
-                    <span className="text-gray-200">Create innovative solutions</span>
-                  </li>
-                </ul>
+            <div className="w-full xl:w-1/2 px-2 sm:px-4 lg:px-6 xl:px-8">
+              <div className="h-full flex flex-col bg-[#83B3FF] rounded-xl p-6 sm:p-8 lg:p-10">
+                <div>
+                  <h2 className="text-2xl font-bold text-white mb-6">Our Goal</h2>
+                  <ul className="ml-6 list-disc list-inside text-white space-y-1 text-md">
+                    <li>Promote open-source culture</li>
+                    <li>Build technical skills</li>
+                    <li>Foster collaboration</li>
+                    <li>Create innovative solutions</li>
+                  </ul>
+                </div>
+                <div className="mt-auto pt-6">
+                  <img src="images/aboutLogo.png" alt="GLUG Logo" className="w-48 sm:w-56 md:w-60" />
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
 
+
       {/* Sponsors Section OUTSIDE the gradient */}
-      <div className="w-screen bg-[#3B8FE1] py-6 mx-auto relative left-1/2 right-1/2 -translate-x-1/2">
+      {/* <div className="w-screen py-6 mx-auto relative left-1/2 right-1/2 -translate-x-1/2 bg-[#3B8FE1] text-white">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Our Sponsors</h2>
         <div className="flex justify-center items-center gap-4 overflow-x-auto px-4">
           <div className="bg-black p-2 rounded-lg w-32 h-20 flex items-center justify-center">
@@ -80,7 +68,7 @@ const AboutGLUG = () => {
             <img src={oilLogo} alt="Oil" className="w-full h-full object-contain" />
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
