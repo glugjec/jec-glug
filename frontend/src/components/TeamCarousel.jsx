@@ -16,14 +16,14 @@ const TeamCarousel = () => {
     .flatMap(team => team.members);
 
   return (
-    <div className="w-full px-6 sm:px-12 lg:px-16 xl:px-20">
-      <Carousel 
-        className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-7xl xl:max-w-8xl mx-auto"
-        opts={{
-          align: "start",
-          slidesToScroll: "auto",
-        }}
-      >
+    <div className="w-screen bg-[#03022C] relative left-1/2 right-1/2 -translate-x-1/2 px-6 sm:px-12 lg:px-16 xl:px-20">
+    <Carousel 
+      className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-7xl xl:max-w-8xl mx-auto"
+      opts={{
+        align: "start",
+        slidesToScroll: "auto",
+      }}>
+        
         <CarouselContent className="-ml-3">
           {allMembers.map((member, index) => (
             <CarouselItem 
