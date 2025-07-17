@@ -10,7 +10,10 @@ import General from "../components/TeamComponents/General";
 const Team = () => {
   return (
     <div className="min-h-screen bg-transparent px-4 sm:px-6 md:px-8 py-10 sm:py-12"
-    style={{ backgroundImage: "url('/teampagebackground.png')" }}>
+    style={{ backgroundImage: "url('/teampagebackground.png')",
+        backgroundSize: "cover"
+    }}>
+
       {/* Header */}
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-3">
         Our Team

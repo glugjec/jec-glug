@@ -17,6 +17,7 @@ const HomePage = () => {
 
 
   return (
+    
     <div className="flex flex-col items-center w-full">
       <div className='bg-gradient-to-b from-[#03022C] to-[#161D58] text-white'>
         <div className="py-10 text-center text-3xl sm:text-4xl md:text-5xl">
