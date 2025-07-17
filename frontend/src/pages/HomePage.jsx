@@ -2,6 +2,8 @@ import React from 'react'
 import TeamCarousel from '@/components/TeamCarousel'
 import AboutGLUG from '@/components/AboutGLUG'
 import Event from '@/components/Event'
+import Hero from '@/components/Hero'
+
 
 const HomePage = () => {
   const events = [{
@@ -16,7 +18,9 @@ const HomePage = () => {
 
 
   return (
+    
     <div className="flex flex-col items-center w-full">
+      <div><Hero /></div>
       <div className="w-full min-h-fit flex items-center justify-left bg-gray-50 py-12">
         <div className="w-full px-4">
           <TeamCarousel />
