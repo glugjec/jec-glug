@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-// Mock logo component since we don't have the actual logo file
 
 const Navbar = () => {
   const location = useLocation();
