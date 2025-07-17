@@ -2,7 +2,7 @@
 const AboutGLUG = () => {
   return (
     <>
-      <div className="w-screen relative left-1/2 right-1/2 -translate-x-1/2 py-12">
+      <div id="AboutGLUG" className="w-screen relative left-1/2 right-1/2 -translate-x-1/2 py-12">
         <div className="px-4 sm:px-6 lg:px-12 py-8 w-full">
           {/* Header and Goals Side-by-side */}
           <div className="flex flex-col xl:flex-row gap-12 mb-12">

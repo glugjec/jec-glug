@@ -19,16 +19,16 @@ const Navbar = () => {
       <div className="flex items-center justify-between mx-auto px-4 py-4 sm:px-6 lg:px-8 ">
         {/* Logo */}
         <Link to="/" className="flex-shrink-0">
-  <img 
-    src={
-      location.pathname === "/"
-        ? "/images/navLogo.png" // homepage logo
-        : "/images/logo.png" // other pages logo
-    }
-    alt="Logo"
-    className="w-18"
-  />
-</Link>
+            <img 
+              src={
+                location.pathname === "/"
+                  ? "/images/navLogo.png" // homepage logo
+                  : "/images/logo.png" // other pages logo
+              }
+              alt="Logo"
+              className="w-18"
+            />
+          </Link>
 
         {/* Hamburger Button (shown only on mobile) */}
         <button
