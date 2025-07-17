@@ -16,7 +16,7 @@ const TeamCarousel = () => {
     .flatMap(team => team.members);
 
   return (
-    <div className="w-screen bg-[#03022C] relative left-1/2 right-1/2 -translate-x-1/2 px-6 sm:px-12 lg:px-16 xl:px-20">
+    <div className="w-screen bg-[#03022C] relative left-1/2 right-1/2 -translate-x-1/2 -mt-12 px-6 sm:px-12 lg:px-16 xl:px-20 pt-7 pb-7">
     <Carousel 
       className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-7xl xl:max-w-8xl mx-auto"
       opts={{

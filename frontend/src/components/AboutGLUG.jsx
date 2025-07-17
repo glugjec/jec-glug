@@ -12,8 +12,8 @@ const AboutGLUG = () => {
         background: "linear-gradient(to bottom, #03022C, #161D58)",
         }}
           className="w-screen relative left-1/2 right-1/2 -translate-x-1/2">
-            
-        <div className="max-w-5xl mx-auto px-4 py-8">
+
+        <div className="max-w-5xl mx-auto px-4 py-8 -mt-24">
           {/* Header and Goals Side-by-side */}
           <div className="flex flex-col md:flex-row gap-12 mb-12">
             {/* Header Content */}
