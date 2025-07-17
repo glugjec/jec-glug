@@ -26,7 +26,7 @@ const Navbar = () => {
         : "/images/logo.png" // other pages logo
     }
     alt="Logo"
-    className="w-12"
+    className="w-18"
   />
 </Link>
 
