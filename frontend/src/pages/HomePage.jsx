@@ -3,6 +3,7 @@ import TeamCarousel from '@/components/TeamCarousel'
 import AboutGLUG from '@/components/AboutGLUG'
 import Event from '@/components/Event'
 import HomeSponsorSection from '@/components/HomeSponsorSection'
+import Hero from '@/components/Hero'
 
 const HomePage = () => {
   const events = [{
@@ -20,6 +21,7 @@ const HomePage = () => {
     
     <div className="flex flex-col items-center w-full">
       <div className='bg-gradient-to-b from-[#03022C] to-[#161D58] text-white'>
+        <div><Hero /></div>
         <div className="py-10 text-center text-3xl sm:text-4xl md:text-5xl">
           Our Team
         </div>
