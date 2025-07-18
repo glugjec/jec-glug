@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between mx-auto -my-6 px-4 py-4 sm:px-6 lg:px-8 ">
         {/* Logo */}
         <Link to="/" className="flex-shrink-0">
-             <div className="h-12 flex items-center">
+             
               <img 
                 src={
                   location.pathname === "/"
@@ -27,9 +27,9 @@ const Navbar = () => {
                     : "/images/logo.png"
                 }
                 alt="Logo"
-                className="h-full object-contain"
+                className="w-18"
               />
-            </div>
+            
           </Link>
 
         {/* Hamburger Button (shown only on mobile) */}
