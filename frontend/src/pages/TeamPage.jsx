@@ -5,10 +5,7 @@ import TeamHeader from '../components/TeamHeader';
 
 const TeamPage = () => {
   return (
-    <div>
-      <div>
-        The Team
-      </div>
+    <div className='min-h-screen pb-12'>
       <div>
       <TeamHeader />
         {

@@ -1,12 +1,17 @@
 [
     {
+      "title": "PRESIDENT",
+      "members": [
+      {
+        "name": "Abhilash Kashyap",
+        "role": "PRESIDENT",
+        "description": "President of the club"
+      }
+      ]
+    },
+    {
       "title": "CLUB LEADERSHIP",
       "members": [
-        {
-          "name": "Abhilash Kashyap",
-          "role": "CLUB HEAD",
-          "description": "Overall leadership and management"
-        },
         {
           "name": "Ashish Saikia",
           "role": "CO-HEAD",

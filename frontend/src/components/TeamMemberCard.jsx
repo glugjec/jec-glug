@@ -2,18 +2,23 @@ import React from 'react'
 
 const TeamMemberCard = ({ member }) => {
   return (
-    <div className="team-member-card bg-gray-800 rounded-lg p-6 border border-gray-700">
-      <div className="member-avatar mb-4 flex justify-center">
-        {/* Avatar with initials */}
-        <div className="avatar-placeholder w-16 h-16 bg-cyan-500 rounded-full flex items-center justify-center">
-          <img src={`/images/${member.name.split(' ')[0].toLowerCase()}.jpg`} alt="Description" />
+    <div className="bg-gradient-to-b from-[#000000] via-[#020202] via-[#282828] via-[#383737] via-[#444343] to-[#545353] backdrop-blur-sm rounded-xl p-5 flex flex-col space-y-4 shadow-md border border-white/10">
+      <div className="flex items-center space-x-4">
+        <img
+          src={`/images/${member.name.split(' ')[0].toLowerCase()}.jpg`}
+          alt={member.name}
+          className="w-24 h-24 object-cover rounded-full border border-white/20"
+          onError={(e) => {
+            e.target.src = "/images/default.png";
+          }}
+        />
+        <div>
+          <h4 className="text-white font-semibold">{member.name}</h4>
+          <p className="uppercase text-green-400 text-sm">{member.role}</p>
         </div>
       </div>
-      <h3 className="member-name text-white font-semibold text-lg mb-2 text-center">{member.name}</h3>
-      <p className="member-role text-cyan-400 text-sm font-medium mb-3 text-center uppercase">{member.role}</p>
-      <p className="member-description text-gray-400 text-sm leading-relaxed text-center">{member.description}</p>
+      <p className="text-gray-300 text-sm">{member.description}</p>
     </div>
-
   );
 };
 
