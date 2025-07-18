@@ -10,7 +10,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative w-screen min-h-[90vh] bg-gradient-to-b from-[#03022C] to-[#161D58] flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative w-screen min-h-[90vh] bg-[#03022] flex flex-col items-center justify-center overflow-hidden">
       {/* Background radial gradient */}
       <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[120vw] h-[120vw] bg-gradient-radial from-blue-500/30 to-transparent opacity-50 blur-3xl"></div>
 
