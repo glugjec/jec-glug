@@ -19,7 +19,7 @@ const EvenCard = () => {
         <div className="bg-white rounded-lg p-4 flex items-center justify-between">
           <div>
             <h3 className="text-slate-800 font-semibold text-lg">Hackwith 4.0</h3>
-            <p className="text-slate-500 text-sm mt-1">Lorem ipsum dolor sit amet</p>
+            <p className="text-slate-500 text-sm mt-1">#hackathon #Innovation </p>
           </div>
           
           {/* Arrow Icon */}

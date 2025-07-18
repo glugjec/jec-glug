@@ -26,7 +26,7 @@ hackathons with the support of industry sponsors.
             to="/contact"
             className="inline-block bg-gradient-to-r from-blue-400 to-indigo-500 text-white font-semibold rounded-full px-8 py-3 shadow-lg hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
           >
-            Join the Team
+            Join Us
           </Link>
           <button
             onClick={scrollTosec}
