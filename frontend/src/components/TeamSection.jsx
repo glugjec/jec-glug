@@ -17,7 +17,7 @@ const TeamSection = ({ title, members }) => {
         <TeamMemberCard key={index} member={member} />
       ))
     ) : (
-      <p className="empty-section text-gray-400 text-center col-span-full py-8">Team members to be announced</p>
+      <p className="empty-section text-gray-300 text-center col-span-full py-8">Team members to be announced</p>
     )}
   </div>) 
   :
@@ -27,13 +27,17 @@ const TeamSection = ({ title, members }) => {
 
 
   return (
-    <div className="team-section bg-gray-900 rounded-lg p-6 mx-4 mb-6 border border-gray-700">
+    <div className="mx-auto my-8 max-w-5xl bg-black/30 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20 transition-transform hover:scale-[1.01]">
       
-      <h2 className="section-title flex items-center justify-between text-white text-xl font-semibold mb-6 ">
-        
-        {title}
-        <button className="text-blue-400" onClick={handleClick}>{collapseButton}</button>
-      </h2>
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-2xl font-bold text-white uppercase">{title}</h3>
+        <button
+          onClick={handleClick}
+          className="text-white text-3xl font-bold hover:text-green-400 transition-colors"
+        >
+          {collapseButton}
+        </button>
+      </div>
       {content}
     </div>
   );

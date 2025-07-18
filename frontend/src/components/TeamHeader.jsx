@@ -3,7 +3,7 @@ import React from 'react'
 const TeamHeader = () => {
   return (
    <div className="team-header text-center py-16 px-4">
-      <h1 className="text-6xl font-bold bg-black bg-clip-text text-transparent mb-8">
+      <h1 className="text-6xl font-bold text-white mb-8">
         Our Team
       </h1>
       <p className="mission-text text-black text-lg max-w-2xl mx-auto mb-12 leading-relaxed">

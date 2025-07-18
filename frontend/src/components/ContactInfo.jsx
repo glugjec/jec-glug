@@ -21,17 +21,17 @@ const ContactInfo = () => {
   ];
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border">
+    <div className=" p-6 rounded-lg shadow-sm ">
       <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
       <div className="space-y-4">
         {contactDetails.map((detail, index) => (
           <div key={index} className="flex items-center space-x-3">
-            <div className="text-blue-600">
+            <div>
               {detail.icon}
             </div>
             <div>
-              <p className="text-sm text-gray-600">{detail.label}</p>
-              <p className="text-gray-900">{detail.value}</p>
+              <p className="text-sm ">{detail.label}</p>
+              <p className="">{detail.value}</p>
             </div>
           </div>
         ))}

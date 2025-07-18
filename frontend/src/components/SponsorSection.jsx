@@ -2,7 +2,7 @@ import SponsorCard from './SponsorCard';
 
 const SponsorsSection = ({ sponsorsData }) => {
   return (
-    <div className="bg-gradient-to-t from-gray-900 via-gray-600 to-blue-500 min-h-screen py-16 px-4">
+    <div className="min-h-screen py-16 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <h2 className="text-3xl font-bold text-white text-center mb-6">

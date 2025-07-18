@@ -1,5 +1,6 @@
 import React from 'react'
 import SponsorSection from '../components/SponsorSection';
+import SponsorContact from '@/components/SponsorContact';
 
 const SponsorPage = () => {
 
@@ -92,6 +93,7 @@ const SponsorPage = () => {
   return (
     <div>
       <SponsorSection sponsorsData={sponsorsData} />
+      <SponsorContact />
     </div>
   )
 }
