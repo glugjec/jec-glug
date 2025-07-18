@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const PartnerSection = () => {
   return (
-    <section className="w-full bg-gradient-to-b from-white to-blue-50 py-16 px-6 flex flex-col md:flex-row items-center justify-between">
+    <section className="w-screen bg-gradient-to-b from-[#FFFFFF] to-[#D2E9FC] py-16 px-6 flex flex-col md:flex-row items-center justify-between">
      
-      <div className="max-w-xl mb-10 md:mb-0">
+      <div className="max-w-xl mb-10 md:mb-0 mx-20">
         <h2 className="text-3xl md:text-4xl font-bold text-[#0A1F44] mb-4">
           Partner with GLUG
         </h2>
