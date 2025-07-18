@@ -2,33 +2,34 @@ import React from 'react';
 
 const EventShowCard = ({event}) => {
   return (
-    <div className="max-w-xs w-full bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col h-full mx-2 my-4" >
-      <div className=" max-w-sm w-full bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full  border-1 border-blue-900">
-        {/* Gradient Image Section */}
-        <div className=" p-4 flex justify-center bg-gray-200">
-          <img src="images/Tux.svg" alt="HackVita Logo" className="h-32 w-32" />
+    <div className="max-w-sm w-full bg-white rounded-[4rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-900">
+      {/* Image Section */}
+      <div className="p-6 flex justify-center bg-gray-200">
+        <img src="images/Tux.svg" alt="HackVita Logo" className="h-32 w-32 object-contain" />
+      </div>
+      
+      {/* Content Section */}
+      <div className="p-6 flex flex-col flex-grow bg-gradient-to-t from-gray-900 to-gray-500  text-white">
+        <div className="flex justify-between items-start mb-4">
+          <h1 className="text-xl font-bold leading-tight">{event.title}</h1>
+          <p className="text-sm bg-white/20 px-3 py-1 rounded-full ml-2 whitespace-nowrap">{event.date}</p>
         </div>
         
-        {/* Content Section - flex-grow to take available space */}
-        <div className="p-4 flex flex-col flex-grow bg-gradient-to-t from-gray-900 via-gray-600 to-blue-500 text-white">
-          <div className="flex justify-between items-start">
-            <div>
-              <h1 className="text-xl font-bold ">{event.title}</h1>
-              
-            </div>
-            <p className=" mt-1">{event.date}</p>
-          </div>
-          
-          <p className="mt-4 text-sm">
-            {event.description}
-          </p>
-          
-          {/* Hashtags div with mt-auto to push to bottom */}
-          <div className="mt-auto pt-4 flex flex-wrap gap-2">
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 text-xs">@Hackathon</span>
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 text-xs">#Innovation</span>
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 text-xs">#Coding</span>
-          </div>
+        <p className="text-sm leading-relaxed text-white/90 mb-6">
+          {event.description}
+        </p>
+        
+        {/* Hashtags - pushed to bottom */}
+        <div className="mt-auto flex flex-wrap gap-2">
+          <span className="inline-block bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-white border border-white/30">
+            @Hackathon
+          </span>
+          <span className="inline-block bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-white border border-white/30">
+            #Innovation
+          </span>
+          <span className="inline-block bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-white border border-white/30">
+            #Coding
+          </span>
         </div>
       </div>
       </div>
