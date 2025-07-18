@@ -128,8 +128,8 @@ const EventsComponent = () => {
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Hero Section */}
       <div className="text-center mb-8">
-        <h1 className="font-canno text-[7rem] font-bold mb-4">
-          EVENT
+        <h1 className="bg-gradient-to-r from-[#8AE6FF] via-[#8AE6FF] to-[#FFFFFF] bg-clip-text text-transparent font-canno text-6xl font-bold mb-8">
+          EVENTs
         </h1>
         <p className="font-poppins text-gray-100 text-lg max-w-2xl mx-auto">
           Discover our upcoming events and explore the exciting activities we've organized for the community.
