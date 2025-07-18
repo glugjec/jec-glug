@@ -131,7 +131,7 @@ const EventsComponent = () => {
         <h1 className="font-canno text-[7rem] font-bold mb-4">
           EVENT<span className="text-blue-600">s</span>
         </h1>
-        <p className="font-poppins text-gray-600 text-lg max-w-2xl mx-auto">
+        <p className="font-poppins text-gray-100 text-lg max-w-2xl mx-auto">
           Discover our upcoming events and explore the exciting activities we've organized for the community.
         </p>
       </div>

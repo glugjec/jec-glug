@@ -14,9 +14,10 @@ function App() {
     <Router>
       <Navbar />
       <div
-      className="min-h-screen bg-cover bg-center"
-      style={{ backgroundImage: "url('images/teampagebackground.png')" }}
-     >
+        className="min-h-screen bg-cover bg-center transition-all duration-300"
+        style={{ backgroundImage: "url('images/teampagebackground.png')" }}
+      >
+
       <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />

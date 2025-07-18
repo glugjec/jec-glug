@@ -2,7 +2,7 @@ import React from 'react';
 
 const EventShowCard = ({event}) => {
   return (
-    <div className="max-w-sm w-full bg-white rounded-[4rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-900">
+    <div className="max-w-sm w-full bg-white rounded-[3rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-900">
       {/* Image Section */}
       <div className="p-6 flex justify-center bg-gray-200">
         <img src="images/Tux.svg" alt="HackVita Logo" className="h-32 w-32 object-contain" />

@@ -14,8 +14,8 @@ const SponsorCard = ({ sponsor, tier }) => {
       <div className={`w-20 h-20 md:w-24 md:h-24 ${getLogoColor()} rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
         <span className="text-xl md:text-2xl font-bold">{sponsor.logo}</span>
       </div>
-      <div className="text-center">
-        <div className="text-white font-semibold text-base md:text-lg mb-2">{sponsor.title}</div>
+      <div className="font-poppins text-center">
+        <div className="text-white font-bold text-base md:text-lg mb-2">{sponsor.title}</div>
         <div className="text-white/70 text-sm md:text-base">{sponsor.partnerType}</div>
       </div>
     </div>

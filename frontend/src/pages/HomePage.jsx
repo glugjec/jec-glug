@@ -45,7 +45,7 @@ const HomePage = () => {
         }
         </div>
         <div><PartnerSection /></div>
-        <div><ContactSection /></div>
+        <div className='w-full '><ContactSection /></div>
     </div>
   )
 }
