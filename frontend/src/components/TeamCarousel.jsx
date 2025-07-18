@@ -12,7 +12,7 @@ import {
 
 const TeamCarousel = () => {
   const allMembers = teams
-    .filter(team => team.title === "CLUB LEADERSHIP")
+    .filter(team => team.title === "PRESIDENT" || team.title === "CLUB LEADERSHIP")
     .flatMap(team => team.members);
 
   return (
