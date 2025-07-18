@@ -4,6 +4,7 @@ import AboutGLUG from '@/components/AboutGLUG'
 import Event from '@/components/Event'
 import HomeSponsorSection from '@/components/HomeSponsorSection'
 import Hero from '@/components/Hero'
+import PartnerSection from '@/components/PartnerSection';
 
 const HomePage = () => {
   const events = [{
@@ -42,6 +43,7 @@ const HomePage = () => {
           })
         }
         </div>
+        <div><PartnerSection /></div>
     </div>
   )
 }
