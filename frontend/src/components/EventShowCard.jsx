@@ -9,10 +9,10 @@ const EventShowCard = ({event}) => {
       </div>
       
       {/* Content Section */}
-      <div className="p-6 flex flex-col flex-grow bg-gradient-to-t from-gray-900 to-gray-500  text-white">
+      <div className="font-poppins p-6 flex flex-col flex-grow bg-gradient-to-t from-gray-900 to-gray-500  text-white">
         <div className="flex justify-between items-start mb-4">
-          <h1 className="text-xl font-bold leading-tight">{event.title}</h1>
-          <p className="text-sm bg-white/20 px-3 py-1 rounded-full ml-2 whitespace-nowrap">{event.date}</p>
+          <h1 className="font-canno text-xl font-bold leading-tight">{event.title}</h1>
+          <p className="font-poppins text-sm bg-white/20 px-3 py-1 rounded-full ml-2 whitespace-nowrap">{event.date}</p>
         </div>
         
         <p className="text-sm leading-relaxed text-white/90 mb-6">

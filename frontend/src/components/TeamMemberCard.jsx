@@ -13,11 +13,11 @@ const TeamMemberCard = ({ member }) => {
           }}
         />
         <div>
-          <h4 className="text-white font-semibold">{member.name}</h4>
+          <h4 className="font-helvetica font-bold text-white">{member.name}</h4>
           <p className="uppercase text-green-400 text-sm">{member.role}</p>
         </div>
       </div>
-      <p className="text-gray-300 text-sm">{member.description}</p>
+      <p className="font-poppins text-gray-100 text-sm">{member.description}</p>
     </div>
   );
 };

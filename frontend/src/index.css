@@ -1,6 +1,47 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: 'MBF Canno';
+  src: url('./assets/fonts/MBF-Canno-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-canno: 'MBF Canno', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+  --font-helvetica: 'Helvetica', 'Arial', sans-serif;
+  --font-noto-serif-jp: 'Noto Serif JP', serif;
+  
+  /* Define font families */
+  --font-family-canno: var(--font-canno);
+  --font-family-poppins: var(--font-poppins);
+  --font-family-helvetica: var(--font-helvetica);
+  --font-family-noto-serif-jp: var(--font-noto-serif-jp);
+
+}
+
+/* Create utility classes */
+@layer utilities {
+  .font-canno {
+    font-family: var(--font-canno);
+  }
+  
+  .font-poppins {
+    font-family: var(--font-poppins);
+  }
+
+  .font-helvetica {
+    font-family: var(--font-helvetica);
+  }
+
+  .font-noto-serif-jp {
+    font-family: var(--font-noto-serif-jp);
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

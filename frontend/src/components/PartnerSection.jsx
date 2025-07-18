@@ -5,7 +5,7 @@ const PartnerSection = () => {
   return (
     <section className="w-screen bg-gradient-to-b from-[#FFFFFF] to-[#D2E9FC] py-16 px-6 flex flex-col md:flex-row items-center justify-between">
      
-      <div className="max-w-xl mb-10 md:mb-0 mx-20">
+      <div className="font-helvetica max-w-xl mb-10 md:mb-0 mx-20">
         <h2 className="text-3xl md:text-4xl font-bold text-[#0A1F44] mb-4">
           Partner with GLUG
         </h2>
@@ -14,7 +14,7 @@ const PartnerSection = () => {
         </p>
         <Link
           to="/contact"
-          className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl px-6 py-3 shadow transition duration-200"
+          className="font-poppins inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl px-6 py-3 shadow transition duration-200"
         >
           Become a partner
         </Link>

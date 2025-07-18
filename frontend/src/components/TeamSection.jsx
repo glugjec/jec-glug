@@ -33,7 +33,7 @@ const TeamSection = ({ title, members }) => {
       <div className="mx-auto my-8 max-w-5xl bg-black/30 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20 transition-transform hover:scale-[1.01]">
         
         <div className="flex justify-between items-center mb-6">
-          <h3 className="text-2xl font-bold text-white uppercase">{title}</h3>
+          <h3 className="font-canno text-2xl font-bold text-white uppercase">{title}</h3>
           {/* Only show button if there's no President */}
           {!hasPresident && (
             <button

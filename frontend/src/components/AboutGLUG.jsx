@@ -10,12 +10,12 @@ const AboutGLUG = () => {
             {/* Header Content */}
             <div className="w-full xl:w-1/2 px-2 sm:px-4 lg:px-6 xl:px-8 pb-2 sm:pb-4 lg:pb-6 xl:pb-8">
               <div className="flex flex-col">
-                <h1 className="text-4xl font-bold text-gray-100 mb-4">About us</h1>
-                <p className="text-xl text-gray-300 italic mb-6">
+                <h1 className="font-poppins text-xl text-gray-100 mb-4">About us</h1>
+                <p className="font-noto-serif-jp uppercase text-[2rem] font-bold text-gray-300  mb-6">
                   Born from curiosity, powered by community.
                 </p>
-                <div className="space-y-6">
-                  <p className="text-lg text-gray-200">
+                <div className="font-helvetica space-y-6">
+                  <p className=" text-lg text-gray-200">
                     The GNU/Linux Users Group (GLUG) of Jontet Engineering College is a student-led community of passionate developers, designers, and tech enthusiasts committed to promoting open-source software and collaborative learning.
                   </p>
                   <p className="text-lg text-gray-200">
@@ -27,7 +27,7 @@ const AboutGLUG = () => {
 
             {/* Our Goal Section */}
             <div className="w-full xl:w-1/2 px-2 sm:px-4 lg:px-6 xl:px-8">
-              <div className="h-full flex flex-col bg-[#83B3FF] rounded-xl p-6 sm:p-8 lg:p-10">
+              <div className="font-helvetica h-full flex flex-col bg-[#83B3FF] rounded-xl p-6 sm:p-8 lg:p-10">
                 <div>
                   <h2 className="text-2xl font-bold text-white mb-6">Our Goal</h2>
                   <ul className="ml-6 list-disc list-inside text-white space-y-1 text-md">
