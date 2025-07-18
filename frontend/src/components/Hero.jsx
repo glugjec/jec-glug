@@ -11,16 +11,15 @@ const Hero = () => {
 
   return (
     <section className="relative w-screen min-h-[90vh] bg-[#03022] flex flex-col items-center justify-center overflow-hidden">
-      {/* Background radial gradient */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[120vw] h-[120vw] bg-gradient-radial from-blue-500/30 to-transparent opacity-50 blur-3xl"></div>
-
+  
       {/* Hero content */}
       <div className="relative z-10 text-center px-4">
         <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide mb-10 pb-4">
-          Empowering Open Source<br />Through Community
+          Unleash Innovation <br />Through Open Source
         </h1>
         <p className="text-base md:text-lg text-blue-200 mb-10 max-w-2xl mx-auto ">
-          The GNU/Linux Users Group of JEC fosters collaborative growth by hosting tech events, workshops, and hackathons to unleash student innovation.
+          It is a student-led community hosting tech events, workshops and <br/>
+hackathons with the support of industry sponsors.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
