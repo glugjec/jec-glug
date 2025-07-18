@@ -47,12 +47,9 @@ const HomePage = () => {
         </div>
         <div><Gallery /></div>
         <div><PartnerSection /></div>
-<<<<<<< HEAD
-        <div><ContactSection /></div>
-        
-=======
+
         <div className='w-full '><ContactSection /></div>
->>>>>>> bc4dd6d76c8eeead0b48257bb0884d448b7b8ef8
+
     </div>
   )
 }
