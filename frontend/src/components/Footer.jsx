@@ -20,11 +20,11 @@ export default function Footer() {
         <div className="text-[0.95rem] space-y-1 lg:pl-6">
           <h3 className="font-poppins font-semibold mb-2">Sitemap</h3>
           <ul className="text-blue-900 space-y-1">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Team</a></li>
-            <li><a href="#">Events</a></li>
-            <li><a href="#">Gallery</a></li>
-            <li><a href="#">Sponsors</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/team">Team</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/contact">Contact US</a></li>
+            <li><a href="/sponsors">Sponsors</a></li>
           </ul>
         </div>
 
@@ -40,10 +40,10 @@ export default function Footer() {
           <div>
             <h3 className="font-poppins font-semibold mb-2">Follow us</h3>
             <ul className="space-y-1 text-blue-900">
-              <li><a href="#">Facebook</a></li>
-              <li><a href="#">Instagram</a></li>
-              <li><a href="#">LinkedIn</a></li>
-              <li><a href="#">Github</a></li>
+              <li><a href="https://www.facebook.com/jec.glug/">Facebook</a></li>
+              <li><a href="https://www.instagram.com/jecglug/">Instagram</a></li>
+              <li><a href="https://www.linkedin.com/company/glug-jec">LinkedIn</a></li>
+              <li><a href="https://github.com/glugjec">Github</a></li>
             </ul>
           </div>
           <div className="flex space-x-4 text-lg text-black mt-4">
