@@ -6,7 +6,7 @@ const ContactInfo = () => {
     {
       icon: <Phone className="w-5 h-5" />,
       label: "Phone",
-      value: "+91 7002382382"
+      value: "+91 700xxxxxxx"
     },
     {
       icon: <Mail className="w-5 h-5" />,
