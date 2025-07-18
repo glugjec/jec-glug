@@ -6,6 +6,7 @@ import HomeSponsorSection from '@/components/HomeSponsorSection'
 import Hero from '@/components/Hero'
 import PartnerSection from '@/components/PartnerSection';
 import ContactSection from '@/components/ContactSection';
+import Gallery from "@/components/Gallery";
 
 const HomePage = () => {
   const events = [{
@@ -44,8 +45,10 @@ const HomePage = () => {
           })
         }
         </div>
+        <div><Gallery /></div>
         <div><PartnerSection /></div>
         <div><ContactSection /></div>
+        
     </div>
   )
 }
