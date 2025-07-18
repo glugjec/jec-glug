@@ -10,7 +10,7 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "Team", path: "/team" },
     { name: "Events", path: "/events" },
-    { name: "Gallery", path: "/gallery" },
+    { name: "Contact Us", path: "/contact" },
     { name: "Sponsors", path: "/sponsors" },
   ];
 
@@ -59,15 +59,8 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Contact Button */}
-        <div className="hidden lg:block flex-shrink-0">
-          <Link
-            to="/contact"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl"
-          >
-            Contact us
-          </Link>
-        </div>
+        
+        
       </div>
 
       {/* Mobile Menu (shown when menuOpen is true) */}
