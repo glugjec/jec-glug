@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import ContactPage from './pages/ContactPage';
 import EventsComponent from './components/EventsComponent';
 import SponsorPage from './pages/SponsorPage';
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       className="min-h-screen bg-cover bg-center"
       style={{ backgroundImage: "url('images/teampagebackground.png')" }}
      >
+      <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/team" element={<TeamPage />} />
