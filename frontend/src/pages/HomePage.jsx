@@ -48,7 +48,7 @@ const HomePage = () => {
         <div><Gallery /></div>
         <div><PartnerSection /></div>
 
-        <div className='w-full '><ContactSection /></div>
+        <div className='w-full '><ContactSection bgColor="#03022C"/></div>
 
     </div>
   )

@@ -2,10 +2,10 @@ import React from 'react'
 import ContactForm from './ContactForm';
 import ContactInfo from './ContactInfo';
 
-const ContactSection = () => {
+const ContactSection = ({ bgColor }) => {
 
   return (
-    <section className="py-12 text-white ">
+    <section className="py-12 text-white "style={{ backgroundColor: bgColor || "transparent" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
