@@ -3,7 +3,7 @@ import React from 'react'
 const SponsorContact = () => {
     return (
     <div className="w-full max-w-4xl mx-auto p-6 pb-20 ">
-      <div className="backdrop-blur-sm rounded-2xl border border-white/50 p-12 text-center shadow-2xl  bg-gradient-to-br from-[#2B2973] via-[#090754] to-[#2B2973] ">
+      <div className="font-poppins backdrop-blur-sm rounded-2xl border border-white/50 p-12 text-center shadow-2xl  bg-gradient-to-br from-[#2B2973] via-[#090754] to-[#2B2973] ">
         <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
           Partner with GLUG
         </h2>
