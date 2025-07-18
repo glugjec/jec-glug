@@ -16,10 +16,10 @@ const Hero = () => {
 
       {/* Hero content */}
       <div className="relative z-10 text-center px-4">
-        <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide mb-6">
+        <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide mb-10 pb-4">
           Empowering Open Source<br />Through Community
         </h1>
-        <p className="text-base md:text-lg text-blue-200 mb-10 max-w-2xl mx-auto">
+        <p className="text-base md:text-lg text-blue-200 mb-10 max-w-2xl mx-auto ">
           The GNU/Linux Users Group of JEC fosters collaborative growth by hosting tech events, workshops, and hackathons to unleash student innovation.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
