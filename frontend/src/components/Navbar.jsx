@@ -15,7 +15,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="w-full bg-gradient-to-r from-[#03022C] via-[#161D58] to-[#03022C] text-white px-4 sm:px-6 py-4">
+    <nav className="font-helvetica w-full bg-gradient-to-r from-[#03022C] via-[#161D58] to-[#03022C] text-white px-4 sm:px-6 py-4">
       <div className="flex items-center justify-between mx-auto -my-6 px-4 py-4 sm:px-6 lg:px-8 ">
         {/* Logo */}
         <Link to="/" className="flex-shrink-0">
