@@ -16,18 +16,20 @@ const Navbar = () => {
 
   return (
     <nav className="w-full bg-gradient-to-r from-[#03022C] via-[#161D58] to-[#03022C] text-white px-4 sm:px-6 py-4">
-      <div className="flex items-center justify-between mx-auto px-4 py-4 sm:px-6 lg:px-8 ">
+      <div className="flex items-center justify-between mx-auto -my-6 px-4 py-4 sm:px-6 lg:px-8 ">
         {/* Logo */}
         <Link to="/" className="flex-shrink-0">
-            <img 
-              src={
-                location.pathname === "/"
-                  ? "/images/navLogo.png" // homepage logo
-                  : "/images/logo.png" // other pages logo
-              }
-              alt="Logo"
-              className="w-18"
-            />
+             <div className="h-12 flex items-center">
+              <img 
+                src={
+                  location.pathname === "/"
+                    ? "/images/navLogo.png"
+                    : "/images/logo.png"
+                }
+                alt="Logo"
+                className="h-full object-contain"
+              />
+            </div>
           </Link>
 
         {/* Hamburger Button (shown only on mobile) */}
