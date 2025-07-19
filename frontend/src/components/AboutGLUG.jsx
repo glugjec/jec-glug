@@ -29,8 +29,10 @@ const AboutGLUG = () => {
             <div className="w-full xl:w-1/2 px-2 sm:px-4 lg:px-6 xl:px-8">
               <div className="font-helvetica h-full flex flex-col bg-[#83B3FF] rounded-xl p-6 sm:p-8 lg:p-10">
                 <div>
+                  <br/>
                   <h2 className="text-2xl font-bold text-white mb-6">Our Goal</h2>
                   <ul className="ml-6 list-disc list-inside text-white space-y-1 text-md">
+                    <br/>
                     <li>Promote open-source culture</li>
                     <li>Build technical skills</li>
                     <li>Foster collaboration</li>
