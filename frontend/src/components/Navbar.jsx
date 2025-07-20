@@ -15,7 +15,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="font-helvetica w-full bg-gradient-to-r from-[#03022C] via-[#161D58] to-[#03022C] text-white px-4 sm:px-6 py-4">
+    <nav className="font-helvetica w-full bg-gradient-to-r from-[#03022C] via-[#161D58] to-[#03022C] text-white px-4 sm:px-6 py-4 backdrop-blur-xl bg-opacity-80 border-b border-white/10 shadow-2xl">
       <div className="flex items-center justify-between mx-auto -my-6 px-4 py-4 sm:px-6 lg:px-8 ">
         {/* Logo */}
         <Link to="/" className="flex-shrink-0">
@@ -42,12 +42,12 @@ const Navbar = () => {
 
         {/* Desktop Menu - Pill Container */}
         <div className="hidden lg:flex items-center justify-center flex-1">
-          <div className="flex items-center bg-blue-600/40 backdrop-blur-sm px-2 py-2 rounded-full border border-blue-500/30">
+          <div className="flex items-center bg-blue-600/20 backdrop-blur-2xl px-6 py-2 rounded-full border border-blue-400/40 shadow-2xl shadow-blue-500/20 space-x-2">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className={`px-6 py-2 rounded-full transition-all duration-200 ${
+                className={`px-10 py-2 rounded-full transition-all duration-200 ${
                   location.pathname === item.path
                     ? "bg-blue-500 text-white shadow-lg"
                     : "text-blue-100 hover:text-white hover:bg-blue-500/50"
@@ -66,7 +66,7 @@ const Navbar = () => {
       {/* Mobile Menu (shown when menuOpen is true) */}
       {menuOpen && (
         <div className="m:hidden mt-4 space-y-2">
-          <div className="flex flex-col bg-blue-800/80 backdrop-blur-sm rounded-2xl px-4 py-4 space-y-2 border border-blue-500/30">
+          <div className="flex flex-col bg-blue-800/40 backdrop-blur-2xl rounded-2xl px-4 py-4 space-y-2 border border-blue-400/40 shadow-2xl shadow-blue-500/20">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -81,13 +81,13 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            <Link
+            {/* <Link
               to="/contact"
               className="block bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl shadow-lg transition-all duration-200 mt-2"
               onClick={() => setMenuOpen(false)}
             >
               Contact us
-            </Link>
+            </Link> */}
           </div>
         </div>
       )}

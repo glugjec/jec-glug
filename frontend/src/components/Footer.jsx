@@ -32,7 +32,7 @@ export default function Footer() {
         <div className="text-[0.95rem] space-y-1">
           <h3 className="font-poppins font-semibold mb-2">Contact</h3>
           <p>Jorhat Engineering College,<br />Assam, India</p>
-          <p className="text-blue-900">glugjec@gmail.com</p>
+          <p className="text-blue-900">glug.jec@gmail.com</p>
         </div>
 
         {/* Follow Us */}
