@@ -10,8 +10,8 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "Team", path: "/team" },
     { name: "Events", path: "/events" },
-    { name: "Contact Us", path: "/contact" },
     { name: "Sponsors", path: "/sponsors" },
+    { name: "Contact Us", path: "/contact" }
   ];
 
   // Determine if it's the home page
