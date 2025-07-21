@@ -14,23 +14,28 @@ const Navbar = () => {
     { name: "Sponsors", path: "/sponsors" },
   ];
 
+  // Determine if it's the home page
+  const isHomePage = location.pathname === "/";
+
   return (
-    <nav className="font-helvetica w-full bg-gradient-to-r from-[#03022C] via-[#161D58] to-[#03022C] text-white px-4 sm:px-6 py-4 backdrop-blur-xl bg-opacity-80 border-b border-white/10 shadow-2xl">
-      <div className="flex items-center justify-between mx-auto -my-6 px-4 py-4 sm:px-6 lg:px-8 ">
+    <nav className={`font-helvetica w-full text-white px-4 sm:px-6 py-2 min-h-[85px] flex items-center
+        bg-gradient-to-r from-[#03022C] via-[#161D58] to-[#03022C] backdrop-blur-xl bg-opacity-80 border-b border-white/10 shadow-2xl
+      `}
+    >
+      {/* Changed -my-6 to py-0 and ensured items-center for vertical alignment */}
+      <div className="flex items-center justify-between mx-auto w-full px-0 py-0 sm:px-0 lg:px-0 ">
         {/* Logo */}
         <Link to="/" className="flex-shrink-0">
-             
-              <img 
-                src={
-                  location.pathname === "/"
-                    ? "/images/navLogo.png"
-                    : "/images/logo.png"
-                }
-                alt="Logo"
-                className="w-18"
-              />
-            
-          </Link>
+          <img
+            src={
+              location.pathname === "/"
+                ? "/images/navLogo.png"
+                : "/images/logo.png"
+            }
+            alt="Logo"
+            className="w-18"
+          />
+        </Link>
 
         {/* Hamburger Button (shown only on mobile) */}
         <button
@@ -58,14 +63,11 @@ const Navbar = () => {
             ))}
           </div>
         </div>
-
-        
-        
       </div>
 
       {/* Mobile Menu (shown when menuOpen is true) */}
       {menuOpen && (
-        <div className="m:hidden mt-4 space-y-2">
+        <div className="m:hidden absolute top-[80px] left-0 right-0 mt-0 space-y-2 px-4 sm:px-6"> {/* Adjusted top position */}
           <div className="flex flex-col bg-blue-800/40 backdrop-blur-2xl rounded-2xl px-4 py-4 space-y-2 border border-blue-400/40 shadow-2xl shadow-blue-500/20">
             {navItems.map((item) => (
               <Link
@@ -81,13 +83,6 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            {/* <Link
-              to="/contact"
-              className="block bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl shadow-lg transition-all duration-200 mt-2"
-              onClick={() => setMenuOpen(false)}
-            >
-              Contact us
-            </Link> */}
           </div>
         </div>
       )}
