@@ -33,7 +33,11 @@ const Navbar = () => {
                 : "/images/logo.png"
             }
             alt="Logo"
-            className="w-18"
+            className={
+                        location.pathname === "/"
+                          ? "w-18"  
+                          : "w-30" 
+                      }
           />
         </Link>
 
