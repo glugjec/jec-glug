@@ -1,7 +1,7 @@
-import React, { useState } from 'react'; 
-import { Link } from 'react-router-dom'; 
+import React, { useState } from 'react'; // Import useState
+import { Link } from 'react-router-dom'; // Import Link
 
-
+// PartnershipContactModal component (moved here for integration)
 const PartnershipContactModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
@@ -17,8 +17,14 @@ const PartnershipContactModal = ({ isOpen, onClose }) => {
         </button>
         <h3 className="text-2xl font-bold text-white mb-4">Contact for partnership</h3>
         <p className="text-white/90 text-lg mb-2">Mr. Abhiash Kashyap</p>
-        <p className="text-white/90 text-lg mb-2">Phone: +91 +91 9127001508</p> 
-        <p className="text-white/90 text-lg mb-4">Email: glug.jec@gmail.com</p> 
+        {/* Click-to-call feature */}
+        <p className="text-white/90 text-lg mb-2">
+          Phone: <a href="tel:+91 9127001508" className="text-blue-300 hover:text-blue-100 transition-colors duration-200">+91 98765 43210</a> {/* Example number */}
+        </p>
+        {/* Click-to-email feature */}
+        <p className="text-white/90 text-lg mb-4">
+          Email: <a href="mailto: glug.jec@gmail.com" className="text-blue-300 hover:text-blue-100 transition-colors duration-200">glug.jec@gmail.com</a> {/* Example email */}
+        </p>
         <button
           onClick={onClose}
           className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-md"
@@ -50,15 +56,15 @@ const SponsorContact = () => {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    
+                 
                     <Link
-                        to="/contact" 
+                        to="/contact"
                         className="bg-[#0086FF] hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center" // Added flex for centering text
                     >
                         Become a Sponsor
                     </Link>
                     
-                    
+             
                     <button
                         onClick={openModal}
                         className="bg-[#0086FF] hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
@@ -68,6 +74,7 @@ const SponsorContact = () => {
                 </div>
             </div>
 
+            
             <PartnershipContactModal isOpen={isModalOpen} onClose={closeModal} />
         </div>
     );
