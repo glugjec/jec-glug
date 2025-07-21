@@ -12,12 +12,16 @@ const Hero = () => {
   return (
     <section className="relative w-screen min-h-[90vh] bg-[#03022B] flex flex-col items-center justify-center overflow-hidden">
       {/* Background Sun Image 
+
+      !!!!!!HELPPPPPPPP!!!!!!
+
       <img
         src="images/sun.jpg"
         alt="Sunrise background"
         className="absolute top-0 left-1/2 transform -translate-x-1/2 z-0 w-full max-w-[1200px] pointer-events-none"
       />
-       Arc/Half Circle Image */}
+       */}
+
       <img
           src="images/circle.png"
           alt="Half circle arc"
@@ -43,7 +47,7 @@ const Hero = () => {
         </p>
         <div className="font-helvetica flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            to="/contact"
+            to="https://www.whatsapp.com"
             className="inline-block bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold rounded-full px-8 py-3 shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
           >
             Join Us
