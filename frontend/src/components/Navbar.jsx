@@ -28,7 +28,7 @@ const Navbar = () => {
   });
 
   useEffect(() => {
-    // When the route changes, close the mobile menu
+    
     setMenuOpen(false);
 
     const foundIndex = navItems.findIndex(
@@ -70,17 +70,17 @@ const Navbar = () => {
       `}
     >
       <div className="flex flex-wrap items-center justify-between mx-auto w-full">
-        {/* Logo and Hamburger Button */}
+        {}
         <div className="flex items-center justify-between w-full lg:w-auto">
-          <Link to="/" className="flex-shrink-0 w-28 h-12 flex items-center">
+          <Link to="/" className="flex-shrink-0 w-20 h-10 flex items-center">
             <img
               src={
                 location.pathname === "/"
                   ? "/images/navLogo.png"
-                  : "/images/logo.png"
+                  : "/images/navLogo.png"
               }
               alt="Logo"
-              className={location.pathname === "/" ? "w-18" : "w-35"}
+              className="w-14"
             />
           </Link>
           <button
@@ -91,13 +91,13 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Desktop Menu (Hidden on mobile) */}
+        {}
         <div className="hidden lg:flex items-center justify-center flex-1">
           <div
             onMouseLeave={handleMouseLeave}
             className="relative flex items-center bg-black/20 backdrop-blur-2xl px-2 py-2 rounded-full border border-white/20 shadow-inner shadow-black/50 space-x-1"
           >
-            {/* --- Change is on this line --- */}
+            {}
             <div
               className="absolute h-9 top-1/2 -translate-y-1/2 bg-blue-600 rounded-full border border-blue-400/60 shadow-lg shadow-blue-500/30 transition-all duration-500 ease-in-out pointer-events-none"
               style={pillStyle}
@@ -120,7 +120,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu (Shows when menuOpen is true) */}
+        {}
         <div className={`${menuOpen ? 'block' : 'hidden'} w-full lg:hidden mt-4`}>
           <div className="flex flex-col bg-[#0f1443]/95 backdrop-blur-xl rounded-2xl p-4 space-y-2 border border-blue-400/40 shadow-2xl shadow-blue-500/20">
             {navItems.map((item) => (
