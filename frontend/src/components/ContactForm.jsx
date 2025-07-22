@@ -9,12 +9,22 @@ const ContactForm = () => {
     message: ''
   });
 
+  const [focusedField, setFocusedField] = useState('');
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleFocus = (fieldName) => {
+    setFocusedField(fieldName);
+  };
+
+  const handleBlur = (fieldName) => {
+    setFocusedField('');
   };
 
   const handleSubmit = () => {
@@ -26,69 +36,101 @@ const ContactForm = () => {
 
   return (
     <div className="p-6 rounded-lg shadow-sm">
-      <div className="space-y-4">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium  mb-1">
-            Your name
-          </label>
+      <div className="space-y-6">
+        <div className="relative">
           <input
             type="text"
             id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
+            onFocus={() => handleFocus('name')}
+            onBlur={() => handleBlur('name')}
             required
-            className="border-b border-gray-600 w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter your name"
+            className="border border-gray-600 w-full px-3 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer"
           />
+          <label 
+            htmlFor="name" 
+            className={`absolute left-3 transition-all duration-200 pointer-events-none ${
+              focusedField === 'name' || formData.name 
+                ? 'text-blue-400 text-xs -top-4 bg-transparent px-2' 
+                : 'text-gray-400 text-sm top-3'
+            }`}
+          >
+            Enter your name
+          </label>
         </div>
 
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1">
-            Your email
-          </label>
+        <div className="relative">
           <input
             type="email"
             id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
+            onFocus={() => handleFocus('email')}
+            onBlur={() => handleBlur('email')}
             required
-            className="border-b border-gray-600 w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter your email"
+            className="border border-gray-600 w-full px-3 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer"
           />
+          <label 
+            htmlFor="email" 
+            className={`absolute left-3 transition-all duration-200 pointer-events-none ${
+              focusedField === 'email' || formData.email 
+                ? 'text-blue-400 text-xs -top-4 bg-transparent px-2' 
+                : 'text-gray-400 text-sm top-3'
+            }`}
+          >
+            Enter your email
+          </label>
         </div>
 
-        <div>
-          <label htmlFor="subject" className="block text-sm font-medium  mb-1">
-            Subject
-          </label>
+        <div className="relative">
           <input
             type="text"
             id="subject"
             name="subject"
             value={formData.subject}
             onChange={handleChange}
+            onFocus={() => handleFocus('subject')}
+            onBlur={() => handleBlur('subject')}
             required
-            className="w-full px-3 py-2 border-b border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter subject"
+            className="w-full px-3 py-3 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer"
           />
+          <label 
+            htmlFor="subject" 
+            className={`absolute left-3 transition-all duration-200 pointer-events-none ${
+              focusedField === 'subject' || formData.subject 
+                ? 'text-blue-400 text-xs -top-4 bg-transparent px-2' 
+                : 'text-gray-400 text-sm top-3'
+            }`}
+          >
+            Enter subject
+          </label>
         </div>
 
-        <div>
-          <label htmlFor="message" className="block text-sm font-medium  mb-1">
-            Message
-          </label>
+        <div className="relative">
           <textarea
             id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
+            onFocus={() => handleFocus('message')}
+            onBlur={() => handleBlur('message')}
             required
             rows={5}
-            className="w-full px-3 py-2 border-b border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
-            placeholder="Enter your message"
+            className="w-full px-3 py-3 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer resize-vertical"
           />
+          <label 
+            htmlFor="message" 
+            className={`absolute left-3 transition-all duration-200 pointer-events-none ${
+              focusedField === 'message' || formData.message 
+                ? 'text-blue-400 text-xs -top-4 bg-transparent px-2' 
+                : 'text-gray-400 text-sm top-3'
+            }`}
+          >
+            Enter your message
+          </label>
         </div>
 
         <button

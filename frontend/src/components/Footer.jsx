@@ -2,7 +2,7 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn, FaGithub } from 'react-icons/fa
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-white text-[#060038] px-8 md:px-20 py-16">
+    <footer className="w-full bg-white text-[#060038] px-8 md:px-20 pt-16">
       <div className="font-helvetica max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
 
         {/* GLUG Info */}
@@ -23,7 +23,7 @@ export default function Footer() {
             <li><a href="/">Home</a></li>
             <li><a href="/team">Team</a></li>
             <li><a href="/events">Events</a></li>
-            <li><a href="/contact">Contact US</a></li>
+            <li><a href="/contact">Contact Us</a></li>
             <li><a href="/sponsors">Sponsors</a></li>
           </ul>
         </div>
@@ -32,7 +32,7 @@ export default function Footer() {
         <div className="text-[0.95rem] space-y-1">
           <h3 className="font-poppins font-semibold mb-2">Contact</h3>
           <p>Jorhat Engineering College,<br />Assam, India</p>
-          <p className="text-blue-900">glugjec@gmail.com</p>
+          <p className="text-blue-900">glug.jec@gmail.com</p>
         </div>
 
         {/* Follow Us */}
@@ -53,6 +53,11 @@ export default function Footer() {
             <FaGithub />
           </div>
         </div>
+      </div>
+
+      {/* Bottom horizontal bar */}
+      <div className="mt-8 w-screen bg-[#03022C] text-white text-center py-2">
+        <p className="text-sm">MADE WITH ❤️ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; © 2025 GLUG_JEC.</p>
       </div>
     </footer>
   );

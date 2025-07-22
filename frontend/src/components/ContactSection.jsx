@@ -9,7 +9,9 @@ const ContactSection = ({ bgColor }) => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold  mb-4">Get in Touch</h2>
+        <h1 className="font-canno text-[3rem] font-bold text-center mb-6 bg-gradient-to-r from-[#3093E5] to-[#FFFFFF] bg-clip-text text-transparent">
+          Get in Touch
+        </h1>
           <p className=" max-w-2xl mx-auto">
             We'd like to hear more from you! Fill out the form below.
           </p>

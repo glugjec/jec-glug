@@ -29,8 +29,10 @@ const AboutGLUG = () => {
             <div className="w-full xl:w-1/2 px-2 sm:px-4 lg:px-6 xl:px-8">
               <div className="font-helvetica h-full flex flex-col bg-[#83B3FF] rounded-xl p-6 sm:p-8 lg:p-10">
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-6">Our Goal</h2>
-                  <ul className="ml-6 list-disc list-inside text-white space-y-1 text-md">
+                  <br/>
+                  <h3 className="text-2xl font-family-noto-serif-jp text-white mb-6">Our Goal</h3>
+                  <ul className="font-family-noto-serif-jp ml-6 list-disc list-inside text-white space-y-1 text-md">
+                    <br/>
                     <li>Promote open-source culture</li>
                     <li>Build technical skills</li>
                     <li>Foster collaboration</li>
@@ -48,27 +50,7 @@ const AboutGLUG = () => {
       </div>
 
 
-      {/* Sponsors Section OUTSIDE the gradient */}
-      {/* <div className="w-screen py-6 mx-auto relative left-1/2 right-1/2 -translate-x-1/2 bg-[#3B8FE1] text-white">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Our Sponsors</h2>
-        <div className="flex justify-center items-center gap-4 overflow-x-auto px-4">
-          <div className="bg-black p-2 rounded-lg w-32 h-20 flex items-center justify-center">
-            <img src={assamLogo} alt="Assam" className="w-full h-full object-contain" />
-          </div>
-          <div className="bg-gray-100 p-2 rounded-lg w-32 h-20 flex items-center justify-center">
-            <img src={saurabhiLogo} alt="Saurabhi" className="w-full h-full object-contain" />
-          </div>
-          <div className="bg-black p-2 rounded-lg w-32 h-20 flex items-center justify-center">
-            <img src={frintLogo} alt="Frint" className="w-full h-full object-contain" />
-          </div>
-          <div className="bg-gray-100 p-2 rounded-lg w-32 h-20 flex items-center justify-center">
-            <img src={instrumentLogo} alt="Instrument" className="w-full h-full object-contain" />
-          </div>
-          <div className="bg-black p-2 rounded-lg w-32 h-20 flex items-center justify-center">
-            <img src={oilLogo} alt="Oil" className="w-full h-full object-contain" />
-          </div>
-        </div>
-      </div> */}
+      
     </>
   );
 };

@@ -10,27 +10,51 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative w-screen min-h-[90vh] bg-[#03022] flex flex-col items-center justify-center overflow-hidden">
-  
-      {/* Hero content */}
-      <div className="relative z-10 text-center px-4">
-        <h1 className="font-canno text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide mb-10 pb-4">
+    <section className="relative w-screen min-h-[90vh] bg-[#03022B] flex flex-col items-center justify-center overflow-hidden">
+      {/* Background Sun Image 
+
+      !!!!!!HELPPPPPPPP!!!!!!
+
+      <img
+        src="images/sun.jpg"
+        alt="Sunrise background"
+        className="absolute top-0 left-1/2 transform -translate-x-1/2 z-0 w-full max-w-[1200px] pointer-events-none"
+      />
+       */}
+
+      <img
+          src="images/circle.png"
+          alt="Half circle arc"
+          className="absolute top-[15%] sm:top-[15%] md:top-[10%] lg:-top-[15%] left-1/2 transform -translate-x-1/2 z-10 w-[80vw] sm:w-[70vw] md:w-[60vw] lg:w-[50vw] xl:w-[900px] max-w-[900px] pointer-events-none"
+      />
+
+      <div className="absolute top-[30%] sm:top-[28%] md:top-[26%] lg:top-[25.5%] xl:top-[25%] left-1/2 transform -translate-x-1/2 z-50">
+        <Link
+          to="/events"
+          className="font-helvetica rounded-full bg-[#3b4065] text-white/80 text-sm px-6 py-2 shadow-md border border-white/15 font-medium opacity-85 hover:opacity-120"
+        >
+          Events
+        </Link>
+      </div>
+
+      {/* Hero Content */}
+      <div className="relative z-20 text-center px-4 pt-24">
+        <h1 className="font-canno text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide leading-snug mb-10 pb-4 drop-shadow-[0px_4px_24px_rgba(80,140,255,0.25)]">
           Unleash Innovation <br />Through Open Source
         </h1>
-        <p className="text-base md:text-lg text-blue-200 mb-10 max-w-2xl mx-auto ">
-          It is a student-led community hosting tech events, workshops and <br/>
-hackathons with the support of industry sponsors.
+        <p className="text-base md:text-lg text-blue-200 mb-10 max-w-2xl mx-auto">
+          It is a student-led community hosting tech events, workshops and hackathons with the support of industry sponsors.
         </p>
         <div className="font-helvetica flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            to="/contact"
-            className="inline-block bg-gradient-to-r from-blue-400 to-indigo-500 text-white font-semibold rounded-full px-8 py-3 shadow-lg hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
+            to="https://www.whatsapp.com"
+            className="inline-block bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold rounded-full px-8 py-3 shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
           >
             Join Us
           </Link>
           <button
             onClick={scrollTosec}
-            className="inline-block bg-transparent border border-blue-400 text-blue-400 font-semibold rounded-full px-8 py-3 shadow-lg hover:bg-blue-500 hover:text-white transition-all duration-200"
+            className="inline-block bg-transparent border-2 border-blue-400 text-blue-300 font-semibold rounded-full px-8 py-3 shadow-md hover:bg-blue-500 hover:text-white transition-all duration-200"
           >
             Explore
           </button>

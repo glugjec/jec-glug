@@ -143,7 +143,7 @@ const EventsComponent = () => {
             onClick={() => setActiveTab('upcoming')}
             className={`px-6 py-2 rounded-2xl font-medium transition-all duration-300 ${
               activeTab === 'upcoming'
-                ? 'bg-gray-400 text-white shadow-sm'
+                ? 'bg-blue-500 text-white shadow-sm'
                 : 'text-white hover:text-gray-200'
             }`}
           >
@@ -153,7 +153,7 @@ const EventsComponent = () => {
             onClick={() => setActiveTab('past')}
             className={`px-6 py-2 rounded-2xl font-medium transition-all duration-500 ${
               activeTab === 'past'
-                ? 'bg-gray-400 text-white shadow-sm'
+                ? 'bg-blue-500 text-white shadow-sm'
                 : 'text-white hover:text-gray-200'
             }`}
           >

@@ -1,11 +1,11 @@
 [
     {
-      "title": "PRESIDENT",
+      "title": "CLUB - HEAD",
       "members": [
       {
         "name": "Abhilash Kashyap",
         "role": "PRESIDENT",
-        "description": "President of the club"
+        "description": "Leading GLUG into the future with passion for open source"
       }
       ]
     },
@@ -15,22 +15,22 @@
         {
           "name": "Ashish Saikia",
           "role": "CO-HEAD",
-          "description": "Club co-leadership"
+          "description": "Driving innovation and collaboration"
         },
         {
           "name": "Dorothy Gogoi",
           "role": "CO-HEAD",
-          "description": "Club co-leadership"
+          "description": "Fostering community growth and engagement"
         },
         {
           "name": "Ritu Raj Bora",
           "role": "CO-HEAD",
-          "description": "Club co-leadership"
+          "description": "Creative visionary and design expert"
         },
         {
           "name": "Ishan Bharadwaj",
           "role": "CO-HEAD",
-          "description": "Club co-leadership"
+          "description": "Fostering community growth and engagement "
         }
 
       ]
@@ -46,17 +46,17 @@
         {
           "name": "Sivanuj Dutta",
           "role": "COORDINATOR",
-          "description": "Technical coordination"
+          "description": "Backend development and system architecture"
         },
         {
           "name": "Rittam Dutta",
           "role": "COORDINATOR",
-          "description": "Technical coordination"
+          "description": "Frontend development"
         },
         {
           "name": "Kaushik Ranjan Rajkumar",
           "role": "COORDINATOR",
-          "description": "Technical coordination"
+          "description": "App Developer"
         }
       ]
     },
@@ -66,22 +66,22 @@
         {
           "name": "Ritu Raj Bora",
           "role": "LEAD",
-          "description": "Design team leadership"
+          "description": "Product designer and creative director"
         },
         {
           "name": "Arnold Saikia",
           "role": "COORDINATOR",
-          "description": "Design coordination"
+          "description": "Motion Graphics"
         },
         {
           "name": "Ayushman Lahon",
           "role": "COORDINATOR",
-          "description": "Design coordination"
+          "description": "Motion Graphics"
         },
         {
           "name": "Nibir Kalita",
           "role": "COORDINATOR",
-          "description": "Design coordination"
+          "description": "Visual designer"
         }
       ]
     },
@@ -91,27 +91,27 @@
         {
           "name": "Bishal Ranjan Nath",
           "role": "LEAD",
-          "description": "Management team leadership"
+          "description": " Event planning and team coordination"
         },
         {
           "name": "Priyam Nath",
           "role": "COORDINATOR",
-          "description": "Management coordination"
+          "description": "Project management and logistics"
         },
         {
           "name": "Arindom Mahanta",
           "role": "COORDINATOR",
-          "description": "Management coordination"
+          "description": "Budget management and resources"
         },
         {
           "name": "Ananya Das",
           "role": "COORDINATOR",
-          "description": "Management coordination"
+          "description": "Partnership and collaboration"
         },
         {
           "name": "Sumanta Bhargab",
           "role": "COORDINATOR",
-          "description": "Management coordination"
+          "description": "Operations and workflow management"
         }
       ]
     },
@@ -121,22 +121,22 @@
         {
           "name": "Tushar Haloi",
           "role": "LEAD",
-          "description": "Social media strategy and leadership"
+          "description": " Content strategy and community building"
         },
         {
           "name": "Koustab Saikia",
           "role": "COORDINATOR",
-          "description": "Content creation and management"
+          "description": "Content creation and engagement"
         },
         {
           "name": "Bivamoni Amchi",
           "role": "COORDINATOR",
-          "description": "Content creation and management"
+          "description": "Social media analytics and campaigns"
         },
         {
           "name": "Jyotismita Bhuyan",
           "role": "COORDINATOR",
-          "description": "Content creation and management"
+          "description": "Creative content and storytelling"
         }
       ]
     },
@@ -146,22 +146,22 @@
         {
           "name": "Rajdeep Dutta",
           "role": "GENERAL COORDINATOR",
-          "description": "General club coordination"
+          "description": "Sharp thinker, silent slayer"
         },
         {
           "name": "Dreamsea Dutta",
           "role": "GENERAL COORDINATOR",
-          "description": "General club coordination"
+          "description": " Visionary, Soft Aesthetic, Sharp Minds"
         },
         {
           "name": "Mriganka Mahanta",
           "role": "GENERAL COORDINATOR",
-          "description": "General club coordination"
+          "description": "Steady, imaginative, driven "
         },
         {
           "name": "Pranjal Nath",
           "role": "GENERAL COORDINATOR",
-          "description": "General club coordination"
+          "description": "Energetic, witty, unstoppable"
         }
       ]
     }
