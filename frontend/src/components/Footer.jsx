@@ -57,7 +57,7 @@ export default function Footer() {
 
       {/* Bottom horizontal bar */}
       <div className="mt-8 w-screen bg-[#03022C] text-white text-center py-2">
-        <p className="text-sm">MADE WITH ❤️ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; © 2025 GLUG_JEC. &nbsp;All rights reserved.</p>
+        <p className="text-sm">MADE WITH ❤️ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; © 2025 GLUG_JEC.</p>
       </div>
     </footer>
   );
