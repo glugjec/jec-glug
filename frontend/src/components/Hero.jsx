@@ -28,14 +28,14 @@ const Hero = () => {
           className="absolute top-[15%] sm:top-[15%] md:top-[10%] lg:-top-[15%] left-1/2 transform -translate-x-1/2 z-10 w-[80vw] sm:w-[70vw] md:w-[60vw] lg:w-[50vw] xl:w-[900px] max-w-[900px] pointer-events-none"
       />
 
-      <div className="absolute top-[30%] sm:top-[28%] md:top-[26%] lg:top-[25.5%] xl:top-[25%] left-1/2 transform -translate-x-1/2 z-50">
+      {/* <div className="absolute top-[30%] sm:top-[28%] md:top-[26%] lg:top-[25.5%] xl:top-[25%] left-1/2 transform -translate-x-1/2 z-50">
         <Link
           to="/events"
           className="font-helvetica rounded-full bg-[#3b4065] text-white/80 text-sm px-6 py-2 shadow-md border border-white/15 font-medium opacity-85 hover:opacity-120"
         >
           Events
         </Link>
-      </div>
+      </div> */}
 
       {/* Hero Content */}
       <div className="relative z-20 text-center px-4 pt-24">

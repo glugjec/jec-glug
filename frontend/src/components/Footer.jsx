@@ -2,6 +2,7 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn, FaGithub } from 'react-icons/fa
 
 export default function Footer() {
   return (
+    <>
     <footer className="w-full bg-white text-[#060038] px-8 md:px-20 pt-16">
       <div className="font-helvetica max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
 
@@ -56,9 +57,10 @@ export default function Footer() {
       </div>
 
       {/* Bottom horizontal bar */}
-      <div className="mt-8 w-screen bg-[#03022C] text-white text-center py-2">
+    </footer>
+    <div className="mt-8 bg-[#03022C] text-white text-center py-2">
         <p className="text-sm">MADE WITH ❤️ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; © 2025 GLUG_JEC.</p>
       </div>
-    </footer>
+      </>
   );
 }

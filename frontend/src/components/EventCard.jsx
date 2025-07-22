@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EvenCard = () => {
+const EvenCard = ({event}) => {
   return (
     <div className="min-h-fit flex items-center justify-items-end p-4">
       {/* Main Card Container */}
@@ -18,7 +18,7 @@ const EvenCard = () => {
         {/* Bottom Section with Text and Arrow */}
         <div className="bg-white rounded-lg p-4 flex items-center justify-between">
           <div>
-            <h3 className="text-slate-800 font-semibold text-lg">Hackwith 4.0</h3>
+            <h3 className="text-slate-800 font-semibold text-lg">{event.title}</h3>
             <p className="text-slate-500 text-sm mt-1">#hackathon #Innovation </p>
           </div>
           
