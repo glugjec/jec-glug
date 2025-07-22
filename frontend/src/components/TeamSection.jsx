@@ -7,7 +7,7 @@ const TeamSection = ({ title, members }) => {
     const [ListCollapse, setListCollapse] = useState(true);
 
     // Check if any member has the role "President"
-    const hasPresident = members.some(member => member.role === 'PRESIDENT');
+    const hasPresident = members.some(member => {return member.role === 'PRESIDENT' || member.role === 'CO-HEAD'});
 
     const handleClick = () => {
       setListCollapse(!ListCollapse);
