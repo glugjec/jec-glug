@@ -119,7 +119,7 @@ const ContactForm = () => {
             onBlur={() => handleBlur('message')}
             required
             rows={5}
-            className="w-full px-3 py-3 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer resize-vertical"
+            className="w-full px-3 py-3 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer resize-none"
           />
           <label 
             htmlFor="message" 
