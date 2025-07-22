@@ -51,7 +51,7 @@ const EventCarousel = () => {
                     </svg>
                   </div>
               </div>
-
+              
               {/* Bottom Section with Text and Arrow */}
               <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
                 <div>
