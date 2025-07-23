@@ -10,7 +10,7 @@ const TeamHeader = () => {
       <p className="font-poppins mission-text text-white text-lg max-w-2xl mx-auto mb-12 leading-relaxed">
         Meet the passionate individuals who drive GLUG's mission of promoting open-source culture and innovation.
       </p>
-      <div className="session-badge inline-block bg-gray-800 border border-gray-600 rounded-lg px-6 py-3 text-gray-100 font-medium">
+      <div className="text-xl font-canno session-badge inline-block bg-gray-200 border border-gray-600 rounded-2xl px-6 py-3 text-gray-900 font-medium">
         Session 2025-2026
       </div>
     </div>

@@ -14,7 +14,7 @@ const TeamSection = ({ title, members }) => {
     };
 
     const content = ListCollapse === false || hasPresident ? (
-      <div className="team-members grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="team-members grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
         {members.length > 0 ? (
           members.map((member, index) => (
             <TeamMemberCard key={index} member={member} />
@@ -30,22 +30,25 @@ const TeamSection = ({ title, members }) => {
     const collapseButton = ListCollapse ? '+' : '-';
 
     return (
-      <div className="mx-auto my-8 max-w-5xl bg-black/30 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20 transition-transform hover:scale-[1.01]">
-        
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="font-canno text-2xl font-bold text-white uppercase">{title}</h3>
-          {/* Only show button if there's no President */}
-          {!hasPresident && (
-            <button
-              onClick={handleClick}
-              className="text-white text-3xl font-bold hover:text-green-400 transition-colors"
-            >
-              {collapseButton}
-            </button>
-          )}
-        </div>
-        {content}
-      </div>
+      <div className="mx-4 sm:mx-6 lg:mx-8 xl:mx-auto my-6 sm:my-8 max-w-6xl bg-black/30 backdrop-blur-lg rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-6 lg:p-8 border border-white/20 transition-transform hover:scale-[1.01]">
+  
+  <div className="flex justify-between items-start sm:items-center mb-4 sm:mb-6 gap-4">
+    <h3 className="font-canno text-lg sm:text-xl lg:text-2xl font-bold text-white uppercase leading-tight">
+      {title}
+    </h3>
+    {/* Only show button if there's no President */}
+    {!hasPresident && (
+      <button
+        onClick={handleClick}
+        className="text-white text-2xl sm:text-3xl font-bold hover:text-green-400 transition-colors flex-shrink-0 min-w-[40px] flex items-center justify-center"
+      >
+        {collapseButton}
+      </button>
+    )}
+  </div>
+  {content}
+</div>
+
     );
   };
 
