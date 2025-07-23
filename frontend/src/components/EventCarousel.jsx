@@ -38,7 +38,8 @@ const EventCarousel = () => {
           }
             
           
-          <div className="min-h-fit flex items-center justify-items-end p-4">
+          {/* Make the whole card a link */}
+          <Link to="/events" className="min-h-fit flex items-center justify-items-end p-4">
             {/* Main Card Container */}
             <div className="bg-gray-100 rounded-2xl p-8 w-80 shadow-2xl">
               
@@ -50,22 +51,19 @@ const EventCarousel = () => {
                     </svg>
                   </div>
               </div>
-
               
               {/* Bottom Section with Text and Arrow */}
               <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
-
                 <div>
                   <h3 className="text-center font-semibold text-lg">See more</h3>
                   <p className="text-center text-sm mt-1"> click here </p>
                 </div>
-                
                 {/* Arrow Icon */}
                 <div className="ml-4">
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
 
 
 

@@ -1,13 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Hero = () => {
+  const [circleVisible, setCircleVisible] = useState(false);
   const scrollTosec = () => {
     const teamSection = document.getElementById("AboutGLUG");
     if (teamSection) {
       teamSection.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  //this is for the animation(swipe up)
+
+  useEffect(() => {
+    
+    setTimeout(() => setCircleVisible(true), 100);
+  }, []);
 
   return (
     <section className="relative w-screen min-h-[90vh] bg-[#03022B] flex flex-col items-center justify-center overflow-hidden">
@@ -25,7 +34,9 @@ const Hero = () => {
       <img
           src="images/circle.png"
           alt="Half circle arc"
-          className="absolute top-[15%] sm:top-[15%] md:top-[10%] lg:-top-[15%] left-1/2 transform -translate-x-1/2 z-10 w-[80vw] sm:w-[70vw] md:w-[60vw] lg:w-[50vw] xl:w-[900px] max-w-[900px] pointer-events-none"
+          className={`absolute top-[18%] sm:top-[18%] md:top-[18%] lg:-top-[8%] left-1/2 transform -translate-x-1/2 w-[90vw] max-w-[95vw] max-h-[60vh] sm:w-[70vw] sm:max-w-[80vw] md:w-[60vw] md:max-w-[700px] lg:w-[50vw] xl:w-[900px] max-w-[900px] pointer-events-none transition-all duration-2000 ease-out
+            ${circleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-32'}
+            z-10 portrait:z-0`}
       />
 
       {/* <div className="absolute top-[30%] sm:top-[28%] md:top-[26%] lg:top-[25.5%] xl:top-[25%] left-1/2 transform -translate-x-1/2 z-50">
@@ -38,7 +49,7 @@ const Hero = () => {
       </div> */}
 
       {/* Hero Content */}
-      <div className="relative z-20 text-center px-4 pt-24">
+      <div className="relative z-20 text-center px-4 pt-24 portrait:mt-32">
         <h1 className="font-canno text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide leading-snug mb-10 pb-4 drop-shadow-[0px_4px_24px_rgba(80,140,255,0.25)]">
           Unleash Innovation <br />Through Open Source
         </h1>
