@@ -5,7 +5,7 @@ const TeamSection = ({ title, members }) => {
   const [ListCollapse, setListCollapse] = useState(true);
 
   const hasPresident = members.some(
-    (member) => member.role === 'PRESIDENT' || member.role === 'CO-HEAD'
+    (member) => member.role === 'PRESIDENT' || member.role === 'CO-HEAD' || member.role === 'MENTOR'
   );
 
   const handleClick = () => {
