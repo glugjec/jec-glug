@@ -1,10 +1,20 @@
 [
     {
+      "title": "CLUB - MENTOR",
+      "members": [
+      {
+        "name": "Rajib Chakraborty",
+        "role": "MENTOR",
+        "description": "Mentoring GLUG into the future with constant support and guidance"
+      }
+      ]
+    },
+    {
       "title": "CLUB - HEAD",
       "members": [
       {
         "name": "Abhilash Kashyap",
-        "role": "PRESIDENT",
+        "role": "CLUB HEAD",
         "description": "Leading GLUG into the future with passion for open source"
       }
       ]
