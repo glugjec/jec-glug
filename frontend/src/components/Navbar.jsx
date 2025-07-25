@@ -144,3 +144,9 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+// change d the background white color 
+if (typeof window !== 'undefined') {
+  document.body.style.background = 'linear-gradient(to right, #03022C, #161D58, #03022C)';
+  document.body.style.backgroundColor = '#03022C';
+}
