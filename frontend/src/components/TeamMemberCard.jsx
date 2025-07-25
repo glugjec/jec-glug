@@ -3,24 +3,35 @@ import React from 'react'
 const TeamMemberCard = ({ member }) => {
   return (
     
-    <div className="bg-gradient-to-b from-[#000000]/50 via-[#020202]/50 via-[#282828]/50 via-[#383737]/50 via-[#444343]/50 to-[#545353]/50 backdrop-blur-sm rounded-xl p-5 flex flex-col space-y-4 shadow-md w-full h-full">
-      <div className="flex items-start space-x-4">
-        <img
-          src={`/images/${member.name.split(' ')[0].toLowerCase()}.jpg`}
-          alt={member.name}
-          className="w-24 h-24 object-cover rounded-full border border-white/20 flex-shrink-0"
-          onError={(e) => {
-            e.target.src = "/images/default.png";
-          }}
-        />
-        <div>
-          <h4 className="font-helvetica font-bold text-lg text-white">{member.name}</h4>
-          <p className="uppercase text-green-400 text-sm">{member.role}</p>
-        </div>
+    <div className="bg-gradient-to-b from-black/70 to-slate-600/70 backdrop-blur-sm rounded-xl p-6 flex flex-col space-y-4 shadow-lg w-full h-full border border-white/10">
+    
+    <div className="flex items-start space-x-6">
+      <img
+        
+        src={`/images/${member.name.split(' ')[0].toLowerCase()}.jpg`}
+        alt={member.name}
+        className="w-28 h-28 object-cover rounded-full border-2 border-slate-700 flex-shrink-0"
+        
+        onError={(e) => {
+          e.target.onerror = null; 
+          e.target.src = "https://placehold.co/112x112/0f172a/334155?text=Error";
+        }}
+      />
+      <div>
+        
+        <h4 className="font-bold text-2xl text-white">{member.name}</h4>
+        
+        <p className="uppercase text-green-400 text-lg font-semibold tracking-wider">{member.role.replace('_', ' ')}</p>
       </div>
-      <p className="font-poppins text-gray-100 text-lg">{member.description}</p>
     </div>
+    <p className="text-white text-base leading-relaxed">{member.description}</p>
+  </div>
   );
 };
 
 export default TeamMemberCard;
+
+
+
+
+///images/${member.name.split(' ')[0].toLowerCase()}.jpg

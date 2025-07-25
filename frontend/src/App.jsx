@@ -12,6 +12,7 @@ import ScrollToTop from "./components/ScrollToTop";
 function App() {
   return (
     <Router>
+      <div className='<div className="flex flex-col items-center w-full overflow-x-hidden">'>
       <Navbar />
       <div
         className="min-h-screen bg-cover bg-center transition-all duration-300"
@@ -28,6 +29,7 @@ function App() {
         </Routes>
         </div>
       <Footer />
+      </div>
     </Router>
   );
 }

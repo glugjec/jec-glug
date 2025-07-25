@@ -2,10 +2,10 @@ import SponsorCard from './SponsorCard';
 
 const SponsorsSection = ({ sponsorsData }) => {
   return (
-    <div className="min-h-screen py-16 px-4">
+    <div className="min-h-screen pt-16 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <h1 className="font-canno text-[3rem] font-bold text-center mb-6 bg-gradient-to-r from-[#3093E5] to-[#FFFFFF] bg-clip-text text-transparent">
+        <h1 className="font-canno text-[3rem] font-bold text-center mb-2 bg-gradient-to-r from-[#3093E5] to-[#FFFFFF] bg-clip-text text-transparent">
           OUR SPONSORS
         </h1>
         

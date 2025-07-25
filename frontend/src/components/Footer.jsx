@@ -48,6 +48,7 @@ export default function Footer() {
             </ul>
           </div>
           <div className="flex space-x-4 text-lg text-black mt-4">
+
             <a href="https://www.facebook.com/jec.glug/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <FaFacebookF />
             </a>
@@ -60,6 +61,12 @@ export default function Footer() {
             <a href="https://github.com/glugjec" target="_blank" rel="noopener noreferrer" aria-label="Github">
               <FaGithub />
             </a>
+
+//             <a href="https://www.facebook.com/jec.glug/"><FaFacebookF /></a>
+//             <a href="https://www.instagram.com/jecglug/"><FaInstagram /></a>
+//             <a href="https://www.linkedin.com/company/glug-jec"><FaLinkedinIn /></a>
+//             <a href="https://github.com/glugjec"><FaGithub /></a>
+
           </div>
         </div>
       </div>
