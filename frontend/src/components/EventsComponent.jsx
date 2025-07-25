@@ -127,7 +127,7 @@ const EventsComponent = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
 
-      <div className="text-center mb-8 mt-16 px-4">
+      <div className="text-center mb-8 mt-4 px-4">
 
         <h1 className="bg-gradient-to-r from-[#8AE6FF] via-[#8AE6FF] to-[#FFFFFF] bg-clip-text text-transparent font-canno text-6xl font-bold mb-4 tracking-tight">
           EVENT

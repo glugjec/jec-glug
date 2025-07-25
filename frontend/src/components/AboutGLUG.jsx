@@ -31,33 +31,29 @@ const AboutGLUG = () => {
 
           {/* Column 2: "Our Goal" Section */}
           <div className="w-full xl:w-1/2 px-2 sm:px-4 lg:px-6 xl:px-8">
-            <div className="font-helvetica h-full flex flex-col bg-[#83B3FF] rounded-xl p-6 sm:p-8 lg:p-10">
-              <div>
-                {/* --- MODIFICATION --- */}
-                {/* The <br/> tag that was previously here has been removed. */}
-                {/* This ensures the "Our Goal" title aligns perfectly with the "About us" title on xl screens. */}
-                <h3 className="text-2xl font-family-noto-serif-jp text-white mb-6">Our Goal</h3>
-                
-                {/* --- MODIFICATION --- */}
-                {/* Removed a <br/> from the list and adjusted the `space-y-3` utility for better, more consistent spacing. */}
-                <ul className="font-family-noto-serif-jp ml-6 list-disc list-inside text-white space-y-3 text-md">
-                  <li>Promote open-source culture</li>
-                  <li>Build technical skills</li>
-                  <li>Foster collaboration</li>
-                  <li>Create innovative solutions</li>
-                </ul>
-              </div>
-              {/* This div uses `mt-auto` to push the logo to the bottom of the card, ensuring it aligns regardless of content height. */}
-              <div className="mt-auto pt-6">
-                <img 
-                  src="images/aboutLogo.png" 
-                  alt="GLUG Logo" 
-                  className="w-48 sm:w-56 md:w-60"
-                  // Fallback placeholder in case the original image fails to load.
-                  onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/240x100/ffffff/83B3FF?text=GLUG+Logo'; }}
-                />
-              </div>
-            </div>
+            <div class="font-helvetica h-full flex flex-col bg-[#83B3FF] rounded-xl p-6 sm:p-8 lg:p-10">
+  <div>
+    <h3 className="text-2xl font-family-noto-serif-jp text-white mb-6">Our Goal</h3>
+    
+    <ul class="font-family-halvetica ml-6 list-disc list-inside text-white space-y-3 text-md">
+      <li>Promote open-source culture</li>
+      <li>Build technical skills</li>
+      <li>Foster collaboration</li>
+      <li>Create innovative solutions</li>
+    </ul>
+  </div>
+
+  {/* --- MODIFICATION --- */}
+  {/* The `ml-8` class has been removed from this div to align the logo with the "Our Goal" title. */}
+  <div class="mt-auto pt-6">
+    <img 
+      src="images/aboutLogo.png" 
+      alt="GLUG Logo" 
+      class="w-48 sm:w-56 md:w-60"
+      onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/240x100/ffffff/83B3FF?text=GLUG+Logo'; }}
+    />
+  </div>
+</div>
           </div>
 
         </div>

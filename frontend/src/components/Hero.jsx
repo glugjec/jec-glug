@@ -51,12 +51,12 @@ const Hero = () => {
       {/* Hero Content */}
       <div className="relative z-20 text-center px-4 pt-24">
       
-      <h1 className="font-canno text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-tight leading-tight drop-shadow-[0px_4px_24px_rgba(80,140,255,0.25)]">
+      <h1 className="font-canno text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide leading-[1] drop-shadow-[0px_4px_24px_rgba(80,140,255,0.25)]">
         Unleash Innovation <br />Through Open Source
       </h1>
       
      
-      <p className="text-base md:text-lg text-blue-200 mb-10 max-w-2xl mx-auto leading-relaxed">
+      <p className="tracking-tight text-base md:text-md text-blue-200 mb-10 max-w-lg mx-auto leading-relaxed">
         It is a student-led community hosting tech events, workshops and hackathons with the support of industry sponsors.
       </p>
 

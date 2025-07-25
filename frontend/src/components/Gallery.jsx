@@ -9,7 +9,7 @@ const Gallery = () => {
       }}
     >
       <div className="max-w-4xl w-full px-4">
-        <h2 className="font-poppins text-2xl font-bold text-white mb-6 text-center">Gallery</h2>
+        <h2 className="font-poppins text-4xl font-bold text-white mb-6 text-center">Gallery</h2>
         <img
           src="images/gallery.png"
           alt="Gallery Collage"

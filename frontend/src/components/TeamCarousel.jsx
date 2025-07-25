@@ -15,6 +15,15 @@ const TeamCarousel = () => {
     .filter(team => team.title === "CLUB - HEAD" || team.title === "CLUB LEADERSHIP")
     .flatMap(team => team.members);
 
+    const formatRole = (role) => {
+  if (!role) return '';
+  return role
+    .toLowerCase()
+    .split(/([ -])/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join('');
+};
+
   return (
     <div  className="relative w-full max-w-screen-xl mx-auto ">
     <Carousel
@@ -40,21 +49,28 @@ const TeamCarousel = () => {
               </div>
 
               <div className="absolute bottom-0 left-0 right-0 mx-4 sm:mx-6 md:mx-8 mb-4 sm:mb-6 md:mb-8">
-                <div className="bg-white/95 backdrop-blur-md rounded-lg shadow-lg border border-white/40 px-3 py-2 sm:px-4 sm:py-3 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 transition-all duration-300 cursor-pointer group">
-                  <div className="flex items-center justify-between gap-2">
-                    <h3 className="text-gray-800 text-sm sm:text-base md:text-lg font-semibold truncate flex-1 group-hover:text-white transition-colors duration-300">
-                      {member.name}
-                    </h3>
+        <div className="bg-white/95 backdrop-blur-md rounded-lg shadow-lg border border-white/40 px-3 py-2 sm:px-4 sm:py-3 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 transition-all duration-300 cursor-pointer group">
+          <div className="flex items-center justify-between gap-4">
+            {/* Div to group name and role vertically */}
+            <div className="flex flex-col flex-1 min-w-0">
+              <h3 className="text-gray-800 text-sm sm:text-base md:text-lg font-semibold truncate group-hover:text-white transition-colors duration-300">
+                {member.name}
+              </h3>
+              {/* Role is now below the name, with smaller text and different hover color */}
+              <p className="text-gray-600 text-xs sm:text-sm font-medium group-hover:text-blue-100 transition-colors duration-300">
+                {formatRole(member.role)}
+              </p>
+            </div>
 
-                    {/* Hide the logo badge on smaller screens */}
-                    <div className="hidden sm:flex bg-black rounded-lg p-2 group-hover:bg-white/25 transition-all duration-300 flex-shrink-0">
-                      <div className="w-5 h-5 flex items-center justify-center">
-                        <span className="text-white font-bold text-sm leading-none">in</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            {/* Logo badge */}
+            <div className="sm:flex bg-black rounded-lg p-2 group-hover:bg-white/25 transition-all duration-300 flex-shrink-0">
+              <div className="w-5 h-5 flex items-center justify-center">
+                <span className="text-white font-bold text-sm leading-none">in</span>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
             </div>
           </CarouselItem>
@@ -80,8 +96,8 @@ const TeamCarousel = () => {
         </CarouselItem>
       </CarouselContent>
 
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="text-black" />
+      <CarouselNext className="text-black"/>
     </Carousel>
   </div>
 
