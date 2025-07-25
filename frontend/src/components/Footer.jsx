@@ -62,10 +62,7 @@ export default function Footer() {
               <FaGithub />
             </a>
 
-//             <a href="https://www.facebook.com/jec.glug/"><FaFacebookF /></a>
-//             <a href="https://www.instagram.com/jecglug/"><FaInstagram /></a>
-//             <a href="https://www.linkedin.com/company/glug-jec"><FaLinkedinIn /></a>
-//             <a href="https://github.com/glugjec"><FaGithub /></a>
+
 
           </div>
         </div>
