@@ -40,6 +40,13 @@ const SponsorPage = () => {
             description: "Premier sports media company providing comprehensive coverage and broadcasting services for sporting events.",
             logo: "SM",
             partnerType: "Media Partner"
+        },
+        {
+            id: 10,
+            title: "Assam Startup",
+            description: "Premier sports media company providing comprehensive coverage and broadcasting services for sporting events.",
+            logo: "AS",
+            partnerType: "Media Partner"
         }
         ]
     },

@@ -49,28 +49,37 @@ const Hero = () => {
       </div> */}
 
       {/* Hero Content */}
-      <div className="relative z-20 text-center px-4 pt-24 portrait:mt-32">
-        <h1 className="font-canno text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide leading-snug mb-10 pb-4 drop-shadow-[0px_4px_24px_rgba(80,140,255,0.25)]">
-          Unleash Innovation <br />Through Open Source
-        </h1>
-        <p className="text-base md:text-lg text-blue-200 mb-10 max-w-2xl mx-auto">
-          It is a student-led community hosting tech events, workshops and hackathons with the support of industry sponsors.
-        </p>
-        <div className="font-helvetica flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            to="https://www.whatsapp.com"
-            className="inline-block bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold rounded-full px-8 py-3 shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
-          >
-            Join Us
-          </Link>
-          <button
-            onClick={scrollTosec}
-            className="inline-block bg-transparent border-2 border-blue-400 text-blue-300 font-semibold rounded-full px-8 py-3 shadow-md hover:bg-blue-500 hover:text-white transition-all duration-200"
-          >
-            Explore
-          </button>
-        </div>
+      <div className="relative z-20 text-center px-4 pt-24">
+      
+      <h1 className="font-canno text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-tight leading-tight drop-shadow-[0px_4px_24px_rgba(80,140,255,0.25)]">
+        Unleash Innovation <br />Through Open Source
+      </h1>
+      
+     
+      <p className="text-base md:text-lg text-blue-200 mb-10 max-w-2xl mx-auto leading-relaxed">
+        It is a student-led community hosting tech events, workshops and hackathons with the support of industry sponsors.
+      </p>
+
+      <div className="font-helvetica flex flex-col sm:flex-row items-center justify-center gap-4">
+        
+        <a
+          href="https://www.whatsapp.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold rounded-full px-8 py-3 shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-300 transform hover:scale-105"
+        >
+          Join Us
+        </a>
+        
+       
+        <button
+          onClick={scrollTosec}
+          className="inline-block bg-transparent border-2 border-blue-400 text-blue-300 font-semibold rounded-full px-8 py-3 shadow-md hover:bg-blue-500 hover:text-white transition-all duration-300 transform hover:scale-105"
+        >
+          Explore
+        </button>
       </div>
+    </div>
     </section>
   );
 };
