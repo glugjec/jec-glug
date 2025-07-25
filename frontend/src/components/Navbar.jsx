@@ -72,14 +72,14 @@ const Navbar = () => {
       <div className="flex flex-wrap items-center justify-between mx-auto w-full">
         {/* Logo and Mobile Menu Button */}
         <div className="flex items-center justify-between w-full lg:w-auto">
-          <a href="#" className="flex-shrink-0 flex items-center">
+          <Link to="/" className="flex-shrink-0 flex items-center">
             <img
               src={"/images/navLogo.png"}
               alt="Logo"
               className="h-10 w-auto" // Use height to control size
               onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/100x40/161D58/FFFFFF?text=Logo'; }}
             />
-          </a>
+          </Link>
           <button
             className="lg:hidden text-white focus:outline-none text-3xl z-50"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -103,14 +103,11 @@ const Navbar = () => {
               style={pillStyle}
             />
             {navItems.map((item, index) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.path}
+                to={item.path}
                 ref={(el) => (navLinksRef.current[index] = el)}
                 onMouseEnter={() => handleMouseEnter(index)}
-                /* --- STYLE MODIFICATION ---
-                   - Padding: Adjusted `px-6` to `px-8` to make the links, and therefore the pill, wider.
-                */
                 className={`relative z-10 px-8 py-2 rounded-full transition-colors duration-300 text-sm font-medium ${
                   activeIndex === index
                     ? "text-white"
@@ -118,7 +115,7 @@ const Navbar = () => {
                 }`}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -127,9 +124,9 @@ const Navbar = () => {
         <div className={`${menuOpen ? 'block' : 'hidden'} w-full lg:hidden mt-6`}>
           <div className="flex flex-col bg-[#0f1443]/95 backdrop-blur-xl rounded-2xl p-5 space-y-2 border border-blue-400/40 shadow-2xl shadow-blue-500/20">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.path}
+                to={item.path}
                 className={`block px-4 py-3 rounded-xl transition-all duration-200 text-lg ${
                   location.pathname === item.path
                     ? "bg-blue-500 text-white"
@@ -137,7 +134,7 @@ const Navbar = () => {
                 }`}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -149,14 +146,4 @@ const Navbar = () => {
 export default Navbar;
 
 
-// change d the background white color 
-if (typeof window !== 'undefined') {
-  document.body.style.background = 'linear-gradient(to right, #03022C, #161D58, #03022C)';
-  document.body.style.backgroundColor = '#03022C';
-}
-
-//src={
-//                 location.pathname === "/"
-//                   ? "/images/navLogo.png"
-//                   : "/images/navLogo.png"
 
