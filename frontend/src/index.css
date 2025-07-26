@@ -165,9 +165,9 @@
 }
 
 html, body {
-  min-height: 100vh;
+  /* min-height: 100vh;
   background: linear-gradient(to right, #03022C, #161D58, #03022C);
-  background-color: #03022C;
+  background-color: #03022C; */
   overflow-x: hidden;
   max-width: 100vw;
 }

@@ -67,7 +67,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="pb-4" />
+      <div/>
 
       {/* Bottom horizontal bar */}
     </footer>
