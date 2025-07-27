@@ -31,7 +31,13 @@ const ContactInfo = () => {
             </div>
             <div>
               <p className="text-sm ">{detail.label}</p>
-              <p className="">{detail.value}</p>
+              {detail.label === "Email" ? (
+                <a href={`mailto:${detail.value}`} className="text-white">{detail.value}</a>
+              ) : detail.label === "Location" ? (
+                <a href="https://www.google.com/maps/search/?api=1&query=Jorhat+Engineering+College" target="_blank" rel="noopener noreferrer" className="text-white">{detail.value}</a>
+              ) : (
+                <p className="">{detail.value}</p>
+              )}
             </div>
           </div>
         ))}

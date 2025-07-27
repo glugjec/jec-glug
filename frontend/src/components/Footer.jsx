@@ -32,8 +32,10 @@ export default function Footer() {
         {/* Contact */}
         <div className="text-[0.95rem] space-y-1">
           <h3 className="font-poppins font-semibold mb-2">Contact</h3>
-          <p>Jorhat Engineering College,<br />Assam, India</p>
-          <p className="text-blue-900">glug.jec@gmail.com</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Jorhat+Engineering+College" target="_blank" rel="noopener noreferrer" className="text-blue-900">Jorhat Engineering College,<br />Assam, India</a>
+          <br/>
+          <br/>
+          <a href="mailto:glug.jec@gmail.com" className="text-blue-900">glug.jec@gmail.com</a>
         </div>
 
         {/* Follow Us */}
