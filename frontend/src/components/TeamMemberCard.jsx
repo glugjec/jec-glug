@@ -3,7 +3,7 @@ import React from 'react'
 const TeamMemberCard = ({ member }) => {
   return (
     
-    <div className="bg-gradient-to-b from-black/70 to-slate-600/70 backdrop-blur-sm rounded-xl p-6 flex flex-col space-y-4 shadow-lg w-full h-full border border-white/10">
+    <div className="bg-gradient-to-b from-black/70 to-slate-600/70 backdrop-blur-sm rounded-xl p-6 flex flex-col space-y-4 shadow-lg w-full h-full">
     
     <div className="flex items-start space-x-6">
       <img
