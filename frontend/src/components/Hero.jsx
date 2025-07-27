@@ -34,7 +34,7 @@ const Hero = () => {
       <img
           src="images/circle.png"
           alt="Half circle arc"
-          className={`absolute top-[18%] sm:top-[18%] md:top-[18%] lg:-top-[8%] left-1/2 transform -translate-x-1/2 w-[90vw] max-w-[95vw] max-h-[60vh] sm:w-[70vw] sm:max-w-[80vw] md:w-[60vw] md:max-w-[700px] lg:w-[50vw] xl:w-[900px] max-w-[900px] pointer-events-none transition-all duration-2000 ease-out
+          className={`absolute top-[18%] sm:top-[18%] md:top-[18%] lg:-top-[8%] portrait:top-0 left-1/2 transform -translate-x-1/2 w-[90vw] max-w-[95vw] max-h-[60vh] sm:w-[70vw] sm:max-w-[80vw] md:w-[60vw] md:max-w-[700px] lg:w-[50vw] xl:w-[900px] max-w-[900px] pointer-events-none transition-all duration-2000 ease-out
             ${circleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-32'}
             z-10 portrait:z-0`}
       />
@@ -51,12 +51,12 @@ const Hero = () => {
       {/* Hero Content */}
       <div className="relative z-20 text-center px-4 pt-24">
       
-      <h1 className="font-canno text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide leading-[1] drop-shadow-[0px_4px_24px_rgba(80,140,255,0.25)]">
+      <h1 className="font-canno text-6xl md:text-7xl portrait:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide leading-[1] drop-shadow-[0px_4px_24px_rgba(80,140,255,0.25)]">
         Unleash Innovation <br />Through Open Source
       </h1>
       
      
-      <p className="tracking-tight text-base md:text-md text-blue-200 mb-10 max-w-lg mx-auto leading-relaxed">
+      <p className="tracking-tight text-sm md:text-base text-blue-200 mb-10 max-w-lg mx-auto leading-tight">
         It is a student-led community hosting tech events, workshops and hackathons with the support of industry sponsors.
       </p>
 
