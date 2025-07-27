@@ -41,10 +41,10 @@ export default function Footer() {
           <div>
             <h3 className="font-poppins font-semibold mb-2">Follow us</h3>
             <ul className="space-y-1 text-blue-900">
-              <li><a href="https://www.facebook.com/jec.glug/">Facebook</a></li>
-              <li><a href="https://www.instagram.com/jecglug/">Instagram</a></li>
-              <li><a href="https://www.linkedin.com/company/glug-jec">LinkedIn</a></li>
-              <li><a href="https://github.com/glugjec">Github</a></li>
+              <li><a href="https://www.facebook.com/jec.glug/" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+              <li><a href="https://www.instagram.com/jecglug/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+              <li><a href="https://www.linkedin.com/company/glug-jec" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+              <li><a href="https://github.com/glugjec" target="_blank" rel="noopener noreferrer">Github</a></li>
             </ul>
           </div>
           <div className="flex space-x-4 text-lg text-black mt-4">
