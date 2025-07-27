@@ -27,8 +27,17 @@ const Navbar = () => {
     opacity: 0,
   });
 
+
   useEffect(() => {
-    
+    const navbarHeight = 80; 
+    const root = document.getElementById('root');
+    if (root) root.style.paddingTop = `${navbarHeight}px`;
+    return () => {
+      if (root) root.style.paddingTop = '';
+    };
+  }, []);
+
+  useEffect(() => {
     setMenuOpen(false);
 
     const foundIndex = navItems.findIndex(
@@ -39,7 +48,6 @@ const Navbar = () => {
     if (foundIndex !== -1 && navLinksRef.current[foundIndex]) {
       const activeLinkNode = navLinksRef.current[foundIndex];
       const { offsetLeft, offsetWidth } = activeLinkNode;
-      
       setActiveLinkGeometry({ left: offsetLeft, width: offsetWidth });
       setPillStyle({ left: offsetLeft, width: offsetWidth, opacity: 1 });
     } else {
@@ -65,18 +73,18 @@ const Navbar = () => {
 
   return (
    <nav
-      className={`font-helvetica w-full text-white px-4 sm:px-6 lg:px-8 py-4
-        bg-gradient-to-r from-[#03022C] via-[#161D58] to-[#03022C] backdrop-blur-xl bg-opacity-80 border-b border-white/10 shadow-2xl
+      className={`font-helvetica w-full text-white px-4 sm:px-6 lg:px-8 py-4 fixed top-0 left-0 z-50
+        bg-[#161D58]/60 backdrop-blur-2xl border-b border-white/10 shadow-2xl transition-all duration-300
       `}
     >
       <div className="flex flex-wrap items-center justify-between mx-auto w-full">
-        {/* Logo and Mobile Menu Button */}
+       
         <div className="flex items-center justify-between w-full lg:w-auto">
           <Link to="/" className="flex-shrink-0 flex items-center">
             <img
               src={"/images/navLogo.png"}
               alt="Logo"
-              className="h-10 w-auto" // Use height to control size
+              className="h-10 w-auto" 
               onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/100x40/161D58/FFFFFF?text=Logo'; }}
             />
           </Link>
@@ -88,16 +96,14 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Desktop Navigation */}
+        
         <div className="hidden lg:flex items-center justify-center flex-1">
-          {/* --- STYLE MODIFICATION ---
-              - Spacing: Increased `space-x-1` to `space-x-2` to add more distance between the navigation links.
-          */}
+         
           <div
             onMouseLeave={handleMouseLeave}
-            className="relative flex items-center bg-black/20 backdrop-blur-2xl p-2 rounded-full border border-white/20 shadow-inner shadow-black/50 space-x-2"
+            className="relative flex items-center bg-black/20 backdrop-blur-2xl p-2 rounded-full border border-white/20 shadow-inner shadow-black/50 space-x-2 drop-shadow-[0_12px_32px_rgba(40,80,220,0.25)]"
           >
-            {/* The animated pill */}
+            
             <div
               className="absolute h-10 top-1/2 -translate-y-1/2 bg-blue-600 rounded-full border border-blue-400/60 shadow-lg shadow-blue-500/30 transition-all duration-300 ease-in-out pointer-events-none"
               style={pillStyle}
