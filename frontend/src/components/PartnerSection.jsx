@@ -3,26 +3,35 @@ import { Link } from "react-router-dom";
 
 const PartnerSection = () => {
   return (
-    <section className="w-screen bg-gradient-to-b from-[#FFFFFF] to-[#D2E9FC] py-16 px-6 flex flex-col md:flex-row items-center justify-between">
-     
-      <div className="font-helvetica max-w-xl mb-10 md:mb-0 mx-20">
-        <h2 className="text-3xl md:text-4xl font-bold text-[#0A1F44] mb-4">
-          Partner with GLUG
-        </h2>
-        <p className="text-gray-600 mb-6">
-          Collaborate with GLUG JEC to support innovation, learning, and open-source growth. By partnering, you help empower students through events, mentorship, and real-world tech exposure.
-        </p>
-        <Link
-          to="/contact"
-          className="font-poppins inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl px-6 py-3 shadow transition duration-200"
-        >
-          Become a partner
-        </Link>
-      </div>
+    // The section already takes the full width, padding controls the inner spacing.
+    <section className="w-screen bg-gradient-to-b from-white to-[#EBF5FF] py-20 px-8 md:px-16 lg:px-24">
+      {/* MODIFICATION: Removed "max-w-7xl mx-auto" to allow content to fill the container.
+        Changed "justify-center" to "justify-between" to push items to the sides.
+      */}
+      <div className="w-full flex flex-col md:flex-row items-center justify-between gap-16">
+        
+        {/* Left Content Block */}
+        <div className="font-poppins max-w-2xl text-center md:text-left">
+          <h2 className="text-4xl md:text-5xl text-[#0A1F44] mb-8">
+            Partner with GLUG
+          </h2>
+          <p className="text-gray-600 text-lg mb-8">
+            Collaborate with GLUG JEC to support innovation, learning, and open-source growth. By partnering, you help empower students through events, mentorship, and real-world tech exposure.
+          </p>
+          <Link
+            to="/contact"
+            className="font-helvetica inline-block bg-gradient-to-r from-blue-500 to-blue-400 hover:brightness-105 text-white font-medium rounded-lg px-8 py-3 shadow-md hover:shadow-lg transition-all duration-300"
+          >
+            Become a partner
+          </Link>
+        </div>
 
-      <div className="relative w-64 h-64 flex-shrink-0">
-        <div className="absolute top-0 left-1/4 w-40 h-40 border-2 border-blue-400 rounded-full opacity-50"></div>
-        <div className="absolute bottom-0 right-1/4 w-32 h-32 border-2 border-blue-500 rounded-full opacity-80"></div>
+        {/* Right Graphic Block */}
+        <div className="relative w-80 h-80 flex-shrink-0 hidden md:block">
+          <div className="absolute top-0 left-0 w-64 h-64 border border-blue-300 rounded-full opacity-75"></div>
+          <div className="absolute bottom-4 right-4 w-48 h-48 border-2 border-blue-400 rounded-full"></div>
+        </div>
+
       </div>
     </section>
   );
