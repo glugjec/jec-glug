@@ -57,9 +57,9 @@ const EventCarousel = () => {
           </CarouselItem>
 
         </CarouselContent>
-        {/* Hide navigation buttons on mobile for a cleaner look */}
-        <CarouselPrevious className="hidden sm:flex" />
-        <CarouselNext className="hidden sm:flex" />
+        
+        <CarouselPrevious className="hidden sm:flex portrait:flex portrait:absolute portrait:top-1/2 portrait:left-2 portrait:-translate-y-1/2 portrait:w-12 portrait:h-12 portrait:bg-white portrait:rounded-full portrait:shadow-lg portrait:text-black portrait:justify-center portrait:items-center z-30" />
+        <CarouselNext className="hidden sm:flex portrait:flex portrait:absolute portrait:top-1/2 portrait:right-2 portrait:-translate-y-1/2 portrait:w-12 portrait:h-12 portrait:bg-white portrait:rounded-full portrait:shadow-lg portrait:text-black portrait:justify-center portrait:items-center z-30" />
       </Carousel>
     </div>
   );
