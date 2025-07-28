@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
@@ -7,9 +7,17 @@ import Footer from './components/Footer';
 import ContactPage from './pages/ContactPage';
 import EventsComponent from './components/EventsComponent';
 import SponsorPage from './pages/SponsorPage';
-import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
+  
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Router>
       <div className='<div className="flex flex-col items-center w-full overflow-x-hidden">'>
