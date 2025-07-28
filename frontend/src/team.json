@@ -1,178 +1,231 @@
 [
-    {
-      "title": "CLUB - MENTOR",
-      "members": [
+  {
+    "title": "CLUB - MENTOR",
+    "members": [
       {
         "name": "Rajib Chakraborty",
         "role": "MENTOR",
-        "description": "Mentoring GLUG into the future with constant support and guidance"
+        "description": "Mentoring GLUG into the future with constant support and guidance",
+        "linkedin": "",
+        "instagram": ""
       }
-      ]
-    },
-    {
-      "title": "CLUB - HEAD",
-      "members": [
+    ]
+  },
+  {
+    "title": "CLUB - HEAD",
+    "members": [
       {
         "name": "Abhilash Kashyap",
         "role": "CLUB HEAD",
-        "description": "Leading GLUG into the future with passion for open source"
+        "description": "Leading GLUG into the future with passion for open source",
+        "linkedin": "",
+        "instagram": ""
       }
-      ]
-    },
-    {
-      "title": "CLUB LEADERSHIP",
-      "members": [
-        {
-          "name": "Ashish Saikia",
-          "role": "CO-HEAD",
-          "description": "Driving innovation and collaboration"
-        },
-        {
-          "name": "Dorothy Gogoi",
-          "role": "CO-HEAD",
-          "description": "Fostering community growth and engagement"
-        },
-        {
-          "name": "Ritu Raj Bora",
-          "role": "CO-HEAD & DESIGN LEAD",
-          "description": "Creative visionary and design expert"
-        },
-        {
-          "name": "Ishan Bharadwaj",
-          "role": "CO-HEAD",
-          "description": "Fostering community growth and engagement "
-        }
-
-      ]
-    },
-    {
-      "title": "TECHNICAL TEAM",
-      "members": [
-        {
-          "name": "Abhimanyu Saikia",
-          "role": "TECH LEAD",
-          "description": "Full-stack developer and technical mentor"
-        },
-        {
-          "name": "Sivanuj Dutta",
-          "role": "COORDINATOR",
-          "description": "Backend development and system architecture"
-        },
-        {
-          "name": "Rittam Dutta",
-          "role": "COORDINATOR",
-          "description": "Frontend development"
-        },
-        {
-          "name": "Kaushik Ranjan Rajkumar",
-          "role": "COORDINATOR",
-          "description": "App Developer"
-        }
-      ]
-    },
-    {
-      "title": "DESIGN TEAM",
-      "members": [
-        {
-          "name": "Ritu Raj Bora",
-          "role": "LEAD",
-          "description": "Product designer and creative director"
-        },
-        {
-          "name": "Arnold Saikia",
-          "role": "COORDINATOR",
-          "description": "Motion Graphics"
-        },
-        {
-          "name": "Ayushman Lahon",
-          "role": "COORDINATOR",
-          "description": "Motion Graphics"
-        },
-        {
-          "name": "Nibir Kalita",
-          "role": "COORDINATOR",
-          "description": "Visual designer"
-        }
-      ]
-    },
-    {
-      "title": "MANAGEMENT TEAM",
-      "members": [
-        {
-          "name": "Bishal Ranjan Nath",
-          "role": "LEAD",
-          "description": " Event planning and team coordination"
-        },
-        {
-          "name": "Priyam Nath",
-          "role": "COORDINATOR",
-          "description": "Project management and logistics"
-        },
-        {
-          "name": "Arindom Mahanta",
-          "role": "COORDINATOR",
-          "description": "Budget management and resources"
-        },
-        {
-          "name": "Ananya Das",
-          "role": "COORDINATOR",
-          "description": "Partnership and collaboration"
-        },
-        {
-          "name": "Sumanta Bhargab",
-          "role": "COORDINATOR",
-          "description": "Operations and workflow management"
-        }
-      ]
-    },
-    {
-      "title": "SOCIAL MEDIA TEAM",
-      "members": [
-        {
-          "name": "Tushar Haloi",
-          "role": "LEAD",
-          "description": " Content strategy and community building"
-        },
-        {
-          "name": "Koustab Saikia",
-          "role": "COORDINATOR",
-          "description": "Content creation and engagement"
-        },
-        {
-          "name": "Bivamoni Amchi",
-          "role": "COORDINATOR",
-          "description": "Social media analytics and campaigns"
-        },
-        {
-          "name": "Jyotismita Bhuyan",
-          "role": "COORDINATOR",
-          "description": "Creative content and storytelling"
-        }
-      ]
-    },
-    {
-      "title": "GENERAL COORDINATORS",
-      "members": [
-        {
-          "name": "Rajdeep Dutta",
-          "role": "GENERAL COORDINATOR",
-          "description": "Sharp thinker, silent slayer"
-        },
-        {
-          "name": "Dreamsea Dutta",
-          "role": "GENERAL COORDINATOR",
-          "description": " Visionary, Soft Aesthetic, Sharp Minds"
-        },
-        {
-          "name": "Mriganka Mahanta",
-          "role": "GENERAL COORDINATOR",
-          "description": "Steady, imaginative, driven "
-        },
-        {
-          "name": "Pranjal Nath",
-          "role": "GENERAL COORDINATOR",
-          "description": "Energetic, witty, unstoppable"
-        }
-      ]
-    }
-  ]
+    ]
+  },
+  {
+    "title": "CLUB LEADERSHIP",
+    "members": [
+      {
+        "name": "Ashish Saikia",
+        "role": "CO-HEAD",
+        "description": "Driving innovation and collaboration",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Dorothy Gogoi",
+        "role": "CO-HEAD",
+        "description": "Fostering community growth and engagement",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Ritu Raj Bora",
+        "role": "CO-HEAD & DESIGN LEAD",
+        "description": "Creative visionary and design expert",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Ishan Bharadwaj",
+        "role": "CO-HEAD",
+        "description": "Fostering community growth and engagement",
+        "linkedin": "",
+        "instagram": ""
+      }
+    ]
+  },
+  {
+    "title": "TECHNICAL TEAM",
+    "members": [
+      {
+        "name": "Abhimanyu Saikia",
+        "role": "TECH LEAD",
+        "description": "Full‑stack developer and technical mentor",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Sivanuj Dutta",
+        "role": "COORDINATOR",
+        "description": "Backend development and system architecture",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Rittam Dutta",
+        "role": "COORDINATOR",
+        "description": "Frontend development",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Kaushik Ranjan Rajkumar",
+        "role": "COORDINATOR",
+        "description": "App Developer",
+        "linkedin": "",
+        "instagram": ""
+      }
+    ]
+  },
+  {
+    "title": "DESIGN TEAM",
+    "members": [
+      {
+        "name": "Ritu Raj Bora",
+        "role": "LEAD",
+        "description": "Product designer and creative director",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Arnold Saikia",
+        "role": "COORDINATOR",
+        "description": "Motion Graphics",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Ayushman Lahon",
+        "role": "COORDINATOR",
+        "description": "Motion Graphics",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Nibir Kalita",
+        "role": "COORDINATOR",
+        "description": "Visual designer",
+        "linkedin": "",
+        "instagram": ""
+      }
+    ]
+  },
+  {
+    "title": "MANAGEMENT TEAM",
+    "members": [
+      {
+        "name": "Bishal Ranjan Nath",
+        "role": "LEAD",
+        "description": "Event planning and team coordination",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Priyam Nath",
+        "role": "COORDINATOR",
+        "description": "Project management and logistics",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Arindom Mahanta",
+        "role": "COORDINATOR",
+        "description": "Budget management and resources",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Ananya Das",
+        "role": "COORDINATOR",
+        "description": "Partnership and collaboration",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Sumanta Bhargab",
+        "role": "COORDINATOR",
+        "description": "Operations and workflow management",
+        "linkedin": "",
+        "instagram": ""
+      }
+    ]
+  },
+  {
+    "title": "SOCIAL MEDIA TEAM",
+    "members": [
+      {
+        "name": "Tushar Haloi",
+        "role": "LEAD",
+        "description": "Content strategy and community building",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Koustab Saikia",
+        "role": "COORDINATOR",
+        "description": "Content creation and engagement",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Bivamoni Amchi",
+        "role": "COORDINATOR",
+        "description": "Social media analytics and campaigns",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Jyotismita Bhuyan",
+        "role": "COORDINATOR",
+        "description": "Creative content and storytelling",
+        "linkedin": "",
+        "instagram": ""
+      }
+    ]
+  },
+  {
+    "title": "GENERAL COORDINATORS",
+    "members": [
+      {
+        "name": "Rajdeep Dutta",
+        "role": "GENERAL COORDINATOR",
+        "description": "Sharp thinker, silent slayer",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Dreamsea Dutta",
+        "role": "GENERAL COORDINATOR",
+        "description": "Visionary, Soft Aesthetic, Sharp Minds",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Mriganka Mahanta",
+        "role": "GENERAL COORDINATOR",
+        "description": "Steady, imaginative, driven",
+        "linkedin": "",
+        "instagram": ""
+      },
+      {
+        "name": "Pranjal Nath",
+        "role": "GENERAL COORDINATOR",
+        "description": "Energetic, witty, unstoppable",
+        "linkedin": "",
+        "instagram": ""
+      }
+    ]
+  }
+]
