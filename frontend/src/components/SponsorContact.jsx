@@ -60,7 +60,7 @@ const SponsorContact = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     
                     <Link
-                        href="#contact" // Placeholder link
+                        to="/contact" 
                         className="bg-[#0086FF] hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center"
                     >
                         Become a Sponsor
