@@ -42,7 +42,7 @@ const Hero = () => {
       {/* <div className="absolute top-[30%] sm:top-[28%] md:top-[26%] lg:top-[25.5%] xl:top-[25%] left-1/2 transform -translate-x-1/2 z-50">
         <Link
           to="/events"
-          className="font-helvetica rounded-full bg-[#3b4065] text-white/80 text-sm px-6 py-2 shadow-md border border-white/15 font-medium opacity-85 hover:opacity-120"
+           className="font-helvetica rounded-full bg-[#3b4065] text-white/80 text-sm px-6 py-2 shadow-md border border-white/15 font-medium opacity-85 hover:opacity-120"
         >
           Events
         </Link>
@@ -51,10 +51,10 @@ const Hero = () => {
       {/* Hero Content */}
       <div className="relative z-20 text-center px-4 pt-24">
       
-      <h1 className="font-canno text-6xl md:text-7xl portrait:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide leading-[1] drop-shadow-[0px_4px_24px_rgba(80,140,255,0.25)]">
+      <h1 className="font-canno text-6xl md:text-7xl portrait:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide leading-[1] drop-shadow-[0px_4px_24px_rgba(80,140,255,0.25)] pb-4">
         Unleash Innovation <br />Through Open Source
       </h1>
-      
+      <br/>
      
       <p className="tracking-tight text-sm md:text-base text-blue-200 mb-10 max-w-lg mx-auto leading-tight">
         It is a student-led community hosting tech events, workshops and hackathons with the support of industry sponsors.
