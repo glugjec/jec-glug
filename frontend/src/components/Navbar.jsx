@@ -84,7 +84,7 @@ const Navbar = () => {
             <img
               src="/images/logo.png"
               alt="Main Logo"
-              className="h-12 w-auto object-contain"
+              className="h-9 w-auto object-contain"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = "https://placehold.co/100x40/161D58/FFFFFF?text=Logo";
