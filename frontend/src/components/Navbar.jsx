@@ -27,10 +27,9 @@ const Navbar = () => {
     opacity: 0,
   });
 
-
   useEffect(() => {
-    const navbarHeight = 80; 
-    const root = document.getElementById('root');
+    const navbarHeight = 80;
+    const root = document.getElementById("root");
     if (root) root.style.paddingTop = `${navbarHeight}px`;
     return () => {
       if (root) root.style.paddingTop = '';
@@ -72,22 +71,28 @@ const Navbar = () => {
   };
 
   return (
-   <nav
+    <nav
       className={`font-helvetica w-full text-white px-4 sm:px-6 lg:px-8 py-4 fixed top-0 left-0 z-50
         bg-[#161D58]/60 backdrop-blur-2xl border-b border-white/10 shadow-2xl transition-all duration-300
       `}
     >
       <div className="flex flex-wrap items-center justify-between mx-auto w-full">
-       
+        {/* Left Logo and Mobile Menu */}
         <div className="flex items-center justify-between w-full lg:w-auto">
+          {/* Left Logo */}
           <Link to="/" className="flex-shrink-0 flex items-center">
             <img
-              src={"/images/navLogo.png"}
-              alt="Logo"
-              className="h-10 w-auto" 
-              onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/100x40/161D58/FFFFFF?text=Logo'; }}
+              src="/images/logo.png"
+              alt="Main Logo"
+              className="h-12 w-auto object-contain"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://placehold.co/100x40/161D58/FFFFFF?text=Logo";
+              }}
             />
           </Link>
+
+          {/* Mobile Menu Toggle */}
           <button
             className="lg:hidden text-white focus:outline-none text-3xl z-50"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -96,14 +101,12 @@ const Navbar = () => {
           </button>
         </div>
 
-        
-        <div className="hidden lg:flex items-center justify-center flex-1">
-         
+        {/* Center Nav Links */}
+        <div className="hidden lg:flex items-center justify-center flex-1 ">
           <div
             onMouseLeave={handleMouseLeave}
             className="relative flex items-center bg-black/20 backdrop-blur-2xl p-2 rounded-full border border-white/20 shadow-inner shadow-black/50 space-x-2 drop-shadow-[0_12px_32px_rgba(40,80,220,0.25)]"
           >
-            
             <div
               className="absolute h-10 top-1/2 -translate-y-1/2 bg-blue-600 rounded-full border border-blue-400/60 shadow-lg shadow-blue-500/30 transition-all duration-300 ease-in-out pointer-events-none"
               style={pillStyle}
@@ -126,7 +129,20 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Right Logo */}
+        <div className="hidden lg:flex items-center">
+          <img
+            src="/images/navLogo.png"
+            alt="Right Logo"
+            className="h-12 w-auto object-contain"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://placehold.co/120x40/161D58/FFFFFF?text=Right";
+            }}
+          />
+        </div>
+
+        {/* Mobile Navigation Dropdown */}
         <div className={`${menuOpen ? 'block' : 'hidden'} w-full lg:hidden mt-6`}>
           <div className="flex flex-col bg-[#0f1443]/95 backdrop-blur-xl rounded-2xl p-5 space-y-2 border border-blue-400/40 shadow-2xl shadow-blue-500/20">
             {navItems.map((item) => (
@@ -150,6 +166,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-
