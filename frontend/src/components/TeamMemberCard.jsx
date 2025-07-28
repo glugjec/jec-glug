@@ -17,10 +17,11 @@ const TeamMemberCard = ({ member }) => {
         <div>
           <h4 className="font-bold text-2xl text-white">{member.name}</h4>
           
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2">
             <p className="uppercase text-green-400 text-lg font-semibold tracking-wider">
               {member.role.replace('_', ' ')}
-            </p>
+            </p> 
+            &nbsp; &nbsp;  &nbsp;
 
             {member.linkedin && (
               <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-300">
