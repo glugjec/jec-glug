@@ -3,22 +3,39 @@ import ConfirmationModal from './ConfirmationModal';
 
 const GalleryManager = () => {
   const [images, setImages] = useState([
-    { id: 1, url: '/images/gallery.png', alt: 'Gallery Image 1' },
-    { id: 2, url: '/images/gallery2.png', alt: 'Gallery Image 2' },
+    { 
+      id: 1, 
+      url: '/images/gallery.png', 
+      title: 'GLUG Event 2024',
+      description: 'Annual tech meetup and workshop'
+    },
+    { 
+      id: 2, 
+      url: '/images/gallery2.png', 
+      title: 'Workshop Session',
+      description: 'Hands-on coding workshop'
+    },
+    { 
+      id: 3, 
+      url: '/images/gallery.png', 
+      title: 'Tech Talk',
+      description: 'Expert speaker session'
+    },
   ]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingImage, setEditingImage] = useState(null);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', data: null });
   const [formData, setFormData] = useState({ 
     url: '', 
-    alt: ''
+    title: '',
+    description: ''
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
     const action = editingImage ? 'update' : 'add';
-    const imageName = editingImage ? editingImage.alt : formData.alt;
+    const imageName = editingImage ? editingImage.title : formData.title;
     
     setConfirmModal({
       isOpen: true,
@@ -31,7 +48,8 @@ const GalleryManager = () => {
     if (confirmModal.type === 'update') {
       const updateData = {
         url: formData.url,
-        alt: formData.alt
+        title: formData.title,
+        description: formData.description
       };
       setImages(images.map(img => 
         img.id === editingImage.id 
@@ -43,13 +61,15 @@ const GalleryManager = () => {
       const newImage = {
         id: Date.now(),
         url: formData.url,
-        alt: formData.alt
+        title: formData.title,
+        description: formData.description
       };
       setImages([...images, newImage]);
     }
     setFormData({ 
       url: '', 
-      alt: ''
+      title: '',
+      description: ''
     });
     setShowAddForm(false);
     setConfirmModal({ isOpen: false, type: '', data: null });
@@ -59,7 +79,8 @@ const GalleryManager = () => {
     setEditingImage(image);
     setFormData({ 
       url: image.url, 
-      alt: image.alt
+      title: image.title,
+      description: image.description
     });
     setShowAddForm(true);
   };
@@ -69,7 +90,7 @@ const GalleryManager = () => {
     setConfirmModal({
       isOpen: true,
       type: 'delete',
-      data: { imageName: image?.alt || 'this image', id }
+      data: { imageName: image?.title || 'this image', id }
     });
   };
 
@@ -81,7 +102,8 @@ const GalleryManager = () => {
   const resetForm = () => {
     setFormData({ 
       url: '', 
-      alt: ''
+      title: '',
+      description: ''
     });
     setEditingImage(null);
     setShowAddForm(false);
@@ -118,17 +140,42 @@ const GalleryManager = () => {
                 placeholder="https://example.com/image.jpg or /images/gallery.png"
                 required
               />
+              {formData.url && (
+                <div className="mt-3">
+                  <p className="text-xs text-blue-300 mb-2">Preview:</p>
+                  <img
+                    src={formData.url}
+                    alt="Preview"
+                    className="w-32 h-24 object-cover rounded-lg border-2 border-white/20"
+                    onError={(e) => {
+                      e.target.src = 'https://placehold.co/128x96/161D58/FFFFFF?text=Error';
+                    }}
+                  />
+                </div>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
-                Alt Text
+                Image Title
               </label>
               <input
                 type="text"
-                value={formData.alt}
-                onChange={(e) => setFormData({...formData, alt: e.target.value})}
+                value={formData.title}
+                onChange={(e) => setFormData({...formData, title: e.target.value})}
                 className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Image description"
+                placeholder="e.g., GLUG Event 2024"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-blue-200 mb-2">
+                Description
+              </label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 h-24"
+                placeholder="Brief description of the image"
                 required
               />
             </div>
@@ -157,13 +204,14 @@ const GalleryManager = () => {
           <div key={image.id} className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20">
             <img
               src={image.url}
-              alt={image.alt}
+              alt={image.title}
               className="w-full h-48 object-cover rounded-xl mb-4"
               onError={(e) => {
                 e.target.src = 'https://placehold.co/300x200/161D58/FFFFFF?text=Image+Not+Found';
               }}
             />
-            <p className="text-blue-200 text-sm mb-4">{image.alt}</p>
+            <h3 className="text-white font-semibold text-lg mb-2">{image.title}</h3>
+            <p className="text-blue-200 text-sm mb-4">{image.description}</p>
             <div className="flex space-x-2">
               <button
                 onClick={() => handleEdit(image)}
