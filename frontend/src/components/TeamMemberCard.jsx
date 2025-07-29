@@ -3,7 +3,8 @@ import { FaLinkedin, FaInstagram } from 'react-icons/fa';
 
 const TeamMemberCard = ({ member }) => {
   return (
-    <div className="bg-gradient-to-b from-black/70 to-slate-600/70 backdrop-blur-sm rounded-xl p-6 flex flex-col space-y-4 shadow-lg w-full h-full">
+    <div className="bg-gradient-to-b from-black/70 to-slate-600/70 backdrop-blur-sm 
+    sm:rounded-[25px] rounded-[20px] p-6 flex flex-col space-y-4 shadow-lg w-full h-full">
       <div className="flex items-start space-x-6">
         <img
           src={`/images/${member.name.split(' ')[0].toLowerCase()}.jpg`}
@@ -15,10 +16,10 @@ const TeamMemberCard = ({ member }) => {
           }}
         />
         <div>
-          <h4 className="font-bold text-2xl text-white">{member.name}</h4>
+          <h4 className="font-bold sm:text-[34px] text-[25px] text-white">{member.name}</h4>
           
           <div className="flex items-center space-x-2">
-            <p className="uppercase text-green-400 text-lg font-semibold tracking-wider">
+            <p className="uppercase text-green-400 sm:text-[19px] text-[16px] font-semibold tracking-wider">
               {member.role.replace('_', ' ')}
             </p> 
             &nbsp; &nbsp;  &nbsp;
