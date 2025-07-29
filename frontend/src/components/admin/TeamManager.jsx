@@ -36,11 +36,25 @@ const TeamManager = () => {
     linkedinUrl: '',
     instagramUrl: ''
   });
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   const roleOptions = ['CLUB HEAD', 'CLUB LEADERSHIP', 'TECHNICAL TEAM', 'DESIGN TEAM', 'MANAGEMENT TEAM', 'SOCIAL MEDIA TEAM', 'GENERAL COORDINATOR'];
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    
+    if (!editingMember && !selectedImage) {
+      alert('Please select a profile image');
+      return;
+    }
+    
+    
+    if (editingMember && !selectedImage && !imagePreview) {
+      alert('Please select a profile image');
+      return;
+    }
     
     const action = editingMember ? 'update' : 'add';
     const memberName = editingMember ? editingMember.name : formData.name;
@@ -58,13 +72,32 @@ const TeamManager = () => {
     });
   };
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImage(file);
+      
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleConfirmSave = () => {
+    
+    const finalImageUrl = selectedImage ? 
+      imagePreview : 
+      formData.imageUrl;
+
     const memberData = {
       name: formData.name,
       position: formData.position,
       role: formData.role,
       description: formData.description,
-      imageUrl: formData.imageUrl,
+      imageUrl: finalImageUrl,
       linkedinUrl: formData.linkedinUrl,
       instagramUrl: formData.instagramUrl
     };
@@ -88,6 +121,8 @@ const TeamManager = () => {
       linkedinUrl: '',
       instagramUrl: ''
     });
+    setSelectedImage(null);
+    setImagePreview(null);
     setShowAddForm(false);
     setConfirmModal({ isOpen: false, type: '', data: null });
   };
@@ -103,6 +138,8 @@ const TeamManager = () => {
       linkedinUrl: member.linkedinUrl,
       instagramUrl: member.instagramUrl
     });
+    setImagePreview(member.imageUrl);
+    setSelectedImage(null);
     setShowAddForm(true);
   };
 
@@ -135,6 +172,8 @@ const TeamManager = () => {
       linkedinUrl: '',
       instagramUrl: ''
     });
+    setSelectedImage(null);
+    setImagePreview(null);
     setEditingMember(null);
     setShowAddForm(false);
   };
@@ -225,31 +264,80 @@ const TeamManager = () => {
                 required
               />
             </div>
+            
+            
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
-                Member Image URL
+                Profile Image <span className="text-red-400">*</span>
               </label>
-              <input
-                type="text"
-                value={formData.imageUrl}
-                onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
-                className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-                placeholder="https://example.com/photo.jpg or /images/member.jpg"
-                required
-              />
-              {formData.imageUrl && (
-                <div className="mt-3">
-                  <p className="text-xs text-blue-300 mb-2">Preview:</p>
-                  <img
-                    src={formData.imageUrl}
-                    alt="Preview"
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full border-2 border-white/20"
-                    onError={(e) => {
-                      e.target.src = 'https://placehold.co/80x80/161D58/FFFFFF?text=Error';
-                    }}
+              <div className="space-y-4">
+                
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    id="image-upload"
+                    required={!editingMember || !imagePreview}
                   />
+                  <label
+                    htmlFor="image-upload"
+                    className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-colors duration-300 bg-white/5 ${
+                      (!editingMember && !selectedImage) || (editingMember && !selectedImage && !imagePreview)
+                        ? 'border-red-400/50 hover:border-red-400' 
+                        : 'border-white/30 hover:border-blue-400'
+                    }`}
+                  >
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg className="w-8 h-8 mb-4 text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                      </svg>
+                      <p className="mb-2 text-sm text-blue-300">
+                        <span className="font-semibold">Click to upload</span> or drag and drop
+                      </p>
+                      <p className="text-xs text-blue-400">PNG, JPG, JPEG or GIF (MAX. 10MB)</p>
+                      {(!editingMember && !selectedImage) || (editingMember && !selectedImage && !imagePreview) ? (
+                        <p className="text-xs text-red-400 mt-1">* Profile image required</p>
+                      ) : null}
+                    </div>
+                  </label>
                 </div>
-              )}
+
+                
+                {imagePreview && (
+                  <div className="relative">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="w-full h-40 object-cover rounded-xl border border-white/20"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setImagePreview(null);
+                        setSelectedImage(null);
+                        setFormData({...formData, imageUrl: ''});
+                      }}
+                      className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-1 rounded-full transition-colors duration-300"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                    </button>
+                    <div className="absolute bottom-2 left-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
+                      {selectedImage ? 'New Image Selected' : 'Current Image'}
+                    </div>
+                  </div>
+                )}
+
+                
+                {selectedImage && (
+                  <div className="text-sm text-green-300 bg-green-500/20 px-3 py-2 rounded-lg">
+                    ✓ Image ready for upload: {selectedImage.name}
+                  </div>
+                )}
+              </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
