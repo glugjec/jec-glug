@@ -69,7 +69,7 @@ const Navbar = () => {
       setPillStyle({ ...pillStyle, opacity: 0 });
     }
   };
-
+  
   return (
     <nav
       className={`font-helvetica w-full text-white px-4 sm:px-6 lg:px-8 py-4 fixed top-0 left-0 z-50
@@ -102,7 +102,7 @@ const Navbar = () => {
         </div>
 
         {/* Center Nav Links */}
-        <div className="hidden lg:flex items-center justify-center flex-1 ">
+        <div className="hidden lg:flex items-center justify-center flex-1 pl-0 pr-19">
           <div
             onMouseLeave={handleMouseLeave}
             className="relative flex items-center bg-black/20 backdrop-blur-2xl p-2 rounded-full border border-white/20 shadow-inner shadow-black/50 space-x-2 drop-shadow-[0_12px_32px_rgba(40,80,220,0.25)]"
