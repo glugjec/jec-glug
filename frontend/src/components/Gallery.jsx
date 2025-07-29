@@ -177,9 +177,6 @@ const Gallery = () => {
             <p className="text-blue-200">
               {images[currentIndex]?.description}
             </p>
-            <p className="text-blue-300 text-sm mt-2">
-              {currentIndex + 1} of {images.length}
-            </p>
           </div>
         </div>
       </div>
