@@ -34,7 +34,13 @@ const TeamSection = ({ title, members }) => {
   return (
     <div
       onClick={handleClick}
-      className="mx-4 sm:mx-6 lg:mx-8 xl:mx-auto my-6 sm:my-8 max-w-6xl bg-black/30 backdrop-blur-lg rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-6 lg:p-8 border border-white/20 transition-transform hover:scale-[1.01] cursor-pointer"
+      style={{
+        backgroundImage: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(82, 82, 82, 0.4))'
+      }}
+
+      className="mx-4 sm:mx-6 lg:mx-8 xl:mx-auto my-6 sm:my-8 max-w-6xl 
+             backdrop-blur-lg shadow-2xl p-4 sm:p-6 lg:p-8 border border-white/20 
+             transition-transform hover:scale-[1.01] cursor-pointer sm:rounded-[25px] rounded-[22px]"
     >
       <div className="flex justify-between items-start sm:items-center mb-4 sm:mb-6 gap-4">
         <h3 className="font-canno text-lg sm:text-xl lg:text-2xl font-bold text-white uppercase leading-tight">
