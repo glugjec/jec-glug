@@ -33,43 +33,11 @@ const TeamManager = () => {
     role: 'Club head',
     description: '',
     imageUrl: '',
-    imageFile: null,
-    imageInputType: 'url',
     linkedinUrl: '',
     instagramUrl: ''
   });
 
   const roleOptions = ['Club head', 'Club leadership', 'Technical team', 'Design team', 'Management team', 'Social media Team', 'General coordinator'];
-
-  const handleFileUpload = (file) => {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target.result);
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const handleImageFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        alert('Please select a valid image file');
-        return;
-      }
-
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File size should be less than 5MB');
-        return;
-      }
-
-      const dataUrl = await handleFileUpload(file);
-      setFormData({
-        ...formData,
-        imageFile: file,
-        imageUrl: dataUrl
-      });
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -117,8 +85,6 @@ const TeamManager = () => {
       role: 'Leadership',
       description: '',
       imageUrl: '',
-      imageFile: null,
-      imageInputType: 'url',
       linkedinUrl: '',
       instagramUrl: ''
     });
@@ -134,8 +100,6 @@ const TeamManager = () => {
       role: member.role,
       description: member.description,
       imageUrl: member.imageUrl,
-      imageFile: null,
-      imageInputType: member.imageUrl && member.imageUrl.startsWith('data:') ? 'file' : 'url',
       linkedinUrl: member.linkedinUrl,
       instagramUrl: member.instagramUrl
     });
@@ -168,8 +132,6 @@ const TeamManager = () => {
       role: 'Club head',
       description: '',
       imageUrl: '',
-      imageFile: null,
-      imageInputType: 'url',
       linkedinUrl: '',
       instagramUrl: ''
     });
@@ -265,72 +227,16 @@ const TeamManager = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
-                Member Image
+                Member Image URL
               </label>
-              
-              
-              <div className="flex space-x-4 mb-3">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="imageInputType"
-                    value="url"
-                    checked={formData.imageInputType === 'url'}
-                    onChange={(e) => setFormData({
-                      ...formData, 
-                      imageInputType: e.target.value,
-                      imageUrl: '',
-                      imageFile: null
-                    })}
-                    className="mr-2 text-blue-500"
-                  />
-                  <span className="text-blue-200 text-sm">URL Link</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="imageInputType"
-                    value="file"
-                    checked={formData.imageInputType === 'file'}
-                    onChange={(e) => setFormData({
-                      ...formData, 
-                      imageInputType: e.target.value,
-                      imageUrl: '',
-                      imageFile: null
-                    })}
-                    className="mr-2 text-blue-500"
-                  />
-                  <span className="text-blue-200 text-sm">Upload File</span>
-                </label>
-              </div>
-
-              
-              {formData.imageInputType === 'url' && (
-                <input
-                  type="url"
-                  value={formData.imageUrl}
-                  onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-                  placeholder="https://example.com/photo.jpg"
-                  required
-                />
-              )}
-
-             
-              {formData.imageInputType === 'file' && (
-                <div className="space-y-3">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageFileChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600 text-sm sm:text-base"
-                    required={!formData.imageUrl}
-                  />
-                  <p className="text-xs text-blue-300">Supported formats: JPG, PNG, GIF. Max size: 5MB</p>
-                </div>
-              )}
-
-              
+              <input
+                type="text"
+                value={formData.imageUrl}
+                onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                placeholder="https://example.com/photo.jpg or /images/member.jpg"
+                required
+              />
               {formData.imageUrl && (
                 <div className="mt-3">
                   <p className="text-xs text-blue-300 mb-2">Preview:</p>
@@ -351,7 +257,7 @@ const TeamManager = () => {
                   LinkedIn URL
                 </label>
                 <input
-                  type="url"
+                  type="text"
                   value={formData.linkedinUrl}
                   onChange={(e) => setFormData({...formData, linkedinUrl: e.target.value})}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
@@ -363,7 +269,7 @@ const TeamManager = () => {
                   Instagram URL
                 </label>
                 <input
-                  type="url"
+                  type="text"
                   value={formData.instagramUrl}
                   onChange={(e) => setFormData({...formData, instagramUrl: e.target.value})}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"

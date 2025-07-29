@@ -31,45 +31,12 @@ const HomeSponsorManager = () => {
   const [formData, setFormData] = useState({
     name: '',
     iconUrl: '',
-    iconFile: null,
-    iconInputType: 'url',
     linkUrl: '',
     displayOrder: 1
   });
 
-  const handleFileUpload = (file) => {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target.result);
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const handleIconFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        alert('Please select a valid image file');
-        return;
-      }
-      
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File size should be less than 5MB');
-        return;
-      }
-
-      const dataUrl = await handleFileUpload(file);
-      setFormData({
-        ...formData,
-        iconFile: file,
-        iconUrl: dataUrl
-      });
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     
     const isDuplicateOrder = homeSponsors.some(sponsor => 
       sponsor.displayOrder === formData.displayOrder && 
@@ -107,7 +74,7 @@ const HomeSponsorManager = () => {
     } else if (confirmModal.type === 'add') {
       setHomeSponsors([...homeSponsors, { id: Date.now(), ...sponsorData }]);
     }
-    setFormData({ name: '', iconUrl: '', iconFile: null, iconInputType: 'url', linkUrl: '', displayOrder: 1 });
+    setFormData({ name: '', iconUrl: '', linkUrl: '', displayOrder: 1 });
     setShowAddForm(false);
     setConfirmModal({ isOpen: false, type: '', data: null });
   };
@@ -117,8 +84,6 @@ const HomeSponsorManager = () => {
     setFormData({
       name: sponsor.name,
       iconUrl: sponsor.iconUrl,
-      iconFile: null,
-      iconInputType: sponsor.iconUrl && sponsor.iconUrl.startsWith('data:') ? 'file' : 'url',
       linkUrl: sponsor.linkUrl,
       displayOrder: sponsor.displayOrder
     });
@@ -140,7 +105,7 @@ const HomeSponsorManager = () => {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', iconUrl: '', iconFile: null, iconInputType: 'url', linkUrl: '', displayOrder: 1 });
+    setFormData({ name: '', iconUrl: '', linkUrl: '', displayOrder: 1 });
     setEditingSponsor(null);
     setShowAddForm(false);
   };
@@ -240,72 +205,16 @@ const HomeSponsorManager = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
-                Sponsor Icon/Logo
+                Sponsor Icon/Logo URL
               </label>
-              
-              {/* Icon Input Type Toggle */}
-              <div className="flex space-x-4 mb-3">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="iconInputType"
-                    value="url"
-                    checked={formData.iconInputType === 'url'}
-                    onChange={(e) => setFormData({
-                      ...formData, 
-                      iconInputType: e.target.value,
-                      iconUrl: '',
-                      iconFile: null
-                    })}
-                    className="mr-2 text-blue-500"
-                  />
-                  <span className="text-blue-200 text-sm">URL Link</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="iconInputType"
-                    value="file"
-                    checked={formData.iconInputType === 'file'}
-                    onChange={(e) => setFormData({
-                      ...formData, 
-                      iconInputType: e.target.value,
-                      iconUrl: '',
-                      iconFile: null
-                    })}
-                    className="mr-2 text-blue-500"
-                  />
-                  <span className="text-blue-200 text-sm">Upload File</span>
-                </label>
-              </div>
-
-              {/* URL Input */}
-              {formData.iconInputType === 'url' && (
-                <input
-                  type="url"
-                  value={formData.iconUrl}
-                  onChange={(e) => setFormData({...formData, iconUrl: e.target.value})}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="https://example.com/logo.png"
-                  required
-                />
-              )}
-
-              {/* File Input */}
-              {formData.iconInputType === 'file' && (
-                <div className="space-y-3">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleIconFileChange}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600"
-                    required={!formData.iconUrl}
-                  />
-                  <p className="text-xs text-blue-300">Supported formats: JPG, PNG, GIF, SVG. Max size: 5MB</p>
-                </div>
-              )}
-
-             
+              <input
+                type="text"
+                value={formData.iconUrl}
+                onChange={(e) => setFormData({...formData, iconUrl: e.target.value})}
+                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="https://example.com/logo.png or /src/assets/sponsor_logo/logo.png"
+                required
+              />
               {formData.iconUrl && (
                 <div className="mt-3">
                   <p className="text-xs text-blue-300 mb-2">Preview:</p>
@@ -325,7 +234,7 @@ const HomeSponsorManager = () => {
                 Website Link URL
               </label>
               <input
-                type="url"
+                type="text"
                 value={formData.linkUrl}
                 onChange={(e) => setFormData({...formData, linkUrl: e.target.value})}
                 className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"

@@ -25,43 +25,11 @@ const SponsorManager = () => {
     title: '',
     tier: 'Gold',
     partnerType: 'Official Partner',
-    imageUrl: '',
-    imageFile: null,
-    imageInputType: 'url'
+    imageUrl: ''
   });
 
   const tierOptions = ['Gold', 'Silver', 'Bronze', 'Platinum'];
   const partnerTypes = ['Official Partner', 'Technical Partner', 'Media Partner', 'Community Partner'];
-
-  const handleFileUpload = (file) => {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target.result);
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const handleImageFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        alert('Please select a valid image file');
-        return;
-      }
-      
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File size should be less than 5MB');
-        return;
-      }
-
-      const dataUrl = await handleFileUpload(file);
-      setFormData({
-        ...formData,
-        imageFile: file,
-        imageUrl: dataUrl
-      });
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -92,7 +60,7 @@ const SponsorManager = () => {
     } else if (confirmModal.type === 'add') {
       setSponsors([...sponsors, { id: Date.now(), ...sponsorData }]);
     }
-    setFormData({ title: '', tier: 'Gold', partnerType: 'Official Partner', imageUrl: '', imageFile: null, imageInputType: 'url' });
+    setFormData({ title: '', tier: 'Gold', partnerType: 'Official Partner', imageUrl: '' });
     setShowAddForm(false);
     setConfirmModal({ isOpen: false, type: '', data: null });
   };
@@ -103,9 +71,7 @@ const SponsorManager = () => {
       title: sponsor.title,
       tier: sponsor.tier,
       partnerType: sponsor.partnerType,
-      imageUrl: sponsor.imageUrl,
-      imageFile: null,
-      imageInputType: sponsor.imageUrl && sponsor.imageUrl.startsWith('data:') ? 'file' : 'url'
+      imageUrl: sponsor.imageUrl
     });
     setShowAddForm(true);
   };
@@ -125,7 +91,7 @@ const SponsorManager = () => {
   };
 
   const resetForm = () => {
-    setFormData({ title: '', tier: 'Gold', partnerType: 'Official Partner', imageUrl: '', imageFile: null, imageInputType: 'url' });
+    setFormData({ title: '', tier: 'Gold', partnerType: 'Official Partner', imageUrl: '' });
     setEditingSponsor(null);
     setShowAddForm(false);
   };
@@ -204,70 +170,19 @@ const SponsorManager = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
-                Sponsor Logo/Image
+                Sponsor Logo/Image URL
               </label>
-              
-             
-              <div className="flex space-x-4 mb-3">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="imageInputType"
-                    value="url"
-                    checked={formData.imageInputType === 'url'}
-                    onChange={(e) => setFormData({
-                      ...formData, 
-                      imageInputType: e.target.value,
-                      imageUrl: '',
-                      imageFile: null
-                    })}
-                    className="mr-2 text-blue-500"
-                  />
-                  <span className="text-blue-200 text-sm">URL Link</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="imageInputType"
-                    value="file"
-                    checked={formData.imageInputType === 'file'}
-                    onChange={(e) => setFormData({
-                      ...formData, 
-                      imageInputType: e.target.value,
-                      imageUrl: '',
-                      imageFile: null
-                    })}
-                    className="mr-2 text-blue-500"
-                  />
-                  <span className="text-blue-200 text-sm">Upload File</span>
-                </label>
-              </div>
-
-              
-              {formData.imageInputType === 'url' && (
-                <input
-                  type="url"
-                  value={formData.imageUrl}
-                  onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="https://example.com/logo.png"
-                  required
-                />
-              )}
-
-              
-              {formData.imageInputType === 'file' && (
-                <div className="space-y-3">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageFileChange}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600"
-                    required={!formData.imageUrl}
-                  />
-                  <p className="text-xs text-blue-300">Supported formats: JPG, PNG, GIF, SVG. Max size: 5MB</p>
-                </div>
-              )}
+              <input
+                type="text"
+                value={formData.imageUrl}
+                onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
+                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="https://example.com/logo.png or /src/assets/sponsor_logo/logo.png"
+                required
+              />
+              <p className="text-xs text-blue-300 mt-2">
+                Use external URL (https://...) or project file path (/src/assets/sponsor_logo/logo.png)
+              </p>
 
              
               {formData.imageUrl && (

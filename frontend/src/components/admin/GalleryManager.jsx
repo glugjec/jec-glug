@@ -11,46 +11,8 @@ const GalleryManager = () => {
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', data: null });
   const [formData, setFormData] = useState({ 
     url: '', 
-    alt: '',
-    imageFile: null,
-    imageInputType: 'url'
+    alt: ''
   });
-
-  const handleFileUpload = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const handleImageFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        alert('Please select an image file');
-        return;
-      }
-
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File size must be less than 5MB');
-        return;
-      }
-
-      try {
-        const dataUrl = await handleFileUpload(file);
-        setFormData({
-          ...formData,
-          imageFile: file,
-          url: dataUrl
-        });
-      } catch (error) {
-        console.error('Error reading file:', error);
-        alert('Error reading file');
-      }
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -87,9 +49,7 @@ const GalleryManager = () => {
     }
     setFormData({ 
       url: '', 
-      alt: '',
-      imageFile: null,
-      imageInputType: 'url'
+      alt: ''
     });
     setShowAddForm(false);
     setConfirmModal({ isOpen: false, type: '', data: null });
@@ -99,9 +59,7 @@ const GalleryManager = () => {
     setEditingImage(image);
     setFormData({ 
       url: image.url, 
-      alt: image.alt,
-      imageFile: null,
-      imageInputType: 'url'
+      alt: image.alt
     });
     setShowAddForm(true);
   };
@@ -123,9 +81,7 @@ const GalleryManager = () => {
   const resetForm = () => {
     setFormData({ 
       url: '', 
-      alt: '',
-      imageFile: null,
-      imageInputType: 'url'
+      alt: ''
     });
     setEditingImage(null);
     setShowAddForm(false);
@@ -151,66 +107,17 @@ const GalleryManager = () => {
           </h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-blue-200 mb-3">
-                Gallery Image
+              <label className="block text-sm font-medium text-blue-200 mb-2">
+                Image URL
               </label>
-              
-              
-              <div className="flex space-x-4 mb-4">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="imageInputType"
-                    value="url"
-                    checked={formData.imageInputType === 'url'}
-                    onChange={(e) => setFormData({...formData, imageInputType: e.target.value, imageFile: null})}
-                    className="mr-2"
-                  />
-                  <span className="text-blue-200">URL Link</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="imageInputType"
-                    value="file"
-                    checked={formData.imageInputType === 'file'}
-                    onChange={(e) => setFormData({...formData, imageInputType: e.target.value, url: ''})}
-                    className="mr-2"
-                  />
-                  <span className="text-blue-200">Upload File</span>
-                </label>
-              </div>
-
-              
-              {formData.imageInputType === 'url' ? (
-                <input
-                  type="url"
-                  value={formData.url}
-                  onChange={(e) => setFormData({...formData, url: e.target.value})}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="https://example.com/image.jpg"
-                  required
-                />
-              ) : (
-                <div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageFileChange}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                  {formData.imageFile && (
-                    <div className="mt-2">
-                      <img 
-                        src={URL.createObjectURL(formData.imageFile)} 
-                        alt="Preview" 
-                        className="w-32 h-32 object-cover rounded-lg border border-white/20"
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
+              <input
+                type="text"
+                value={formData.url}
+                onChange={(e) => setFormData({...formData, url: e.target.value})}
+                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="https://example.com/image.jpg or /images/gallery.png"
+                required
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
