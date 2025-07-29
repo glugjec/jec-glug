@@ -12,11 +12,11 @@ const HomePage = () => {
   const events = [{
     id: 1, 
     title: "Upcoming events",
-    description: "Upcoming events coming"
+    description: "Stay tuned for exciting workshops, hackathons and tech talks."
   }, {
     id: 2, 
     title: "Previous events",
-    description: "Upcoming events coming"
+    description: "A glimpse into the events that shaped our open-source journey."
   }]
 
 

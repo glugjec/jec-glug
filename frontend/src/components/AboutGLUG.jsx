@@ -18,10 +18,10 @@ const AboutGLUG = () => {
                   Born from curiosity, powered by community.
                 </p>
                 <div className="font-helvetica space-y-6">
-                  <p className="text-lg text-gray-200">
-                    The GNU/Linux Users Group (GLUG) of Jontet Engineering College is a student-led community of passionate developers, designers, and tech enthusiasts committed to promoting open-source software and collaborative learning.
+                  <p className="text-lg text-gray-200 text-justify" >
+                    The GNU/Linux Users Group (GLUG) of Jorhat Engineering College is a student-led community of passionate developers, designers, and tech enthusiasts committed to promoting open-source software and collaborative learning.
                   </p>
-                  <p className="text-lg text-gray-200">
+                  <p className="text-lg text-gray-200 text-justify">
                     We host workshops, hackathons, tech talks, and contribute to real-world open-source projects—empowering students to grow their skills and innovate together. From Linux basics to global programs like GSoC, we help our members explore the endless possibilities of open technology.
                   </p>
                 </div>
@@ -35,7 +35,7 @@ const AboutGLUG = () => {
   <div>
     <h3 className="text-2xl font-family-noto-serif-jp text-white mb-6">Our Goal</h3>
     
-    <ul class="font-family-halvetica ml-6 list-disc list-inside text-white space-y-3 text-md">
+    <ul class="font-family-helvetica ml-6 list-disc list-inside text-white space-y-3 text-md">
       <li>Promote open-source culture</li>
       <li>Build technical skills</li>
       <li>Foster collaboration</li>

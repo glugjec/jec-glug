@@ -15,7 +15,7 @@ const PartnerSection = () => {
           <h2 className="text-4xl md:text-5xl text-[#0A1F44] mb-8">
             Partner with GLUG
           </h2>
-          <p className="text-gray-600 text-lg mb-8">
+          <p className="text-gray-600 text-lg mb-8 text-justify">
             Collaborate with GLUG JEC to support innovation, learning, and open-source growth. By partnering, you help empower students through events, mentorship, and real-world tech exposure.
           </p>
           <Link
