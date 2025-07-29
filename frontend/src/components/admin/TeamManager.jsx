@@ -7,7 +7,7 @@ const TeamManager = () => {
       id: 1,
       name: 'Abhilash Kashyap',
       position: 'President',
-      role: 'Club head',
+      role: 'CLUB HEAD',
       description: 'Leading the team with vision and passion for open source.',
       imageUrl: '/images/abhilash.jpg',
       linkedinUrl: 'https://linkedin.com/in/',
@@ -17,7 +17,7 @@ const TeamManager = () => {
       id: 2,
       name: 'Ritu Raj Bora',
       position: 'Vice President',
-      role: 'Design team',
+      role: 'DESIGN TEAM',
       description: 'Product designer and creative director',
       imageUrl: '/images/ritu.jpg',
       linkedinUrl: 'https://linkedin.com/in/',
@@ -30,14 +30,14 @@ const TeamManager = () => {
   const [formData, setFormData] = useState({
     name: '',
     position: '',
-    role: 'Club head',
+    role: 'CLUB HEAD',
     description: '',
     imageUrl: '',
     linkedinUrl: '',
     instagramUrl: ''
   });
 
-  const roleOptions = ['Club head', 'Club leadership', 'Technical team', 'Design team', 'Management team', 'Social media Team', 'General coordinator'];
+  const roleOptions = ['CLUB HEAD', 'CLUB LEADERSHIP', 'TECHNICAL TEAM', 'DESIGN TEAM', 'MANAGEMENT TEAM', 'SOCIAL MEDIA TEAM', 'GENERAL COORDINATOR'];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -82,7 +82,7 @@ const TeamManager = () => {
     setFormData({
       name: '',
       position: '',
-      role: 'Leadership',
+      role: 'CLUB LEADERSHIP',
       description: '',
       imageUrl: '',
       linkedinUrl: '',
@@ -129,7 +129,7 @@ const TeamManager = () => {
     setFormData({
       name: '',
       position: '',
-      role: 'Club head',
+      role: 'CLUB HEAD',
       description: '',
       imageUrl: '',
       linkedinUrl: '',
@@ -141,13 +141,13 @@ const TeamManager = () => {
 
   const getRoleColor = (role) => {
     switch (role) {
-      case 'Club head': return 'bg-purple-500/30 text-purple-200';
-      case 'Club leadership': return 'bg-indigo-500/30 text-indigo-200';
-      case 'Technical team': return 'bg-blue-500/30 text-blue-200';
-      case 'Design team': return 'bg-pink-500/30 text-pink-200';
-      case 'Management team': return 'bg-green-500/30 text-green-200';
-      case 'Social media Team': return 'bg-yellow-500/30 text-yellow-200';
-      case 'General coordinator': return 'bg-orange-500/30 text-orange-200';
+      case 'CLUB HEAD': return 'bg-purple-500/30 text-purple-200';
+      case 'CLUB LEADERSHIP': return 'bg-indigo-500/30 text-indigo-200';
+      case 'TECHNICAL TEAM': return 'bg-blue-500/30 text-blue-200';
+      case 'DESIGN TEAM': return 'bg-pink-500/30 text-pink-200';
+      case 'MANAGEMENT TEAM': return 'bg-green-500/30 text-green-200';
+      case 'SOCIAL MEDIA TEAM': return 'bg-yellow-500/30 text-yellow-200';
+      case 'GENERAL COORDINATOR': return 'bg-orange-500/30 text-orange-200';
       default: return 'bg-gray-500/30 text-gray-200';
     }
   };
