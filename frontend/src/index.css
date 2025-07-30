@@ -171,3 +171,88 @@ html, body {
   overflow-x: hidden;
   max-width: 100vw;
 }
+
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
+.animate-fadeInScale {
+  animation: fadeInScale 0.6s ease-out forwards;
+}
+
+.animate-slideInLeft {
+  animation: slideInFromLeft 0.6s ease-out forwards;
+}
+
+.animate-slideInRight {
+  animation: slideInFromRight 0.6s ease-out forwards;
+}
+
+.animate-scroll {
+  animation: scroll 15s linear infinite;
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll 25s linear infinite;
+  will-change: transform;
+}
+
+
+.animate-infinite-scroll:hover {
+  animation-play-state: paused;
+}
+
+
+@media (orientation: portrait) and (max-width: 768px) {
+  .animate-infinite-scroll {
+    animation: infinite-scroll 20s linear infinite;
+  }
+}
