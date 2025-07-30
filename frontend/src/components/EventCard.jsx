@@ -7,7 +7,7 @@ const EvenCard = ({ event }) => {
     // Each card is a CarouselItem with responsive width settings.
     <CarouselItem className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
       {/* The Link wraps the entire card for better user experience */}
-      <Link to={`/events/${event.id}`} className="block group">
+      <Link to="/events" className="block group">
         {/* Main Card Container */}
         <div className="bg-slate-800 rounded-lg overflow-hidden h-80 flex flex-col justify-between shadow-lg hover:shadow-blue-500/20 transition-shadow duration-300 relative">
           
