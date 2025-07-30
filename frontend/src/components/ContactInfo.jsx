@@ -3,11 +3,11 @@ import { Phone, Mail, MapPin } from 'lucide-react';
 
 const ContactInfo = () => {
   const contactDetails = [
-    {
+    {/*
       icon: <Phone className="w-5 h-5" />,
       label: "Phone",
       value: "+91 700xxxxxxx"
-    },
+    */},
     {
       icon: <Mail className="w-5 h-5" />,
       label: "Email",
