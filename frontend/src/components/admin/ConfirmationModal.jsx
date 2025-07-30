@@ -39,6 +39,7 @@ const ConfirmationModal = ({
     const timeout = setTimeout(() => {
       sessionStorage.removeItem(SESSION_KEY);
       setSessionActive(false);
+      setXapiKey("");
     }, session.expiry - Date.now());
     return () => clearTimeout(timeout);
   }, [sessionActive]);
