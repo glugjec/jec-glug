@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+
+// Temporary x API key
+const TEMP_XAPI_KEY = "demo-xapi-key-123";
+const SESSION_KEY = "xapi_session";
+const SESSION_DURATION = 10 * 60 * 1000; 
 
 const ConfirmationModal = ({ 
   isOpen, 
@@ -10,7 +16,32 @@ const ConfirmationModal = ({
   cancelText = "Cancel",
   type = "default"
 }) => {
-  if (!isOpen) return null;
+  const [xapiKey, setXapiKey] = useState("");
+  const [error, setError] = useState("");
+  const [sessionActive, setSessionActive] = useState(false);
+
+  // Check session o
+  useEffect(() => {
+    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY));
+    if (session && session.key === TEMP_XAPI_KEY && Date.now() < session.expiry) {
+      setSessionActive(true);
+    } else {
+      setSessionActive(false);
+      sessionStorage.removeItem(SESSION_KEY);
+    }
+  }, [isOpen]);
+
+  // Handle expiry
+  useEffect(() => {
+    if (!sessionActive) return;
+    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY));
+    if (!session) return;
+    const timeout = setTimeout(() => {
+      sessionStorage.removeItem(SESSION_KEY);
+      setSessionActive(false);
+    }, session.expiry - Date.now());
+    return () => clearTimeout(timeout);
+  }, [sessionActive]);
 
   const getConfirmButtonStyle = () => {
     switch (type) {
@@ -21,18 +52,50 @@ const ConfirmationModal = ({
     }
   };
 
+  //da compare here
+
+  const handleConfirm = () => {
+    if (!sessionActive) {
+      if (xapiKey !== TEMP_XAPI_KEY) {
+        setError("Invalid X-API Key");
+        setXapiKey("");
+        return;
+      }
+      // Set session
+      const expiry = Date.now() + SESSION_DURATION;
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ key: xapiKey, expiry }));
+      setSessionActive(true);
+      setError("");
+    }
+    onConfirm();
+  };
+
+  /*
+  for access xapi to pass in header
+
+  const session = JSON.parse(sessionStorage.getItem('xapi_session'));
+  const xapiKey = session?.key;
+  
+  */
+
+  const handleLogout = () => {
+    sessionStorage.removeItem(SESSION_KEY);
+    setSessionActive(false);
+    setXapiKey("");
+    setError("");
+    onCancel();
+  };
+
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      
       <div 
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onCancel}
       />
-      
-      
       <div className="relative bg-white/10 backdrop-blur-xl rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md border border-white/20 shadow-2xl">
         <div className="text-center">
-          
           <div className="mx-auto flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-blue-500/20 mb-4">
             {type === "danger" ? (
               <svg className="h-5 w-5 sm:h-6 sm:w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,18 +107,36 @@ const ConfirmationModal = ({
               </svg>
             )}
           </div>
-          
-          
           <h3 className="text-base sm:text-lg font-semibold text-white mb-2">
             {title}
           </h3>
-          
-          
           <p className="text-blue-200 text-xs sm:text-sm mb-4 sm:mb-6 leading-relaxed break-words">
             {message}
           </p>
           
+          {!sessionActive && (
+            <div className="mb-4">
+              <input
+                type="password"
+                className="w-full px-3 py-2 rounded-lg border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/80 text-gray-900 text-sm mb-1"
+                placeholder="Enter X-API Key"
+                value={xapiKey}
+                onChange={e => { setXapiKey(e.target.value); setError(""); }}
+                autoFocus
+              />
+              {error && <div className="text-red-400 text-xs mt-1">{error}</div>}
+            </div>
+          )}
           
+          {sessionActive && (
+            <div className="mb-4 flex flex-col items-center">
+              <span className="text-green-300 text-xs mb-1">X-API Key session active</span>
+              <button
+                onClick={handleLogout}
+                className="text-xs text-red-400 underline hover:text-red-500 focus:outline-none"
+              >Logout</button>
+            </div>
+          )}
           <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
             <button
               onClick={onCancel}
@@ -64,8 +145,9 @@ const ConfirmationModal = ({
               {cancelText}
             </button>
             <button
-              onClick={onConfirm}
+              onClick={handleConfirm}
               className={`flex-1 text-white px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 text-sm sm:text-base ${getConfirmButtonStyle()}`}
+              disabled={!sessionActive && !xapiKey}
             >
               {confirmText}
             </button>
