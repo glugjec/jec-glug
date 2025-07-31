@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AUTH_CONFIG from '../../config/auth';
 
 const AdminLogin = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
@@ -6,7 +7,7 @@ const AdminLogin = ({ onLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (credentials.username === 'admin' && credentials.password === 'admin123') {
+    if (credentials.username === AUTH_CONFIG.ADMIN_USERNAME && credentials.password === AUTH_CONFIG.ADMIN_PASSWORD) {
       onLogin();
       setError('');
     } else {
