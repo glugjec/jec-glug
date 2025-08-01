@@ -16,14 +16,14 @@ const PartnershipContactModal = ({ isOpen, onClose }) => {
           &times;
         </button>
         <h3 className="text-2xl font-bold text-white mb-4">Contact for partnership</h3>
-        <p className="text-white/90 text-lg mb-2">Mr. Abhiash Kashyap</p>
+        <p className="text-white/90 text-lg mb-2">Mr. Abhilash Kashyap</p>
         {/* Click-to-call feature */}
         <p className="text-white/90 text-lg mb-2">
-          Phone: <a href="tel:+91 9127001508" className="text-blue-300 hover:text-blue-100 transition-colors duration-200">+91 98765 43210</a> {/* Example number */}
+          Phone: <a href="tel:+91 9127001508" className="text-blue-300 hover:text-blue-100 transition-colors duration-200">+91 9127001508</a> 
         </p>
         {/* Click-to-email feature */}
         <p className="text-white/90 text-lg mb-4">
-          Email: <a href="mailto: glug.jec@gmail.com" className="text-blue-300 hover:text-blue-100 transition-colors duration-200">glug.jec@gmail.com</a> {/* Example email */}
+          Email: <a href="mailto: glug.jec@gmail.com" className="text-blue-300 hover:text-blue-100 transition-colors duration-200">glug.jec@gmail.com</a> 
         </p>
         <button
           onClick={onClose}
