@@ -19,15 +19,17 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative w-screen min-h-[90vh] bg-[#03022B] flex flex-col items-center justify-center overflow-hidden">
-      
-      <img
-          src="images/circle3.png"
-          alt="Half circle arc"
-          className={`absolute top-[18%] sm:top-[18%] md:top-[18%] lg:-top-[8%] portrait:top-0 left-1/2 transform -translate-x-1/2 w-[90vw] max-w-[95vw] max-h-[60vh] sm:w-[70vw] sm:max-w-[80vw] md:w-[60vw] md:max-w-[700px] lg:w-[50vw] xl:w-[900px] max-w-[900px] pointer-events-none transition-all duration-2000 ease-out
-            ${circleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-32'}
-            z-10 portrait:z-0`}
-      />
+    <section className="relative w-full min-h-[90vh] bg-[#03022B] flex flex-col items-center justify-center overflow-hidden">
+  
+  <img
+    src="images/circle3.png"
+    alt=""
+    role="presentation"
+    loading="lazy"
+    className={`absolute top-[18%] sm:top-[18%] md:top-[18%] lg:-top-[8%] portrait:top-0 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[600px] h-auto pointer-events-none transition-all duration-1000 ease-out
+      ${circleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-32'}
+      z-10 portrait:z-0`}
+  />
 
       {/* Hero stuff*/}
       <div className="relative z-20 text-center px-4 pt-24">
