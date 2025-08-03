@@ -342,26 +342,28 @@ const TeamManager = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-blue-200 mb-2">
-                  LinkedIn URL
+                  LinkedIn URL <span className="text-red-400">*</span>
                 </label>
                 <input
-                  type="text"
+                  type="url"
                   value={formData.linkedinUrl}
                   onChange={(e) => setFormData({...formData, linkedinUrl: e.target.value})}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   placeholder="https://linkedin.com/in/username"
+                  required
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-blue-200 mb-2">
-                  Instagram URL
+                  Instagram URL <span className="text-red-400">*</span>
                 </label>
                 <input
-                  type="text"
+                  type="url"
                   value={formData.instagramUrl}
                   onChange={(e) => setFormData({...formData, instagramUrl: e.target.value})}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   placeholder="https://instagram.com/username"
+                  required
                 />
               </div>
             </div>
