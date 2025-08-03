@@ -1,5 +1,5 @@
-import * as React from "react"
-import teams from './../team.json'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 import {
@@ -8,50 +8,55 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
 
 const TeamCarousel = () => {
-  const allMembers = teams
-    .filter(team => team.title === "CLUB - HEAD" || team.title === "CLUB LEADERSHIP")
-    .flatMap(team => team.members);
+  const [allMembers, setAllMembers] = useState([]);
 
-  const formatRole = (role) => {
-    if (!role) return '';
-    return role
+  useEffect(() => {
+    axios
+      .get("https://glug-website-backend.vercel.app/members")
+      .then(res => {
+        const members = res.data.filter(
+          member =>
+            member.position === "CLUB - HEAD" ||
+            member.position === "CLUB LEADERSHIP"
+        );
+        setAllMembers(members);
+      })
+      .catch(err => console.error("Error fetching team data:", err));
+  }, []);
+
+  const formatRole = roleArray => {
+    if (!roleArray || roleArray.length === 0) return "";
+    return roleArray
+      .join(", ")
       .toLowerCase()
       .split(/([ -])/)
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join('');
+      .join("");
   };
 
   return (
     <div className="relative w-full max-w-screen-xl mx-auto">
-      <Carousel
-        className="w-full"
-        opts={{
-          align: "start",
-          slidesToScroll: "auto",
-        }}
-      >
+      <Carousel className="w-full" opts={{ align: "start", slidesToScroll: "auto" }}>
         <CarouselContent className="-ml-3">
           {allMembers.map((member, index) => (
             <CarouselItem
-              key={index}
+              key={member._id || index}
               className="pl-3 basis-1/1 sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/3"
             >
               <div className="p-3 relative">
                 <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <img
-                    src={`/images/${member.name.split(' ')[0].toLowerCase()}.jpg`}
+                    src={member.imageUrl}
                     alt={member.name}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
-
                 <div className="absolute bottom-0 left-0 right-0 mx-4 sm:mx-6 md:mx-8 mb-4 sm:mb-6 md:mb-8">
                   <div className="bg-white/95 backdrop-blur-md rounded-lg shadow-lg border border-white/40 px-3 py-2 sm:px-4 sm:py-3 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 transition-all duration-300 cursor-pointer group">
                     <div className="flex items-center justify-between gap-4">
-                      {/* Name and role */}
                       <div className="flex flex-col flex-1 min-w-0">
                         <h3 className="text-gray-800 text-sm sm:text-base md:text-lg font-semibold truncate group-hover:text-white transition-colors duration-300">
                           {member.name}
@@ -60,8 +65,6 @@ const TeamCarousel = () => {
                           {formatRole(member.role)}
                         </p>
                       </div>
-
-                      {/* LinkedIn Icon */}
                       {member.linkedin ? (
                         <a
                           href={member.linkedin}
@@ -87,8 +90,6 @@ const TeamCarousel = () => {
               </div>
             </CarouselItem>
           ))}
-
-          {/* See More Card */}
           <CarouselItem className="pl-3 basis-1/1 sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/3">
             <div className="p-3 relative h-full flex items-center justify-center">
               <Link to="/team" className="w-full">
@@ -107,58 +108,11 @@ const TeamCarousel = () => {
             </div>
           </CarouselItem>
         </CarouselContent>
-
         <CarouselPrevious className="text-black" />
         <CarouselNext className="text-black" />
       </Carousel>
     </div>
   );
-}
+};
 
 export default TeamCarousel;
-
-
-// import * as React from "react"
-// import teams from './../team.json'
-// import { Link } from "react-router-dom";
-
-// import { Card, CardContent } from "@/components/ui/card"
-// import {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselNext,
-//   CarouselPrevious,
-// } from "@/components/ui/carousel"
-
-// export default function TeamCarousel() {
-
-//   const allMembers = teams
-//     .filter(team => team.title === "CLUB LEADERSHIP")
-//     .flatMap(team => team.members);
-
-//   return (
-//     <Carousel
-//       opts={{
-//         align: "start",
-//       }}
-//       className="w-full max-w-6xl mx-auto border-2 border-gray-200 rounded-lg shadow-lg" 
-//     >
-//       <CarouselContent>
-//         {allMembers.map((member, index) => (
-//           <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-//             <div className="p-1">
-//               <Card>
-//                 <CardContent className="flex aspect-square items-center justify-center p-6">
-//                   <span className="text-3xl font-semibold">{member.name}</span>
-//                 </CardContent>
-//               </Card>
-//             </div>
-//           </CarouselItem>
-//         ))}
-//       </CarouselContent>
-//       <CarouselPrevious />
-//       <CarouselNext />
-//     </Carousel>
-//   )
-// }

@@ -2,37 +2,37 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CarouselItem } from "@/components/ui/carousel";
 
-const EvenCard = ({ event }) => {
+const EventCard = ({ event }) => {
+  // Since tags already include #, just join directly
+  const tagString = event.tags?.join(' ') || '';
+
   return (
-    // Each card is a CarouselItem with responsive width settings.
     <CarouselItem className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
-      {/* The Link wraps the entire card for better user experience */}
       <Link to="/events" className="block group">
-        {/* Main Card Container */}
         <div className="bg-slate-800 rounded-lg overflow-hidden h-80 flex flex-col justify-between shadow-lg hover:shadow-blue-500/20 transition-shadow duration-300 relative">
           
-          {/* Image Container */}
           <div className="flex-grow flex items-center justify-center p-4">
             <img 
-              src="/images/Tux.svg" 
+              src={event.imageUrl} 
               alt={event.title} 
-              className="h-28 w-28 object-contain group-hover:scale-110 transition-transform duration-300"
-              onError={(e) => { e.currentTarget.src = 'https://placehold.co/112x112/1e293b/ffffff?text=Icon'; e.currentTarget.onerror = null; }}
+              className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300 rounded-md"
+              onError={(e) => {
+                e.currentTarget.src = 'https://placehold.co/320x320/1e293b/ffffff?text=No+Image';
+                e.currentTarget.onerror = null;
+              }}
             />
           </div>
-          
-          {/* Floating Bottom Section Wrapper */}
+
           <div className="absolute bottom-0 left-0 right-0 p-4">
-            {/* The actual white box with content */}
             <div className="bg-white rounded-md p-4 flex items-center justify-between gap-4 transition-colors group-hover:bg-gray-200 shadow-md">
-              
-              {/* Text container: Takes up remaining space and allows text to truncate */}
               <div className="flex-1 min-w-0">
-                <h3 className="text-slate-900 font-semibold text-md truncate">{event.title}</h3>
-                <p className="text-slate-500 text-sm mt-1 truncate">{event.hashtags}</p>
+                <h3 className="text-slate-900 font-semibold text-md truncate">
+                  {event.title}
+                </h3>
+                <p className="text-slate-500 text-sm mt-1 truncate">
+                  {tagString}
+                </p>
               </div>
-              
-              {/* Arrow Icon: Fixed size, won't shrink */}
               <div className="flex-shrink-0 text-slate-600 group-hover:text-blue-600 transition-colors">
                 <svg 
                   className="w-6 h-6 transform transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" 
@@ -56,4 +56,4 @@ const EvenCard = ({ event }) => {
   );
 };
 
-export default EvenCard;
+export default EventCard;
