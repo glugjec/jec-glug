@@ -34,13 +34,26 @@ const TeamPage = () => {
     fetchTeamData();
   }, []);
 
+  
+  const getPositionPriority = (position) => {
+    if (position === 'CLUB - MENTOR') return 1;
+    if (position === 'CLUB - HEAD') return 2;
+    if (position === 'CLUB LEADERSHIP') return 3;
+    return 999;
+  };
+
+  
+  const sortedEntries = Object.entries(groupedTeamData).sort(([positionA], [positionB]) => {
+    return getPositionPriority(positionA) - getPositionPriority(positionB);
+  });
+
   return (
     <div className="min-h-screen pb-12">
       <TeamHeader />
       {loading ? (
         <p className="text-center mt-4">Loading team data...</p>
       ) : (
-        Object.entries(groupedTeamData).map(([position, members], index) => (
+        sortedEntries.map(([position, members], index) => (
           <TeamSection key={index} title={position} members={members} />
         ))
       )}
