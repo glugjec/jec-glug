@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const ContactForm = () => {
@@ -13,6 +13,17 @@ const ContactForm = () => {
   const [focusedField, setFocusedField] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
+
+  // hide alert after 5 seconds
+  useEffect(() => {
+    if (submitStatus.message) {
+      const timer = setTimeout(() => {
+        setSubmitStatus({ type: '', message: '' });
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus.message]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
