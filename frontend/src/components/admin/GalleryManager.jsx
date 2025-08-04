@@ -61,6 +61,14 @@ const GalleryManager = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        alert('File size must be less than 5MB. Please choose a smaller image.');
+        e.target.value = ''; 
+        return;
+      }
+      
       setSelectedImage(file);
       
      
@@ -198,7 +206,7 @@ const GalleryManager = () => {
                       <p className="mb-2 text-sm text-blue-300">
                         <span className="font-semibold">Click to upload</span> or drag and drop
                       </p>
-                      <p className="text-xs text-blue-400">PNG, JPG, JPEG or GIF (MAX. 10MB)</p>
+                      <p className="text-xs text-blue-400">PNG, JPG, JPEG or GIF (MAX. 5MB)</p>
                       {(!editingImage && !selectedImage) || (editingImage && !selectedImage && !imagePreview) ? (
                         <p className="text-xs text-red-400 mt-1">* Image required</p>
                       ) : null}

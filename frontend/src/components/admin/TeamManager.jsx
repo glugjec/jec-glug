@@ -75,6 +75,14 @@ const TeamManager = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        alert('File size must be less than 5MB. Please choose a smaller image.');
+        e.target.value = ''; 
+        return;
+      }
+      
       setSelectedImage(file);
       
       
@@ -296,7 +304,7 @@ const TeamManager = () => {
                       <p className="mb-2 text-sm text-blue-300">
                         <span className="font-semibold">Click to upload</span> or drag and drop
                       </p>
-                      <p className="text-xs text-blue-400">PNG, JPG, JPEG or GIF (MAX. 10MB)</p>
+                      <p className="text-xs text-blue-400">PNG, JPG, JPEG or GIF (MAX. 5MB)</p>
                       {(!editingMember && !selectedImage) || (editingMember && !selectedImage && !imagePreview) ? (
                         <p className="text-xs text-red-400 mt-1">* Profile image required</p>
                       ) : null}
@@ -342,26 +350,28 @@ const TeamManager = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-blue-200 mb-2">
-                  LinkedIn URL
+                  LinkedIn URL <span className="text-red-400">*</span>
                 </label>
                 <input
-                  type="text"
+                  type="url"
                   value={formData.linkedinUrl}
                   onChange={(e) => setFormData({...formData, linkedinUrl: e.target.value})}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   placeholder="https://linkedin.com/in/username"
+                  required
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-blue-200 mb-2">
-                  Instagram URL
+                  Instagram URL <span className="text-red-400">*</span>
                 </label>
                 <input
-                  type="text"
+                  type="url"
                   value={formData.instagramUrl}
                   onChange={(e) => setFormData({...formData, instagramUrl: e.target.value})}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   placeholder="https://instagram.com/username"
+                  required
                 />
               </div>
             </div>
