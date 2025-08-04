@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaLinkedin, FaInstagram } from 'react-icons/fa';
-
+ 
 const TeamMemberCard = ({ member }) => {
   const roles = Array.isArray(member.role) ? member.role.join(', ') : member.role || '';
   const imageSrc = member.imageUrl || `https://glug-website-backend.vercel.app/members/${member._id}/image`;
@@ -36,8 +36,8 @@ const TeamMemberCard = ({ member }) => {
               </a>
             )}
 
-            {member.instagram && (
-              <a href={member.instagram} target="_blank" rel="noopener noreferrer" className="text-white hover:text-pink-300">
+            {member.insta && (
+              <a href={member.insta} target="_blank" rel="noopener noreferrer" className="text-white hover:text-pink-300">
                 <FaInstagram />
               </a>
             )}
