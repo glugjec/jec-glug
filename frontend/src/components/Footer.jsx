@@ -1,4 +1,5 @@
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaGithub } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -21,11 +22,12 @@ export default function Footer() {
         <div className="text-[0.95rem] space-y-1 lg:pl-6">
           <h3 className="font-poppins font-semibold mb-2">Sitemap</h3>
           <ul className="text-blue-900 space-y-1">
-            <li><a href="/">Home</a></li>
-            <li><a href="/team">Team</a></li>
-            <li><a href="/events">Events</a></li>
-            <li><a href="/contact">Contact Us</a></li>
-            <li><a href="/sponsors">Sponsors</a></li>
+            <li><Link to="/" className="hover:text-blue-700 transition-colors">Home</Link></li>
+            <li><Link to="/team" className="hover:text-blue-700 transition-colors">Team</Link></li>
+            <li><Link to="/events" className="hover:text-blue-700 transition-colors">Events</Link></li>
+            
+            <li><Link to="/sponsors" className="hover:text-blue-700 transition-colors">Sponsors</Link></li>
+            <li><Link to="/contact" className="hover:text-blue-700 transition-colors">Contact Us</Link></li>
           </ul>
         </div>
 
