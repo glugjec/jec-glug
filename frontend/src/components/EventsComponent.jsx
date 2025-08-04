@@ -61,9 +61,38 @@ const EventsComponent = () => {
         </div>
       </div>
 
-      {/* Events Grid */}
+      
       {loading ? (
-        <p className="text-center text-white">Loading events...</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 transition-all duration-300">
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="bg-gradient-to-b from-gray-700/80 to-gray-800/80 backdrop-blur-sm rounded-[20px] overflow-hidden animate-pulse">
+              
+              <div className="h-36 bg-blue-400/30 animate-shimmer"></div>
+              
+              
+              <div className="p-4 space-y-3">
+                
+                <div className="h-6 bg-blue-300/40 rounded w-3/4 animate-shimmer"></div>
+                
+                
+                <div className="h-3 bg-blue-200/30 rounded w-1/3 animate-shimmer"></div>
+                
+                
+                <div className="space-y-2">
+                  <div className="h-3 bg-blue-200/30 rounded w-full animate-shimmer"></div>
+                  <div className="h-3 bg-blue-200/30 rounded w-4/5 animate-shimmer"></div>
+                </div>
+                
+                
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <div className="h-5 bg-blue-400/40 rounded-full w-14 animate-shimmer"></div>
+                  <div className="h-5 bg-blue-300/40 rounded-full w-16 animate-shimmer"></div>
+                  <div className="h-5 bg-blue-500/40 rounded-full w-12 animate-shimmer"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 transition-all duration-300">
           {(activeTab === 'upcoming' ? upcomingEvents : pastEvents).map(event => (

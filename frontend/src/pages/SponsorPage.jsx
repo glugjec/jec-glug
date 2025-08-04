@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const SponsorPage = () => {
   const [sponsorsData, setSponsorsData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSponsors = async () => {
@@ -33,6 +34,8 @@ const SponsorPage = () => {
         setSponsorsData(formatted);
       } catch (error) {
         console.error("Failed to fetch sponsors:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -41,7 +44,7 @@ const SponsorPage = () => {
 
   return (
     <div>
-      <SponsorSection sponsorsData={sponsorsData} />
+      <SponsorSection sponsorsData={sponsorsData} loading={loading} />
       <SponsorContact />
     </div>
   );

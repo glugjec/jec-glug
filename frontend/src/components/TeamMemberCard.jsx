@@ -30,14 +30,16 @@ const TeamMemberCard = ({ member }) => {
               </p>
             )}
 
-            {member.linkedin && (
-              <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-300">
+            {(member.linkedin || member.linkedinUrl) && (
+              <a href={member.linkedin || member.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-300">
                 <FaLinkedin />
               </a>
             )}
 
-            {member.insta && (
-              <a href={member.insta} target="_blank" rel="noopener noreferrer" className="text-white hover:text-pink-300">
+
+            {(member.instagram || member.instagramUrl || member.insta) && (
+              <a href={member.instagram || member.instagramUrl || member.insta} target="_blank" rel="noopener noreferrer" className="text-white hover:text-pink-300">
+
                 <FaInstagram />
               </a>
             )}
