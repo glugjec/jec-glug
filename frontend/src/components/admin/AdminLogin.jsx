@@ -74,9 +74,7 @@ const AdminLogin = ({ onLogin }) => {
           </button>
         </form>
 
-        <div className="mt-6 text-center text-xs text-blue-300">
-          Demo credentials: admin / admin123
-        </div>
+       
       </div>
     </div>
   );
