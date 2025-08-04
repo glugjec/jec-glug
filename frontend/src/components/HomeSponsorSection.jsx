@@ -1,27 +1,36 @@
-import React, { useState, useEffect } from 'react'
-import assamLogo from '../assets/sponsor_logo/assam.png';
-import frintLogo from '../assets/sponsor_logo/frint.jpg';
-import saurabhiLogo from '../assets/sponsor_logo/saurabhi.png';
-import oilLogo from '../assets/sponsor_logo/oil.jpg';
-import instrumentLogo from '../assets/sponsor_logo/instrument.jpg';
+import React, { useState, useEffect } from 'react';
 
 const HomeSponsorSection = () => {
-  const sponsors = [
-    { id: 1, src: assamLogo, alt: "Assam" },
-    { id: 2, src: saurabhiLogo, alt: "Saurabhi" },
-    { id: 3, src: frintLogo, alt: "Frint" },
-    { id: 4, src: instrumentLogo, alt: "Instrument" },
-    { id: 5, src: oilLogo, alt: "Oil" }
-  ];
+  const [sponsors, setSponsors] = useState([]);
 
-  
+  useEffect(() => {
+    const fetchSponsors = async () => {
+      try {
+        const res = await fetch('https://glug-website-backend.vercel.app/homepage-sponsors');
+        const data = await res.json();
+
+        const sponsorsWithImages = data.map((sponsor) => ({
+          id: sponsor._id,
+          alt: sponsor.title,
+          src: `https://glug-website-backend.vercel.app/homepage-sponsors/${sponsor._id}/image`,
+        }));
+
+        setSponsors(sponsorsWithImages);
+      } catch (error) {
+        console.error("Error fetching sponsors:", error);
+      }
+    };
+
+    fetchSponsors();
+  }, []);
+
+  // Repeat sponsors to create infinite scroll effect
   const extendedSponsors = [...sponsors, ...sponsors, ...sponsors, ...sponsors];
 
   return (
     <div className="w-screen py-6 mx-auto mt-12 mb-8 relative left-1/2 right-1/2 -translate-x-1/2">
       <h2 className="text-2xl font-bold text-gray-100 mb-6 text-center">Our Sponsors</h2>
       
-     
       <div className="overflow-hidden w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-4xl mx-auto px-2">
         <div className="flex animate-infinite-scroll">
           {extendedSponsors.map((sponsor, index) => (
@@ -42,7 +51,7 @@ const HomeSponsorSection = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HomeSponsorSection
+export default HomeSponsorSection;

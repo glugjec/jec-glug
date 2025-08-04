@@ -1,46 +1,32 @@
 import React, { useState } from 'react';
 import TeamMemberCard from './TeamMemberCard';
 
-const TeamSection = ({ title, members }) => {
-  const [ListCollapse, setListCollapse] = useState(true);
+const TeamSection = ({ title, members = [] }) => {
+  const [listCollapse, setListCollapse] = useState(true);
+
+  if (!members || members.length === 0) {
+    return null;
+  }
 
   const hasPresident = members.some(
-    (member) => member.role === 'CLUB HEAD' || member.role === 'CO-HEAD' || member.role === 'MENTOR'
+    (member) =>
+      member.role.includes('CLUB HEAD') ||
+      member.role.includes('CO-HEAD') ||
+      member.role.includes('MENTOR')
   );
 
   const handleClick = () => {
-    setListCollapse(!ListCollapse);
+    setListCollapse(!listCollapse);
   };
-
-  const content =
-    ListCollapse === false || hasPresident ? (
-      <div className="team-members grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-        {members.length > 0 ? (
-          members.map((member, index) => (
-            <TeamMemberCard key={index} member={member} />
-          ))
-        ) : (
-          <p className="empty-section text-gray-300 text-center col-span-full py-8">
-            Team members to be announced
-          </p>
-        )}
-      </div>
-    ) : (
-      <div className="team-members grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    );
-
-  const collapseButton = ListCollapse ? '+' : '-';
 
   return (
     <div
       onClick={handleClick}
       style={{
-        backgroundImage: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(82, 82, 82, 0.4))'
+        backgroundImage:
+          'linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(82, 82, 82, 0.4))',
       }}
-
-      className="mx-4 sm:mx-6 lg:mx-8 xl:mx-auto my-6 sm:my-8 max-w-6xl 
-             backdrop-blur-lg shadow-2xl p-4 sm:p-6 lg:p-8 border border-white/20 
-             transition-transform hover:scale-[1.01] cursor-pointer sm:rounded-[25px] rounded-[22px]"
+      className="mx-4 sm:mx-6 lg:mx-8 xl:mx-auto my-6 sm:my-8 max-w-6xl backdrop-blur-lg shadow-2xl p-4 sm:p-6 lg:p-8 border border-white/20 transition-transform hover:scale-[1.01] cursor-pointer sm:rounded-[25px] rounded-[22px]"
     >
       <div className="flex justify-between items-start sm:items-center mb-4 sm:mb-6 gap-4">
         <h3 className="font-canno text-lg sm:text-xl lg:text-2xl font-bold text-white uppercase leading-tight">
@@ -48,11 +34,18 @@ const TeamSection = ({ title, members }) => {
         </h3>
         {!hasPresident && (
           <div className="text-white text-2xl sm:text-3xl font-bold hover:text-green-400 transition-colors flex-shrink-0 min-w-[40px] flex items-center justify-center">
-            {collapseButton}
+            {listCollapse ? '+' : '-'}
           </div>
         )}
       </div>
-      {content}
+
+      {(!listCollapse || hasPresident) && (
+        <div className="team-members grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+          {members.map((member, index) => (
+            <TeamMemberCard key={member._id || index} member={member} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
