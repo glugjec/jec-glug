@@ -6,13 +6,13 @@ const HomeSponsorSection = () => {
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
-        const res = await fetch('https://glug-website-backend.vercel.app/sponsors');
+        const res = await fetch('https://glug-website-backend.vercel.app/homepage-sponsors');
         const data = await res.json();
 
         const sponsorsWithImages = data.map((sponsor) => ({
           id: sponsor._id,
           alt: sponsor.title,
-          src: `https://glug-website-backend.vercel.app/sponsors/${sponsor._id}/image`,
+          src: `https://glug-website-backend.vercel.app/homepage-sponsors/${sponsor._id}/image`,
         }));
 
         setSponsors(sponsorsWithImages);
