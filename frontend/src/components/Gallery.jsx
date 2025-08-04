@@ -83,8 +83,8 @@ const Gallery = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute bottom-6 left-6 text-white">
-                      <h3 className="text-2xl font-bold mb-2">{image.title}</h3>
-                      <p className="text-blue-200">{image.description}</p>
+                      <h3 className="text-2xl font-bold mb-2 line-clamp-1 overflow-hidden text-ellipsis">{image.title}</h3>
+                      <p className="text-blue-200 line-clamp-2 overflow-hidden text-ellipsis">{image.description}</p>
                     </div>
                   </div>
                 </div>
