@@ -35,8 +35,8 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="p-6 rounded-lg shadow-sm">
-      <div className="space-y-6">
+    <div className="p-3 sm:p-6 rounded-lg shadow-sm w-full max-w-lg mx-auto">
+      <div className="space-y-4 sm:space-y-6">
         <div className="relative">
           <input
             type="text"
@@ -47,14 +47,14 @@ const ContactForm = () => {
             onFocus={() => handleFocus('name')}
             onBlur={() => handleBlur('name')}
             required
-            className="border border-gray-600 w-full px-3 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer"
+            className="border border-gray-600 w-full px-3 py-2.5 sm:py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer text-sm sm:text-base"
           />
           <label 
             htmlFor="name" 
             className={`absolute left-3 transition-all duration-200 pointer-events-none ${
               focusedField === 'name' || formData.name 
-                ? 'text-blue-400 text-xs -top-4 bg-transparent px-2' 
-                : 'text-gray-400 text-sm top-3'
+                ? 'text-blue-400 text-xs -top-3 sm:-top-4 bg-[#2A2A5E] px-2' 
+                : 'text-gray-400 text-sm top-2.5 sm:top-3'
             }`}
           >
             Enter your name
@@ -71,14 +71,14 @@ const ContactForm = () => {
             onFocus={() => handleFocus('email')}
             onBlur={() => handleBlur('email')}
             required
-            className="border border-gray-600 w-full px-3 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer"
+            className="border border-gray-600 w-full px-3 py-2.5 sm:py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer text-sm sm:text-base"
           />
           <label 
             htmlFor="email" 
             className={`absolute left-3 transition-all duration-200 pointer-events-none ${
               focusedField === 'email' || formData.email 
-                ? 'text-blue-400 text-xs -top-4 bg-transparent px-2' 
-                : 'text-gray-400 text-sm top-3'
+                ? 'text-blue-400 text-xs -top-3 sm:-top-4 bg-[#2A2A5E] px-2' 
+                : 'text-gray-400 text-sm top-2.5 sm:top-3'
             }`}
           >
             Enter your email
@@ -95,14 +95,14 @@ const ContactForm = () => {
             onFocus={() => handleFocus('subject')}
             onBlur={() => handleBlur('subject')}
             required
-            className="w-full px-3 py-3 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer"
+            className="w-full px-3 py-2.5 sm:py-3 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer text-sm sm:text-base"
           />
           <label 
             htmlFor="subject" 
             className={`absolute left-3 transition-all duration-200 pointer-events-none ${
               focusedField === 'subject' || formData.subject 
-                ? 'text-blue-400 text-xs -top-4 bg-transparent px-2' 
-                : 'text-gray-400 text-sm top-3'
+                ? 'text-blue-400 text-xs -top-3 sm:-top-4 bg-[#2A2A5E] px-2' 
+                : 'text-gray-400 text-sm top-2.5 sm:top-3'
             }`}
           >
             Enter subject
@@ -118,15 +118,15 @@ const ContactForm = () => {
             onFocus={() => handleFocus('message')}
             onBlur={() => handleBlur('message')}
             required
-            rows={5}
-            className="w-full px-3 py-3 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer resize-none"
+            rows={4}
+            className="w-full px-3 py-2.5 sm:py-3 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-transparent text-white peer resize-none text-sm sm:text-base min-h-[100px] sm:min-h-[120px]"
           />
           <label 
             htmlFor="message" 
             className={`absolute left-3 transition-all duration-200 pointer-events-none ${
               focusedField === 'message' || formData.message 
-                ? 'text-blue-400 text-xs -top-4 bg-transparent px-2' 
-                : 'text-gray-400 text-sm top-3'
+                ? 'text-blue-400 text-xs -top-3 sm:-top-4 bg-[#2A2A5E] px-2' 
+                : 'text-gray-400 text-sm top-2.5 sm:top-3'
             }`}
           >
             Enter your message
@@ -136,7 +136,7 @@ const ContactForm = () => {
         <button
           type="button"
           onClick={handleSubmit}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+          className="w-full bg-blue-600 text-white py-2.5 sm:py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium text-sm sm:text-base"
         >
           Send Message
         </button>
