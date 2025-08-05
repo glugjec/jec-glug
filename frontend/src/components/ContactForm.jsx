@@ -2,6 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -59,7 +61,7 @@ const ContactForm = () => {
     setSubmitStatus({ type: '', message: '' });
 
     try {
-      const response = await axios.post('https://glug-website-backend.vercel.app/send-mail', {
+      const response = await axios.post(`${baseURL}/send-mail`, {
         name: formData.name,
         email: formData.email,
         subject: formData.subject,

@@ -3,6 +3,8 @@ import SponsorSection from '../components/SponsorSection';
 import SponsorContact from '@/components/SponsorContact';
 import axios from 'axios';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const SponsorPage = () => {
   const [sponsorsData, setSponsorsData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +12,7 @@ const SponsorPage = () => {
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
-        const response = await axios.get('https://glug-website-backend.vercel.app/sponsors');
+        const response = await axios.get(`${baseURL}/sponsors`);
         const sponsors = response.data;
 
         const tierOrder = ['platinum', 'gold', 'silver', 'bronze'];

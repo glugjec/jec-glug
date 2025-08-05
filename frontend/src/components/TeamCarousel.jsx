@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 import {
   Carousel,
   CarouselContent,
@@ -15,7 +17,7 @@ const TeamCarousel = () => {
 
   useEffect(() => {
     axios
-      .get("https://glug-website-backend.vercel.app/members")
+      .get(`${baseURL}/members`)
       .then(res => {
         const members = res.data.filter(
           member =>

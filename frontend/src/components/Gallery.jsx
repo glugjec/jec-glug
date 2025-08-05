@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const Gallery = () => {
   const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -9,7 +11,7 @@ const Gallery = () => {
   useEffect(() => {
     const fetchGalleryImages = async () => {
       try {
-        const response = await axios.get("https://glug-website-backend.vercel.app/gallery");
+        const response = await axios.get(`${baseURL}/gallery`);
 
         const imagesWithDefaults = response.data.map((img, idx) => ({
           ...img,
