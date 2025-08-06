@@ -3,6 +3,8 @@ import axios from 'axios';
 import TeamSection from '../components/TeamSection';
 import TeamHeader from '../components/TeamHeader';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const TeamPage = () => {
   const [groupedTeamData, setGroupedTeamData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -10,7 +12,7 @@ const TeamPage = () => {
   useEffect(() => {
     const fetchTeamData = async () => {
       try {
-        const response = await axios.get('https://glug-website-backend.vercel.app/members');
+        const response = await axios.get(`${baseURL}/members`);
         const members = response.data;
 
         // Group members by their 'position' field

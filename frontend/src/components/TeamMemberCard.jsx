@@ -1,9 +1,11 @@
 import React from 'react';
 import { FaLinkedin, FaInstagram } from 'react-icons/fa';
+
+const baseURL = import.meta.env.VITE_API_BASE_URL;
  
 const TeamMemberCard = ({ member }) => {
   const roles = Array.isArray(member.role) ? member.role.join(', ') : member.role || '';
-  const imageSrc = member.imageUrl || `https://glug-website-backend.vercel.app/members/${member._id}/image`;
+  const imageSrc = member.imageUrl || `${baseURL}/members/${member._id}/image`;
 
   return (
     <div className="bg-gradient-to-b from-black/70 to-slate-600/70 backdrop-blur-sm 

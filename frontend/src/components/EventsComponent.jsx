@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import EventShowCard from './EventShowCard';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const EventsComponent = () => {
   const [activeTab, setActiveTab] = useState('upcoming');
   const [upcomingEvents, setUpcomingEvents] = useState([]);
@@ -11,7 +13,7 @@ const EventsComponent = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axios.get('https://glug-website-backend.vercel.app/events');
+        const res = await axios.get(`${baseURL}/events`);
         setUpcomingEvents(res.data.upcoming || []);
         setPastEvents(res.data.past || []);
       } catch (err) {

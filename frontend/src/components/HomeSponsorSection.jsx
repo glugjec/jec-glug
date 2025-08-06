@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const HomeSponsorSection = () => {
   const [sponsors, setSponsors] = useState([]);
 
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
-        const res = await fetch('https://glug-website-backend.vercel.app/homepage-sponsors');
+        const res = await fetch(`${baseURL}/homepage-sponsors`);
         const data = await res.json();
 
         const sponsorsWithImages = data.map((sponsor) => ({
           id: sponsor._id,
           alt: sponsor.title,
-          src: `https://glug-website-backend.vercel.app/homepage-sponsors/${sponsor._id}/image`,
+          src: `${baseURL}/homepage-sponsors/${sponsor._id}/image`,
         }));
 
         setSponsors(sponsorsWithImages);

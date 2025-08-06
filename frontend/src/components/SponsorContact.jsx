@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const PartnershipContactModal = ({ isOpen, onClose, contact }) => {
   if (!isOpen || !contact) return null;
 
@@ -44,7 +46,7 @@ const SponsorContact = () => {
   useEffect(() => {
     const fetchContact = async () => {
       try {
-        const response = await fetch('https://glug-website-backend.vercel.app/sponsors/contact');
+        const response = await fetch(`${baseURL}/sponsors/contact`);
         const data = await response.json();
         setContact(data);
       } catch (error) {

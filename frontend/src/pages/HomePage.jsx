@@ -9,6 +9,8 @@ import ContactSection from '@/components/ContactSection';
 import Gallery from "@/components/Gallery";
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const HomePage = () => {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
@@ -16,7 +18,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axios.get("https://glug-website-backend.onrender.com/events");
+        const res = await axios.get(`${baseURL}/events`);
         if (res.data.status === "success") {
           setUpcomingEvents(res.data.upcoming);
           setPastEvents(res.data.past);
