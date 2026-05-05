@@ -1,14 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import TeamSection from '../components/TeamSection';
 import TeamHeader from '../components/TeamHeader';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
+// Mock data
+const mockPreviousSeasons = {
+  '2024-2025': {
+    'CLUB - HEAD': [
+      { name: 'Previous Head', role: ['CLUB HEAD'], description: 'Led GLUG during the 2024-2025 session', linkedin: '', instagram: '' },
+    ],
+    'CLUB LEADERSHIP': [
+      { name: 'Former Co-Head 1', role: ['CO-HEAD'], description: 'Drove initiatives in 2024-2025', linkedin: '', instagram: '' },
+      { name: 'Former Co-Head 2', role: ['CO-HEAD'], description: 'Community building in 2024-2025', linkedin: '', instagram: '' },
+    ],
+    'TECHNICAL TEAM': [
+      { name: 'Past Tech Lead', role: ['TECH LEAD'], description: 'Technical leadership for 2024-2025', linkedin: '', instagram: '' },
+      { name: 'Past Dev 1', role: ['COORDINATOR'], description: 'Full-stack developer', linkedin: '', instagram: '' },
+    ],
+  },
+  '2023-2024': {
+    'CLUB - HEAD': [
+      { name: 'Alumni Head', role: ['CLUB HEAD'], description: 'Led GLUG during 2023-2024', linkedin: '', instagram: '' },
+    ],
+    'CLUB LEADERSHIP': [
+      { name: 'Alumni Co-Head', role: ['CO-HEAD'], description: 'Key contributor in 2023-2024', linkedin: '', instagram: '' },
+    ],
+    'TECHNICAL TEAM': [
+      { name: 'Alumni Tech Lead', role: ['TECH LEAD'], description: 'Architected key projects in 2023-2024', linkedin: '', instagram: '' },
+    ],
+  },
+  '2022-2023': {
+    'CLUB - HEAD': [
+      { name: 'Founding Head', role: ['CLUB HEAD'], description: 'Pioneered GLUG in 2022-2023', linkedin: '', instagram: '' },
+    ],
+    'TECHNICAL TEAM': [
+      { name: 'Founding Tech Lead', role: ['TECH LEAD'], description: 'Built the technical foundation', linkedin: '', instagram: '' },
+    ],
+  },
+};
+
 const TeamPage = () => {
   const [groupedTeamData, setGroupedTeamData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [selectedSeason, setSelectedSeason] = useState('2025-2026');
+  const [currentSeasonData, setCurrentSeasonData] = useState(null);
 
+  // Fetch current season data from API
   useEffect(() => {
     const fetchTeamData = async () => {
       try {
@@ -25,6 +64,7 @@ const TeamPage = () => {
           return acc;
         }, {});
 
+        setCurrentSeasonData(grouped);
         setGroupedTeamData(grouped);
       } catch (error) {
         console.error('Error fetching team data:', error);
@@ -35,6 +75,22 @@ const TeamPage = () => {
 
     fetchTeamData();
   }, []);
+
+  // Handle season change
+  const handleSeasonChange = useCallback((season) => {
+    setSelectedSeason(season);
+
+    if (season === '2025-2026') { //current season
+      
+      if (currentSeasonData) {
+        setGroupedTeamData(currentSeasonData);
+      }
+    } else {
+      
+      const mockData = mockPreviousSeasons[season] || {}; // previous seasons data 
+      setGroupedTeamData(mockData);
+    }
+  }, [currentSeasonData]);
 
   
   const getPositionPriority = (position) => {
@@ -51,7 +107,7 @@ const TeamPage = () => {
 
   return (
     <div className="min-h-screen pb-12">
-      <TeamHeader />
+      <TeamHeader selectedSeason={selectedSeason} onSeasonChange={handleSeasonChange} />
       {loading ? (
         <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-6 sm:space-y-8">
           
@@ -115,9 +171,25 @@ const TeamPage = () => {
           </div>
         </div>
       ) : (
-        sortedEntries.map(([position, members], index) => (
-          <TeamSection key={index} title={position} members={members} />
-        ))
+        sortedEntries.length > 0 ? (
+          sortedEntries.map(([position, members], index) => (
+            <TeamSection key={`${selectedSeason}-${index}`} title={position} members={members} />
+          ))
+        ) : (
+          <div className="flex flex-col items-center justify-center min-h-[40vh] px-4">
+            <div className="bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-lg rounded-2xl p-8 sm:p-12 border border-white/10 text-center max-w-md">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-cyan-400/10 flex items-center justify-center">
+                <svg className="w-8 h-8 text-cyan-400/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-white font-canno text-lg sm:text-xl mb-2">Coming Soon</h3>
+              <p className="text-white/50 font-poppins text-sm sm:text-base">
+                Team data for session {selectedSeason} will be available soon.
+              </p>
+            </div>
+          </div>
+        )
       )}
     </div>
   );
