@@ -44,7 +44,7 @@ const mockPreviousSeasons = {
 const TeamPage = () => {
   const [groupedTeamData, setGroupedTeamData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [selectedSeason, setSelectedSeason] = useState('2025-2026');
+  const [selectedSeason, setSelectedSeason] = useState('2025-2026');  //default season
   const [currentSeasonData, setCurrentSeasonData] = useState(null);
 
   // Fetch current season data from API
