@@ -44,7 +44,8 @@ const TeamCarousel = () => {
             return priorityA - priorityB;
           }
 
-          return String(memberA.name || '').localeCompare(String(memberB.name || ''));
+          
+          return 0;
         });
 
         setAllMembers(members);
