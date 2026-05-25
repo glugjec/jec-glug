@@ -1,98 +1,126 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import axios from 'axios';
 import TeamSection from '../components/TeamSection';
 import TeamHeader from '../components/TeamHeader';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-// Mock data
-const mockPreviousSeasons = {
-  '2024-2025': {
-    'CLUB - HEAD': [
-      { name: 'Previous Head', role: ['CLUB HEAD'], description: 'Led GLUG during the 2024-2025 session', linkedin: '', instagram: '' },
-    ],
-    'CLUB LEADERSHIP': [
-      { name: 'Former Co-Head 1', role: ['CO-HEAD'], description: 'Drove initiatives in 2024-2025', linkedin: '', instagram: '' },
-      { name: 'Former Co-Head 2', role: ['CO-HEAD'], description: 'Community building in 2024-2025', linkedin: '', instagram: '' },
-    ],
-    'TECHNICAL TEAM': [
-      { name: 'Past Tech Lead', role: ['TECH LEAD'], description: 'Technical leadership for 2024-2025', linkedin: '', instagram: '' },
-      { name: 'Past Dev 1', role: ['COORDINATOR'], description: 'Full-stack developer', linkedin: '', instagram: '' },
-    ],
-  },
-  '2023-2024': {
-    'CLUB - HEAD': [
-      { name: 'Alumni Head', role: ['CLUB HEAD'], description: 'Led GLUG during 2023-2024', linkedin: '', instagram: '' },
-    ],
-    'CLUB LEADERSHIP': [
-      { name: 'Alumni Co-Head', role: ['CO-HEAD'], description: 'Key contributor in 2023-2024', linkedin: '', instagram: '' },
-    ],
-    'TECHNICAL TEAM': [
-      { name: 'Alumni Tech Lead', role: ['TECH LEAD'], description: 'Architected key projects in 2023-2024', linkedin: '', instagram: '' },
-    ],
-  },
-  '2022-2023': {
-    'CLUB - HEAD': [
-      { name: 'Founding Head', role: ['CLUB HEAD'], description: 'Pioneered GLUG in 2022-2023', linkedin: '', instagram: '' },
-    ],
-    'TECHNICAL TEAM': [
-      { name: 'Founding Tech Lead', role: ['TECH LEAD'], description: 'Built the technical foundation', linkedin: '', instagram: '' },
-    ],
-  },
+const DEFAULT_SEASON = '2026-2027';
+
+const normalizeSessions = (data) => {
+  const sessions = Array.isArray(data)
+    ? data
+    : Array.isArray(data?.sessions)
+      ? data.sessions
+      : [];
+
+  return sessions
+    .map((session) => {
+      if (typeof session === 'string') {
+        return session;
+      }
+
+      return session?.session || session?.label || session?.value || '';
+    })
+    .filter(Boolean);
+};
+
+const normalizeMembers = (data) => {
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  if (Array.isArray(data?.members)) {
+    return data.members;
+  }
+
+  return [];
+};
+
+const groupMembersByPosition = (members) => {
+  return members.reduce((acc, member) => {
+    const section = member.position || 'Team';
+
+    if (!acc[section]) {
+      acc[section] = [];
+    }
+
+    acc[section].push(member);
+    return acc;
+  }, {});
+};
+
+const sortSessions = (sessions) => {
+  return [...sessions].sort((seasonA, seasonB) => {
+    const startYearA = Number.parseInt(String(seasonA).split('-')[0], 10) || 0;
+    const startYearB = Number.parseInt(String(seasonB).split('-')[0], 10) || 0;
+    return startYearB - startYearA;
+  });
 };
 
 const TeamPage = () => {
   const [groupedTeamData, setGroupedTeamData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [selectedSeason, setSelectedSeason] = useState('2025-2026');  //default season
-  const [currentSeasonData, setCurrentSeasonData] = useState(null);
+  const [sessionsLoading, setSessionsLoading] = useState(true);
+  const [selectedSeason, setSelectedSeason] = useState(DEFAULT_SEASON);
+  const [availableSessions, setAvailableSessions] = useState([DEFAULT_SEASON]);
 
-  // Fetch current season data from API
+  useEffect(() => {
+    const fetchAvailableSessions = async () => {
+      try {
+        const response = await axios.get(`${baseURL}/session-members/sessions`);
+        const sessions = normalizeSessions(response.data);
+
+        if (sessions.length > 0) {
+          setAvailableSessions(sessions);
+
+          if (!sessions.includes(DEFAULT_SEASON)) {
+            setSelectedSeason(sessions[0]);
+          }
+        } else {
+          setAvailableSessions([DEFAULT_SEASON]);
+        }
+      } catch (error) {
+        console.error('Error fetching team sessions:', error);
+        setAvailableSessions([DEFAULT_SEASON]);
+      } finally {
+        setSessionsLoading(false);
+      }
+    };
+
+    fetchAvailableSessions();
+  }, []);
+
   useEffect(() => {
     const fetchTeamData = async () => {
+      setLoading(true);
+
       try {
-        const response = await axios.get(`${baseURL}/members`);
-        const members = response.data;
+        const response = await axios.get(`${baseURL}/session-members`, {
+          params: { session: selectedSeason },
+        });
 
-        // Group members by their 'position' field
-        const grouped = members.reduce((acc, member) => {
-          const section = member.position || 'Team';
-          if (!acc[section]) {
-            acc[section] = [];
-          }
-          acc[section].push(member);
-          return acc;
-        }, {});
+        const members = normalizeMembers(response.data);
+        const grouped = groupMembersByPosition(members);
 
-        setCurrentSeasonData(grouped);
         setGroupedTeamData(grouped);
       } catch (error) {
-        console.error('Error fetching team data:', error);
+        console.error(`Error fetching team data for session ${selectedSeason}:`, error);
+        setGroupedTeamData({});
       } finally {
         setLoading(false);
       }
     };
 
     fetchTeamData();
-  }, []);
+  }, [selectedSeason]);
 
-  // Handle season change
   const handleSeasonChange = useCallback((season) => {
     setSelectedSeason(season);
+  }, []);
 
-    if (season === '2025-2026') { //current season
-      
-      if (currentSeasonData) {
-        setGroupedTeamData(currentSeasonData);
-      }
-    } else {
-      
-      const mockData = mockPreviousSeasons[season] || {}; // previous seasons data 
-      setGroupedTeamData(mockData);
-    }
-  }, [currentSeasonData]);
+  const sessionOptions = useMemo(() => sortSessions(availableSessions), [availableSessions]);
 
-  
   const getPositionPriority = (position) => {
     if (position === 'CLUB - MENTOR') return 1;
     if (position === 'CLUB - HEAD') return 2;
@@ -107,12 +135,14 @@ const TeamPage = () => {
 
   return (
     <div className="min-h-screen pb-12">
-      <TeamHeader selectedSeason={selectedSeason} onSeasonChange={handleSeasonChange} />
-      {loading ? (
+      <TeamHeader
+        selectedSeason={selectedSeason}
+        onSeasonChange={handleSeasonChange}
+        sessions={sessionOptions}
+      />
+      {(loading || sessionsLoading) ? (
         <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-6 sm:space-y-8">
-          
           <div className="w-full max-w-6xl px-2 sm:px-4 space-y-6 sm:space-y-8">
-            
             <div className="bg-gradient-to-b from-white/30 to-gray-500/30 backdrop-blur-lg rounded-[20px] sm:rounded-[25px] p-4 sm:p-6 animate-pulse">
               <div className="mb-4 sm:mb-6">
                 <div className="h-6 sm:h-8 bg-blue-400/40 rounded w-32 sm:w-48 mb-3 sm:mb-4 animate-shimmer"></div>

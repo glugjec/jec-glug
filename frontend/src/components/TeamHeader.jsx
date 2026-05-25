@@ -1,17 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { FaHistory } from 'react-icons/fa'
 
-const seasons = [
-  { label: '2025-2026', value: '2025-2026' },
-  { label: '2024-2025', value: '2024-2025' },
-  { label: '2023-2024', value: '2023-2024' },
-  { label: '2022-2023', value: '2022-2023' },
-];
+const defaultSeasons = ['2026-2027', '2025-2026', '2024-2025', '2023-2024', '2022-2023'];
 
-const TeamHeader = ({ selectedSeason, onSeasonChange }) => {
+const TeamHeader = ({ selectedSeason, onSeasonChange, sessions = defaultSeasons }) => {
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef(null);
   const buttonRef = useRef(null);
+  const seasonOptions = sessions.length > 0 ? sessions : defaultSeasons;
 
   // Close popup on outside click
   useEffect(() => {
@@ -121,12 +117,12 @@ const TeamHeader = ({ selectedSeason, onSeasonChange }) => {
 
             {/* Season options */}
             <div className="p-2">
-              {seasons.map((season) => {
-                const isActive = season.value === selectedSeason;
+              {seasonOptions.map((season) => {
+                const isActive = season === selectedSeason;
                 return (
                   <button
-                    key={season.value}
-                    onClick={() => handleSeasonSelect(season.value)}
+                    key={season}
+                    onClick={() => handleSeasonSelect(season)}
                     className={`
                       w-full text-left px-4 py-3 rounded-xl 
                       text-sm sm:text-base font-poppins font-medium 
@@ -139,7 +135,7 @@ const TeamHeader = ({ selectedSeason, onSeasonChange }) => {
                     `}
                   >
                     <div className="flex items-center justify-between">
-                      <span>{season.label}</span>
+                      <span>{season}</span>
                       {isActive && (
                         <span className="flex items-center justify-center w-5 h-5 rounded-full bg-cyan-400/20">
                           <svg className="w-3 h-3 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
