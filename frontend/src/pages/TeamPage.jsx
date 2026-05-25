@@ -122,15 +122,29 @@ const TeamPage = () => {
   const sessionOptions = useMemo(() => sortSessions(availableSessions), [availableSessions]);
 
   const getPositionPriority = (position) => {
-    if (position === 'CLUB - MENTOR') return 1;
-    if (position === 'CLUB - HEAD') return 2;
-    if (position === 'CLUB LEADERSHIP') return 3;
-    return 999;
+    const POSITION_PRIORITY = {
+      'CLUB - MENTOR': 1,
+      'CLUB - HEAD': 2,
+      'CLUB ADVISOR': 3,
+      'CLUB LEADERSHIP': 4,
+      'TECHNICAL TEAM': 5,
+      'DESIGN TEAM': 6,
+      'MANAGEMENT TEAM': 7,
+      'SOCIAL MEDIA TEAM': 8,
+      'GENERAL COORDINATORS': 9,
+    };
+
+    return POSITION_PRIORITY[position] ?? 999;
   };
 
   
   const sortedEntries = Object.entries(groupedTeamData).sort(([positionA], [positionB]) => {
-    return getPositionPriority(positionA) - getPositionPriority(positionB);
+    const pa = getPositionPriority(positionA);
+    const pb = getPositionPriority(positionB);
+
+    if (pa !== pb) return pa - pb;
+    // fallback to alphabetical if same priority
+    return String(positionA).localeCompare(String(positionB));
   });
 
   return (
