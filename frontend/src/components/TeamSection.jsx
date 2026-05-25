@@ -12,7 +12,9 @@ const TeamSection = ({ title, members = [] }) => {
     (member) =>
       member.role.includes('CLUB HEAD') ||
       member.role.includes('CO-HEAD') ||
-      member.role.includes('MENTOR')
+      member.role.includes('MENTOR')||
+      member.role.includes('FACULTY-MENTOR')||
+      member.role.includes('ADVISOR')
   );
 
   const handleClick = (e) => {

@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
+const DEFAULT_SESSION = '2026-2027';
 
 import {
   Carousel,
@@ -15,15 +16,38 @@ import {
 const TeamCarousel = () => {
   const [allMembers, setAllMembers] = useState([]);
 
+  const getPositionPriority = (position) => {
+    if (position === 'CLUB - HEAD') return 1;
+    if (position === 'CLUB LEADERSHIP') return 2;
+    if (position === 'CO-HEAD') return 3;
+    if (position === 'ADVISOR') return 4;
+    return 999;
+  };
+
   useEffect(() => {
     axios
-      .get(`${baseURL}/members`)
+      .get(`${baseURL}/session-members`, {
+        params: { session: DEFAULT_SESSION },
+      })
       .then(res => {
         const members = res.data.filter(
           member =>
             member.position === "CLUB - HEAD" ||
-            member.position === "CLUB LEADERSHIP"
-        );
+            member.position === "CLUB LEADERSHIP"||
+            member.position === "CO-HEAD" ||
+            member.position === "ADVISOR"
+        ).sort((memberA, memberB) => {
+          const priorityA = getPositionPriority(memberA.position);
+          const priorityB = getPositionPriority(memberB.position);
+
+          if (priorityA !== priorityB) {
+            return priorityA - priorityB;
+          }
+
+          
+          return 0;
+        });
+
         setAllMembers(members);
       })
       .catch(err => console.error("Error fetching team data:", err));
