@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ConfirmationModal from './ConfirmationModal';
+import { buildXapiHeaders } from '../../config/xapiSession';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
-const apiKey = import.meta.env.VITE_API_KEY;
 
 const HomeSponsorManager = () => {
   const [homeSponsors, setHomeSponsors] = useState([]);
@@ -11,6 +11,7 @@ const HomeSponsorManager = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingSponsor, setEditingSponsor] = useState(null);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', data: null });
+  const [operationError, setOperationError] = useState('');
   const [formData, setFormData] = useState({
     orderNo: 1,
     imageUrl: ''
@@ -36,6 +37,7 @@ const HomeSponsorManager = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setOperationError('');
     
     if (!editingSponsor && !selectedImage) {
       alert('Please select a sponsor icon');
@@ -87,7 +89,7 @@ const HomeSponsorManager = () => {
     }
   };
 
-  const handleConfirmAction = async () => {
+  const handleConfirmAction = async (xapiKey) => {
     const formDataObj = new FormData();
     formDataObj.append('orderNo', formData.orderNo);
     if (selectedImage) {
@@ -97,30 +99,29 @@ const HomeSponsorManager = () => {
     try {
       if (confirmModal.type === 'update') {
         await axios.patch(`${baseURL}/homepage-sponsors/${editingSponsor._id}`, formDataObj, {
-          headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: buildXapiHeaders(xapiKey, true)
         });
       } else if (confirmModal.type === 'add') {
         await axios.post(`${baseURL}/homepage-sponsors`, formDataObj, {
-          headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: buildXapiHeaders(xapiKey, true)
         });
       }
       fetchHomeSponsors();
+
+      setOperationError('');
+      setFormData({ orderNo: 1, imageUrl: '' });
+      setSelectedImage(null);
+      setImagePreview(null);
+      setShowAddForm(false);
+      setConfirmModal({ isOpen: false, type: '', data: null });
     } catch (error) {
       console.error('Error saving home sponsor:', error);
-      alert('Failed to save home sponsor. Make sure display order (orderNo) is unique.');
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
     }
-
-    setFormData({ orderNo: 1, imageUrl: '' });
-    setSelectedImage(null);
-    setImagePreview(null);
-    setShowAddForm(false);
-    setConfirmModal({ isOpen: false, type: '', data: null });
   };
 
   const handleEdit = (sponsor) => {
@@ -143,22 +144,26 @@ const HomeSponsorManager = () => {
     });
   };
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = async (xapiKey) => {
     try {
       await axios.delete(`${baseURL}/homepage-sponsors/${confirmModal.data.id}`, {
-        headers: {
-          'x-api-key': apiKey
-        }
+        headers: buildXapiHeaders(xapiKey)
       });
       fetchHomeSponsors();
+      setOperationError('');
+      setConfirmModal({ isOpen: false, type: '', data: null });
     } catch (error) {
       console.error('Error deleting home sponsor:', error);
-      alert('Failed to delete home sponsor.');
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
     }
-    setConfirmModal({ isOpen: false, type: '', data: null });
   };
 
   const resetForm = () => {
+    setOperationError('');
     setFormData({ orderNo: 1, imageUrl: '' });
     setSelectedImage(null);
     setImagePreview(null);
@@ -181,25 +186,30 @@ const HomeSponsorManager = () => {
         const fd1 = new FormData();
         fd1.append('orderNo', 9999); // temp order to avoid unique constraints violation
         await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsor._id}`, fd1, {
-          headers: { 'x-api-key': apiKey }
+          headers: buildXapiHeaders()
         });
 
         const fd2 = new FormData();
         fd2.append('orderNo', tempOrder);
         await axios.patch(`${baseURL}/homepage-sponsors/${previousSponsor._id}`, fd2, {
-          headers: { 'x-api-key': apiKey }
+          headers: buildXapiHeaders()
         });
 
         const fd3 = new FormData();
         fd3.append('orderNo', prevOrder);
         await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsor._id}`, fd3, {
-          headers: { 'x-api-key': apiKey }
+          headers: buildXapiHeaders()
         });
 
+        setOperationError('');
         fetchHomeSponsors();
       } catch (error) {
         console.error('Error reordering homepage sponsors:', error);
-        alert('Failed to reorder homepage sponsors.');
+        setOperationError(
+          error?.response?.data?.message ||
+          error?.response?.data?.error ||
+          'Failed to reorder homepage sponsors.'
+        );
       }
     }
   };
@@ -219,25 +229,30 @@ const HomeSponsorManager = () => {
         const fd1 = new FormData();
         fd1.append('orderNo', 9999); // temp order to avoid unique constraints violation
         await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsor._id}`, fd1, {
-          headers: { 'x-api-key': apiKey }
+          headers: buildXapiHeaders()
         });
 
         const fd2 = new FormData();
         fd2.append('orderNo', tempOrder);
         await axios.patch(`${baseURL}/homepage-sponsors/${nextSponsor._id}`, fd2, {
-          headers: { 'x-api-key': apiKey }
+          headers: buildXapiHeaders()
         });
 
         const fd3 = new FormData();
         fd3.append('orderNo', nextOrder);
         await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsor._id}`, fd3, {
-          headers: { 'x-api-key': apiKey }
+          headers: buildXapiHeaders()
         });
 
+        setOperationError('');
         fetchHomeSponsors();
       } catch (error) {
         console.error('Error reordering homepage sponsors:', error);
-        alert('Failed to reorder homepage sponsors.');
+        setOperationError(
+          error?.response?.data?.message ||
+          error?.response?.data?.error ||
+          'Failed to reorder homepage sponsors.'
+        );
       }
     }
   };
@@ -256,6 +271,12 @@ const HomeSponsorManager = () => {
           + Add Home Sponsor
         </button>
       </div>
+
+      {operationError && (
+        <div className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-red-200 text-sm">
+          {operationError}
+        </div>
+      )}
 
       {showAddForm && (
         <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">

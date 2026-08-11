@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ConfirmationModal from './ConfirmationModal';
+import { buildXapiHeaders } from '../../config/xapiSession';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
-const apiKey = import.meta.env.VITE_API_KEY;
 
 const TeamManager = () => {
   const [members, setMembers] = useState([]);
@@ -127,7 +127,7 @@ const TeamManager = () => {
     }
   };
 
-  const handleConfirmSave = async () => {
+  const handleConfirmSave = async (xapiKey) => {
     const formDataObj = new FormData();
     formDataObj.append('name', formData.name);
     formDataObj.append('role', formData.role);
@@ -144,27 +144,24 @@ const TeamManager = () => {
     try {
       if (editingMember) {
         await axios.patch(`${baseURL}/session-members/${editingMember._id}`, formDataObj, {
-          headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: buildXapiHeaders(xapiKey, true)
         });
       } else {
         await axios.post(`${baseURL}/session-members`, formDataObj, {
-          headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: buildXapiHeaders(xapiKey, true)
         });
       }
       fetchMembers();
+      resetForm();
+      setConfirmModal({ isOpen: false, type: '', data: null });
     } catch (error) {
       console.error('Error saving session member:', error);
-      alert('Failed to save team member. Please check connection and try again.');
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
     }
-
-    resetForm();
-    setConfirmModal({ isOpen: false, type: '', data: null });
   };
 
   const handleEdit = (member) => {
@@ -197,20 +194,22 @@ const TeamManager = () => {
     });
   };
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = async (xapiKey) => {
     try {
       const { id } = confirmModal.data;
       await axios.delete(`${baseURL}/session-members/${id}`, {
-        headers: {
-          'x-api-key': apiKey
-        }
+        headers: buildXapiHeaders(xapiKey)
       });
       fetchMembers();
+      setConfirmModal({ isOpen: false, type: '', data: null });
     } catch (error) {
       console.error('Error deleting session member:', error);
-      alert('Failed to delete team member.');
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
     }
-    setConfirmModal({ isOpen: false, type: '', data: null });
   };
 
   const resetForm = () => {

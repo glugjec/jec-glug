@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-
-// Temporary x API key
-const rawApiKey = import.meta.env.VITE_API_KEY || "Hello World";
-const TEMP_XAPI_KEY = "kaushik"
-const SESSION_KEY = "xapi_session";
-const SESSION_DURATION = 10 * 60 * 1000; 
+import { clearXapiSession, getStoredXapiSession, isXapiSessionActive, saveXapiSession } from '../../config/xapiSession';
 
 const ConfirmationModal = ({ 
   isOpen, 
@@ -20,25 +14,23 @@ const ConfirmationModal = ({
   const [xapiKey, setXapiKey] = useState("");
   const [error, setError] = useState("");
   const [sessionActive, setSessionActive] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Check session o
   useEffect(() => {
-    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY));
-    if (session && session.key === TEMP_XAPI_KEY && Date.now() < session.expiry) {
-      setSessionActive(true);
-    } else {
-      setSessionActive(false);
-      sessionStorage.removeItem(SESSION_KEY);
+    const active = isXapiSessionActive();
+    setSessionActive(active);
+
+    if (!active) {
+      clearXapiSession();
     }
   }, [isOpen]);
 
-  // Handle expiry
   useEffect(() => {
     if (!sessionActive) return;
-    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY));
+    const session = getStoredXapiSession();
     if (!session) return;
     const timeout = setTimeout(() => {
-      sessionStorage.removeItem(SESSION_KEY);
+      clearXapiSession();
       setSessionActive(false);
       setXapiKey("");
     }, session.expiry - Date.now());
@@ -54,34 +46,38 @@ const ConfirmationModal = ({
     }
   };
 
-  //da compare here
+  const handleConfirm = async () => {
+    if (isSubmitting) return;
 
-  const handleConfirm = () => {
-    if (!sessionActive) {
-      if (xapiKey !== TEMP_XAPI_KEY) {
-        setError("Invalid X-API Key");
-        setXapiKey("");
-        return;
-      }
-      // Set session
-      const expiry = Date.now() + SESSION_DURATION;
-      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ key: xapiKey, expiry }));
-      setSessionActive(true);
-      setError("");
+    const keyToUse = sessionActive ? getStoredXapiSession()?.key : xapiKey;
+
+    if (!keyToUse) {
+      setError("Enter the X-API key");
+      return;
     }
-    onConfirm();
+
+    try {
+      setIsSubmitting(true);
+      await onConfirm(keyToUse);
+
+      if (!sessionActive) {
+        saveXapiSession(keyToUse);
+        setSessionActive(true);
+      }
+
+      setError("");
+      setXapiKey("");
+    } catch (confirmError) {
+      const message = confirmError?.message || "Invalid X-API Key";
+      setError(message);
+      setXapiKey("");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  /*
-  for access xapi to pass in header
-
-  const session = JSON.parse(sessionStorage.getItem('xapi_session'));
-  const xapiKey = session?.key;
-  
-  */
-
   const handleLogout = () => {
-    sessionStorage.removeItem(SESSION_KEY);
+    clearXapiSession();
     setSessionActive(false);
     setXapiKey("");
     setError("");
@@ -142,16 +138,17 @@ const ConfirmationModal = ({
           <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
             <button
               onClick={onCancel}
-              className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 text-sm sm:text-base"
+              disabled={isSubmitting}
+              className="flex-1 bg-gray-600 hover:bg-gray-700 disabled:opacity-60 disabled:cursor-not-allowed text-white px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 text-sm sm:text-base"
             >
               {cancelText}
             </button>
             <button
               onClick={handleConfirm}
-              className={`flex-1 text-white px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 text-sm sm:text-base ${getConfirmButtonStyle()}`}
-              disabled={!sessionActive && !xapiKey}
+              className={`flex-1 text-white px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 text-sm sm:text-base disabled:opacity-60 disabled:cursor-not-allowed ${getConfirmButtonStyle()}`}
+              disabled={isSubmitting || (!sessionActive && !xapiKey)}
             >
-              {confirmText}
+              {isSubmitting ? 'Loading...' : confirmText}
             </button>
           </div>
         </div>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ConfirmationModal from './ConfirmationModal';
+import { buildXapiHeaders } from '../../config/xapiSession';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
-const apiKey = import.meta.env.VITE_API_KEY;
 
 const EventManager = () => {
   const [events, setEvents] = useState([]);
@@ -86,7 +86,7 @@ const EventManager = () => {
     }
   };
 
-  const handleConfirmAction = async () => {
+  const handleConfirmAction = async (xapiKey) => {
     const formDataObj = new FormData();
     formDataObj.append('title', formData.title);
     formDataObj.append('description', formData.description);
@@ -103,27 +103,25 @@ const EventManager = () => {
     try {
       if (confirmModal.type === 'update') {
         await axios.patch(`${baseURL}/events/${editingEvent._id}`, formDataObj, {
-          headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: buildXapiHeaders(xapiKey, true)
         });
       } else if (confirmModal.type === 'add') {
         await axios.post(`${baseURL}/events`, formDataObj, {
-          headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: buildXapiHeaders(xapiKey, true)
         });
       }
       fetchEvents();
+
+      resetForm();
+      setConfirmModal({ isOpen: false, type: '', data: null });
     } catch (error) {
       console.error('Error saving event:', error);
-      alert('Failed to save event. Please check connection and try again.');
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
     }
-    
-    resetForm();
-    setConfirmModal({ isOpen: false, type: '', data: null });
   };
 
   const handleEdit = (event) => {
@@ -159,19 +157,21 @@ const EventManager = () => {
     });
   };
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = async (xapiKey) => {
     try {
       await axios.delete(`${baseURL}/events/${confirmModal.data.id}`, {
-        headers: {
-          'x-api-key': apiKey
-        }
+        headers: buildXapiHeaders(xapiKey)
       });
       fetchEvents();
+      setConfirmModal({ isOpen: false, type: '', data: null });
     } catch (error) {
       console.error('Error deleting event:', error);
-      alert('Failed to delete event.');
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
     }
-    setConfirmModal({ isOpen: false, type: '', data: null });
   };
 
   const resetForm = () => {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ConfirmationModal from './ConfirmationModal';
+import { buildXapiHeaders } from '../../config/xapiSession';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
-const apiKey = import.meta.env.VITE_API_KEY;
 
 const SponsorManager = () => {
   const [sponsors, setSponsors] = useState([]);
@@ -82,7 +82,7 @@ const SponsorManager = () => {
     }
   };
 
-  const handleConfirmAction = async () => {
+  const handleConfirmAction = async (xapiKey) => {
     const formDataObj = new FormData();
     formDataObj.append('title', formData.title);
     formDataObj.append('tier', formData.tier);
@@ -94,30 +94,28 @@ const SponsorManager = () => {
     try {
       if (confirmModal.type === 'update') {
         await axios.patch(`${baseURL}/sponsors/${editingSponsor._id}`, formDataObj, {
-          headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: buildXapiHeaders(xapiKey, true)
         });
       } else if (confirmModal.type === 'add') {
         await axios.post(`${baseURL}/sponsors`, formDataObj, {
-          headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: buildXapiHeaders(xapiKey, true)
         });
       }
       fetchSponsors();
+
+      setFormData({ title: '', tier: 'Gold', partnerType: 'Official Partner', imageUrl: '' });
+      setSelectedImage(null);
+      setImagePreview(null);
+      setShowAddForm(false);
+      setConfirmModal({ isOpen: false, type: '', data: null });
     } catch (error) {
       console.error('Error saving sponsor:', error);
-      alert('Failed to save sponsor. Please verify your connection.');
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
     }
-
-    setFormData({ title: '', tier: 'Gold', partnerType: 'Official Partner', imageUrl: '' });
-    setSelectedImage(null);
-    setImagePreview(null);
-    setShowAddForm(false);
-    setConfirmModal({ isOpen: false, type: '', data: null });
   };
 
   const handleEdit = (sponsor) => {
@@ -142,19 +140,21 @@ const SponsorManager = () => {
     });
   };
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = async (xapiKey) => {
     try {
       await axios.delete(`${baseURL}/sponsors/${confirmModal.data.id}`, {
-        headers: {
-          'x-api-key': apiKey
-        }
+        headers: buildXapiHeaders(xapiKey)
       });
       fetchSponsors();
+      setConfirmModal({ isOpen: false, type: '', data: null });
     } catch (error) {
       console.error('Error deleting sponsor:', error);
-      alert('Failed to delete sponsor.');
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
     }
-    setConfirmModal({ isOpen: false, type: '', data: null });
   };
 
   const resetForm = () => {
