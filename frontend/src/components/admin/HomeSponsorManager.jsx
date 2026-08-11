@@ -11,6 +11,7 @@ const HomeSponsorManager = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingSponsor, setEditingSponsor] = useState(null);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', data: null });
+  const [reorderModal, setReorderModal] = useState({ isOpen: false, data: null });
   const [operationError, setOperationError] = useState('');
   const [formData, setFormData] = useState({
     orderNo: 1,
@@ -162,6 +163,45 @@ const HomeSponsorManager = () => {
     }
   };
 
+  const openReorderModal = (data) => {
+    setOperationError('');
+    setReorderModal({ isOpen: true, data });
+  };
+
+  const closeReorderModal = () => {
+    setReorderModal({ isOpen: false, data: null });
+  };
+
+  const handleConfirmReorder = async (xapiKey) => {
+    const { currentSponsorId, previousSponsorId, currentOrder, previousOrder } = reorderModal.data || {};
+
+    if (!currentSponsorId || !previousSponsorId) {
+      throw new Error('Unable to reorder sponsors');
+    }
+
+    const fd1 = new FormData();
+    fd1.append('orderNo', 9999);
+    await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsorId}`, fd1, {
+      headers: buildXapiHeaders(xapiKey)
+    });
+
+    const fd2 = new FormData();
+    fd2.append('orderNo', currentOrder);
+    await axios.patch(`${baseURL}/homepage-sponsors/${previousSponsorId}`, fd2, {
+      headers: buildXapiHeaders(xapiKey)
+    });
+
+    const fd3 = new FormData();
+    fd3.append('orderNo', previousOrder);
+    await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsorId}`, fd3, {
+      headers: buildXapiHeaders(xapiKey)
+    });
+
+    setOperationError('');
+    closeReorderModal();
+    fetchHomeSponsors();
+  };
+
   const resetForm = () => {
     setOperationError('');
     setFormData({ orderNo: 1, imageUrl: '' });
@@ -178,39 +218,14 @@ const HomeSponsorManager = () => {
     if (index > 0) {
       const currentSponsor = sortedSponsors[index];
       const previousSponsor = sortedSponsors[index - 1];
-      
-      const tempOrder = currentSponsor.orderNo;
-      const prevOrder = previousSponsor.orderNo;
-      
-      try {
-        const fd1 = new FormData();
-        fd1.append('orderNo', 9999); // temp order to avoid unique constraints violation
-        await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsor._id}`, fd1, {
-          headers: buildXapiHeaders()
-        });
 
-        const fd2 = new FormData();
-        fd2.append('orderNo', tempOrder);
-        await axios.patch(`${baseURL}/homepage-sponsors/${previousSponsor._id}`, fd2, {
-          headers: buildXapiHeaders()
-        });
-
-        const fd3 = new FormData();
-        fd3.append('orderNo', prevOrder);
-        await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsor._id}`, fd3, {
-          headers: buildXapiHeaders()
-        });
-
-        setOperationError('');
-        fetchHomeSponsors();
-      } catch (error) {
-        console.error('Error reordering homepage sponsors:', error);
-        setOperationError(
-          error?.response?.data?.message ||
-          error?.response?.data?.error ||
-          'Failed to reorder homepage sponsors.'
-        );
-      }
+      openReorderModal({
+        currentSponsorId: currentSponsor._id,
+        previousSponsorId: previousSponsor._id,
+        currentOrder: currentSponsor.orderNo,
+        previousOrder: previousSponsor.orderNo,
+        title: 'Move Sponsor Up'
+      });
     }
   };
 
@@ -221,39 +236,14 @@ const HomeSponsorManager = () => {
     if (index < sortedSponsors.length - 1) {
       const currentSponsor = sortedSponsors[index];
       const nextSponsor = sortedSponsors[index + 1];
-      
-      const tempOrder = currentSponsor.orderNo;
-      const nextOrder = nextSponsor.orderNo;
-      
-      try {
-        const fd1 = new FormData();
-        fd1.append('orderNo', 9999); // temp order to avoid unique constraints violation
-        await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsor._id}`, fd1, {
-          headers: buildXapiHeaders()
-        });
 
-        const fd2 = new FormData();
-        fd2.append('orderNo', tempOrder);
-        await axios.patch(`${baseURL}/homepage-sponsors/${nextSponsor._id}`, fd2, {
-          headers: buildXapiHeaders()
-        });
-
-        const fd3 = new FormData();
-        fd3.append('orderNo', nextOrder);
-        await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsor._id}`, fd3, {
-          headers: buildXapiHeaders()
-        });
-
-        setOperationError('');
-        fetchHomeSponsors();
-      } catch (error) {
-        console.error('Error reordering homepage sponsors:', error);
-        setOperationError(
-          error?.response?.data?.message ||
-          error?.response?.data?.error ||
-          'Failed to reorder homepage sponsors.'
-        );
-      }
+      openReorderModal({
+        currentSponsorId: currentSponsor._id,
+        previousSponsorId: nextSponsor._id,
+        currentOrder: currentSponsor.orderNo,
+        previousOrder: nextSponsor.orderNo,
+        title: 'Move Sponsor Down'
+      });
     }
   };
 
@@ -490,6 +480,17 @@ const HomeSponsorManager = () => {
         confirmText={confirmModal.type === 'delete' ? 'Delete' : (confirmModal.type === 'update' ? 'Update' : 'Add Sponsor')}
         cancelText="Cancel"
         type={confirmModal.type === 'delete' ? 'danger' : 'default'}
+      />
+
+      <ConfirmationModal
+        isOpen={reorderModal.isOpen}
+        onConfirm={handleConfirmReorder}
+        onCancel={closeReorderModal}
+        title={reorderModal.data?.title || 'Reorder Sponsor'}
+        message="Enter the X-API key to reorder homepage sponsors."
+        confirmText="Reorder"
+        cancelText="Cancel"
+        type="default"
       />
     </div>
   );

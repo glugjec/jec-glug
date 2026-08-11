@@ -68,7 +68,8 @@ const ConfirmationModal = ({
       setError("");
       setXapiKey("");
     } catch (confirmError) {
-      const message = confirmError?.message || "Invalid X-API Key";
+      const serverMessage = confirmError?.response?.data?.message || confirmError?.response?.data?.error;
+      const message = serverMessage || (confirmError?.response?.status === 401 ? 'Unauthorized: Invalid or missing API key' : confirmError?.message) || 'Invalid X-API key';
       setError(message);
       setXapiKey("");
     } finally {
