@@ -17,7 +17,7 @@ const TeamManager = () => {
   const [formData, setFormData] = useState({
     name: '',
     role: '',
-    position: 'CLUB HEAD',
+    position: '',
     description: '',
     imageUrl: '',
     linkedinUrl: '',
@@ -216,7 +216,7 @@ const TeamManager = () => {
     setFormData({
       name: '',
       role: '',
-      position: 'CLUB HEAD',
+      position: '',
       description: '',
       imageUrl: '',
       linkedinUrl: '',
@@ -265,7 +265,6 @@ const TeamManager = () => {
             </select>
           </div>
         </div>
-        
         <button
           onClick={() => {
             setFormData(prev => ({ ...prev, session: selectedSession }));
@@ -305,7 +304,9 @@ const TeamManager = () => {
                   value={formData.position}
                   onChange={(e) => setFormData({...formData, position: e.target.value})}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                  required
                 >
+                  <option value="" disabled className="bg-[#161D58]">Select position</option>
                   {positionOptions.map(option => (
                     <option key={option} value={option} className="bg-[#161D58]">{option}</option>
                   ))}
