@@ -38,7 +38,7 @@ const normalizeMembers = (data) => {
 };
 
 const groupMembersByPosition = (members) => {
-  return members.reduce((acc, member) => {
+  const grouped = members.reduce((acc, member) => {
     const section = member.position || 'Team';
 
     if (!acc[section]) {
@@ -48,7 +48,25 @@ const groupMembersByPosition = (members) => {
     acc[section].push(member);
     return acc;
   }, {});
+
+  for (const position in grouped) {
+    if (position === 'CLUB ADVISORY' || position === 'CLUB ADVISOR') {
+      const withIndex = grouped[position].map((m, i) => ({ member: m, index: i }));
+      withIndex.sort((a, b) => {
+        const aIsClubAdvisor = Array.isArray(a.member.role) && a.member.role.some(r => String(r).toUpperCase().includes('CLUB ADVISOR'));
+        const bIsClubAdvisor = Array.isArray(b.member.role) && b.member.role.some(r => String(r).toUpperCase().includes('CLUB ADVISOR'));
+        
+        if (aIsClubAdvisor && !bIsClubAdvisor) return -1;
+        if (!aIsClubAdvisor && bIsClubAdvisor) return 1;
+        return a.index - b.index;
+      });
+      grouped[position] = withIndex.map(item => item.member);
+    }
+  }
+
+  return grouped;
 };
+
 
 const sortSessions = (sessions) => {
   return [...sessions].sort((seasonA, seasonB) => {
@@ -125,6 +143,7 @@ const TeamPage = () => {
     const POSITION_PRIORITY = {
       'CLUB - MENTOR': 1,
       'CLUB - HEAD': 2,
+      'CLUB ADVISORY': 3,
       'CLUB ADVISOR': 3,
       'CLUB LEADERSHIP': 4,
       'TECHNICAL TEAM': 5,
