@@ -1,27 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ConfirmationModal from './ConfirmationModal';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+const apiKey = import.meta.env.VITE_API_KEY;
+
 const GalleryManager = () => {
-  const [images, setImages] = useState([
-    { 
-      id: 1, 
-      url: '/images/gallery.png', 
-      title: 'GLUG Event 2024',
-      description: 'Annual tech meetup and workshop'
-    },
-    { 
-      id: 2, 
-      url: '/images/gallery2.png', 
-      title: 'Workshop Session',
-      description: 'Hands-on coding workshop'
-    },
-    { 
-      id: 3, 
-      url: '/images/gallery.png', 
-      title: 'Tech Talk',
-      description: 'Expert speaker session'
-    },
-  ]);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingImage, setEditingImage] = useState(null);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', data: null });
@@ -33,15 +19,29 @@ const GalleryManager = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  const fetchImages = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}/gallery`);
+      setImages(response.data || []);
+    } catch (error) {
+      console.error('Error fetching gallery:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     
     if (!editingImage && !selectedImage) {
       alert('Please select an image');
       return;
     }
-    
     
     if (editingImage && !selectedImage && !imagePreview) {
       alert('Please select an image');
@@ -61,7 +61,6 @@ const GalleryManager = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
         alert('File size must be less than 5MB. Please choose a smaller image.');
@@ -71,7 +70,6 @@ const GalleryManager = () => {
       
       setSelectedImage(file);
       
-     
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreview(e.target.result);
@@ -80,33 +78,36 @@ const GalleryManager = () => {
     }
   };
 
-  const handleConfirmAction = () => {
-    
-    const finalImageUrl = selectedImage ? 
-      imagePreview :
-      formData.url;
-
-    if (confirmModal.type === 'update') {
-      const updateData = {
-        url: finalImageUrl,
-        title: formData.title,
-        description: formData.description
-      };
-      setImages(images.map(img => 
-        img.id === editingImage.id 
-          ? { ...img, ...updateData }
-          : img
-      ));
-      setEditingImage(null);
-    } else if (confirmModal.type === 'add') {
-      const newImage = {
-        id: Date.now(),
-        url: finalImageUrl,
-        title: formData.title,
-        description: formData.description
-      };
-      setImages([...images, newImage]);
+  const handleConfirmAction = async () => {
+    const formDataObj = new FormData();
+    formDataObj.append('title', formData.title);
+    formDataObj.append('description', formData.description);
+    if (selectedImage) {
+      formDataObj.append('image', selectedImage);
     }
+
+    try {
+      if (confirmModal.type === 'update') {
+        await axios.patch(`${baseURL}/gallery/${editingImage._id}`, formDataObj, {
+          headers: {
+            'x-api-key': apiKey,
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+      } else if (confirmModal.type === 'add') {
+        await axios.post(`${baseURL}/gallery`, formDataObj, {
+          headers: {
+            'x-api-key': apiKey,
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+      }
+      fetchImages();
+    } catch (error) {
+      console.error('Error saving gallery item:', error);
+      alert('Failed to save gallery item. Please verify your API connection.');
+    }
+
     setFormData({ 
       url: '', 
       title: '',
@@ -121,17 +122,17 @@ const GalleryManager = () => {
   const handleEdit = (image) => {
     setEditingImage(image);
     setFormData({ 
-      url: image.url, 
-      title: image.title,
-      description: image.description
+      url: image.imageUrl || image.url || '', 
+      title: image.title || '',
+      description: image.description || ''
     });
-    setImagePreview(image.url);
+    setImagePreview(image.imageUrl || image.url || null);
     setSelectedImage(null);
     setShowAddForm(true);
   };
 
   const handleDelete = (id) => {
-    const image = images.find(img => img.id === id);
+    const image = images.find(img => img._id === id);
     setConfirmModal({
       isOpen: true,
       type: 'delete',
@@ -139,8 +140,18 @@ const GalleryManager = () => {
     });
   };
 
-  const handleConfirmDelete = () => {
-    setImages(images.filter(img => img.id !== confirmModal.data.id));
+  const handleConfirmDelete = async () => {
+    try {
+      await axios.delete(`${baseURL}/gallery/${confirmModal.data.id}`, {
+        headers: {
+          'x-api-key': apiKey
+        }
+      });
+      fetchImages();
+    } catch (error) {
+      console.error('Error deleting gallery item:', error);
+      alert('Failed to delete gallery item.');
+    }
     setConfirmModal({ isOpen: false, type: '', data: null });
   };
 
@@ -168,20 +179,17 @@ const GalleryManager = () => {
         </button>
       </div>
 
-      
       {showAddForm && (
         <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
           <h3 className="text-xl font-semibold text-white mb-4">
             {editingImage ? 'Edit Image' : 'Add New Image'}
           </h3>
           <form onSubmit={handleSubmit} className="space-y-4">
-            
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
                 Gallery Image <span className="text-red-400">*</span>
               </label>
               <div className="space-y-4">
-                
                 <div className="relative">
                   <input
                     type="file"
@@ -214,7 +222,6 @@ const GalleryManager = () => {
                   </label>
                 </div>
 
-                
                 {imagePreview && (
                   <div className="relative">
                     <img
@@ -241,7 +248,6 @@ const GalleryManager = () => {
                   </div>
                 )}
 
-                
                 {selectedImage && (
                   <div className="text-sm text-green-300 bg-green-500/20 px-3 py-2 rounded-lg">
                     ✓ Image ready for upload: {selectedImage.name}
@@ -293,37 +299,40 @@ const GalleryManager = () => {
         </div>
       )}
 
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {images.map((image) => (
-          <div key={image.id} className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20">
-            <img
-              src={image.url}
-              alt={image.title}
-              className="w-full h-48 object-cover rounded-xl mb-4"
-              onError={(e) => {
-                e.target.src = 'https://placehold.co/300x200/161D58/FFFFFF?text=Image+Not+Found';
-              }}
-            />
-            <h3 className="text-white font-semibold text-lg mb-2">{image.title}</h3>
-            <p className="text-blue-200 text-sm mb-4">{image.description}</p>
-            <div className="flex space-x-2">
-              <button
-                onClick={() => handleEdit(image)}
-                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(image.id)}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
-              >
-                Delete
-              </button>
+      {loading ? (
+        <div className="text-white text-center py-10">Loading gallery...</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {images.map((image) => (
+            <div key={image._id} className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20">
+              <img
+                src={image.imageUrl || image.url}
+                alt={image.title}
+                className="w-full h-48 object-cover rounded-xl mb-4"
+                onError={(e) => {
+                  e.target.src = 'https://placehold.co/300x200/161D58/FFFFFF?text=Image+Not+Found';
+                }}
+              />
+              <h3 className="text-white font-semibold text-lg mb-2">{image.title}</h3>
+              <p className="text-blue-200 text-sm mb-4">{image.description}</p>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => handleEdit(image)}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(image._id)}
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
       
       <ConfirmationModal
         isOpen={confirmModal.isOpen}

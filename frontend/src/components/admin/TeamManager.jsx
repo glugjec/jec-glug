@@ -1,32 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ConfirmationModal from './ConfirmationModal';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+const apiKey = import.meta.env.VITE_API_KEY;
+
 const TeamManager = () => {
-  const [members, setMembers] = useState([
-    {
-      id: 1,
-      name: 'Abhilash Kashyap',
-      role: 'President',
-      position: 'CLUB HEAD',
-      description: 'Leading the team with vision and passion for open source.',
-      imageUrl: '/images/abhilash.jpg',
-      linkedinUrl: 'https://linkedin.com/in/',
-      instagramUrl: 'https://instagram.com/'
-    },
-    {
-      id: 2,
-      name: 'Ritu Raj Bora',
-      role: 'Vice President',
-      position: 'DESIGN TEAM',
-      description: 'Product designer and creative director',
-      imageUrl: '/images/ritu.jpg',
-      linkedinUrl: 'https://linkedin.com/in/',
-      instagramUrl: 'https://instagram.com/'
-    },
-  ]);
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [sessions, setSessions] = useState([]);
+  const [selectedSession, setSelectedSession] = useState('2026-2027');
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingMember, setEditingMember] = useState(null);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', data: null });
+  
   const [formData, setFormData] = useState({
     name: '',
     role: '',
@@ -34,22 +21,70 @@ const TeamManager = () => {
     description: '',
     imageUrl: '',
     linkedinUrl: '',
-    instagramUrl: ''
+    instagramUrl: '',
+    session: '2026-2027'
   });
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
-  const positionOptions = ['CLUB HEAD', 'CLUB LEADERSHIP', 'TECHNICAL TEAM', 'DESIGN TEAM', 'MANAGEMENT TEAM', 'SOCIAL MEDIA TEAM', 'GENERAL COORDINATOR'];
+  const positionOptions = [
+    'CLUB - MENTOR',
+    'CLUB - HEAD',
+    'CLUB ADVISORY',
+    'CLUB LEADERSHIP',
+    'TECHNICAL TEAM',
+    'DESIGN TEAM',
+    'MANAGEMENT TEAM',
+    'SOCIAL MEDIA TEAM',
+    'GENERAL COORDINATORS'
+  ];
+
+  useEffect(() => {
+    fetchSessions();
+  }, []);
+
+  useEffect(() => {
+    fetchMembers();
+  }, [selectedSession]);
+
+  const fetchSessions = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/session-members/sessions`);
+      if (response.data && response.data.length > 0) {
+        setSessions(response.data);
+        if (response.data.includes('2026-2027')) {
+          setSelectedSession('2026-2027');
+        } else {
+          setSelectedSession(response.data[0]);
+        }
+      } else {
+        setSessions(['2026-2027', '2025-2026', '2024-2025']);
+      }
+    } catch (error) {
+      console.error('Error fetching sessions:', error);
+      setSessions(['2026-2027', '2025-2026', '2024-2025']);
+    }
+  };
+
+  const fetchMembers = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}/session-members?session=${selectedSession}`);
+      setMembers(response.data || []);
+    } catch (error) {
+      console.error('Error fetching session members:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     
     if (!editingMember && !selectedImage) {
       alert('Please select a profile image');
       return;
     }
-    
     
     if (editingMember && !selectedImage && !imagePreview) {
       alert('Please select a profile image');
@@ -75,7 +110,6 @@ const TeamManager = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
         alert('File size must be less than 5MB. Please choose a smaller image.');
@@ -85,7 +119,6 @@ const TeamManager = () => {
       
       setSelectedImage(file);
       
-      
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreview(e.target.result);
@@ -94,65 +127,65 @@ const TeamManager = () => {
     }
   };
 
-  const handleConfirmSave = () => {
+  const handleConfirmSave = async () => {
+    const formDataObj = new FormData();
+    formDataObj.append('name', formData.name);
+    formDataObj.append('role', formData.role);
+    formDataObj.append('position', formData.position);
+    formDataObj.append('description', formData.description);
+    formDataObj.append('session', formData.session);
+    formDataObj.append('linkedin', formData.linkedinUrl);
+    formDataObj.append('insta', formData.instagramUrl);
     
-    const finalImageUrl = selectedImage ? 
-      imagePreview : 
-      formData.imageUrl;
-
-    const memberData = {
-      name: formData.name,
-      role: formData.role,
-      position: formData.position,
-      description: formData.description,
-      imageUrl: finalImageUrl,
-      linkedinUrl: formData.linkedinUrl,
-      instagramUrl: formData.instagramUrl
-    };
-
-    if (editingMember) {
-      setMembers(members.map(member => 
-        member.id === editingMember.id 
-          ? { ...member, ...memberData }
-          : member
-      ));
-      setEditingMember(null);
-    } else {
-      setMembers([...members, { id: Date.now(), ...memberData }]);
+    if (selectedImage) {
+      formDataObj.append('image', selectedImage);
     }
-    setFormData({
-      name: '',
-      role: '',
-      position: 'CLUB HEAD',
-      description: '',
-      imageUrl: '',
-      linkedinUrl: '',
-      instagramUrl: ''
-    });
-    setSelectedImage(null);
-    setImagePreview(null);
-    setShowAddForm(false);
+
+    try {
+      if (editingMember) {
+        await axios.patch(`${baseURL}/session-members/${editingMember._id}`, formDataObj, {
+          headers: {
+            'x-api-key': apiKey,
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+      } else {
+        await axios.post(`${baseURL}/session-members`, formDataObj, {
+          headers: {
+            'x-api-key': apiKey,
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+      }
+      fetchMembers();
+    } catch (error) {
+      console.error('Error saving session member:', error);
+      alert('Failed to save team member. Please check connection and try again.');
+    }
+
+    resetForm();
     setConfirmModal({ isOpen: false, type: '', data: null });
   };
 
   const handleEdit = (member) => {
     setEditingMember(member);
     setFormData({
-      name: member.name,
-      role: member.role,
-      position: member.position,
-      description: member.description,
-      imageUrl: member.imageUrl,
-      linkedinUrl: member.linkedinUrl,
-      instagramUrl: member.instagramUrl
+      name: member.name || '',
+      role: Array.isArray(member.role) ? member.role.join(', ') : member.role || '',
+      position: member.position || 'CLUB HEAD',
+      description: member.description || '',
+      imageUrl: member.imageUrl || '',
+      linkedinUrl: member.linkedin || member.linkedinUrl || '',
+      instagramUrl: member.insta || member.instagram || member.instagramUrl || '',
+      session: member.session || selectedSession
     });
-    setImagePreview(member.imageUrl);
+    setImagePreview(member.imageUrl || null);
     setSelectedImage(null);
     setShowAddForm(true);
   };
 
   const handleDelete = (id) => {
-    const member = members.find(m => m.id === id);
+    const member = members.find(m => m._id === id);
     setConfirmModal({
       isOpen: true,
       type: 'delete',
@@ -164,9 +197,19 @@ const TeamManager = () => {
     });
   };
 
-  const handleConfirmDelete = () => {
-    const { id } = confirmModal.data;
-    setMembers(members.filter(member => member.id !== id));
+  const handleConfirmDelete = async () => {
+    try {
+      const { id } = confirmModal.data;
+      await axios.delete(`${baseURL}/session-members/${id}`, {
+        headers: {
+          'x-api-key': apiKey
+        }
+      });
+      fetchMembers();
+    } catch (error) {
+      console.error('Error deleting session member:', error);
+      alert('Failed to delete team member.');
+    }
     setConfirmModal({ isOpen: false, type: '', data: null });
   };
 
@@ -178,7 +221,8 @@ const TeamManager = () => {
       description: '',
       imageUrl: '',
       linkedinUrl: '',
-      instagramUrl: ''
+      instagramUrl: '',
+      session: selectedSession
     });
     setSelectedImage(null);
     setImagePreview(null);
@@ -188,13 +232,15 @@ const TeamManager = () => {
 
   const getPositionColor = (position) => {
     switch (position) {
-      case 'CLUB HEAD': return 'bg-purple-500/30 text-purple-200';
+      case 'CLUB - MENTOR': return 'bg-rose-500/30 text-rose-200';
+      case 'CLUB - HEAD': return 'bg-purple-500/30 text-purple-200';
+      case 'CLUB ADVISORY': return 'bg-amber-500/30 text-amber-200';
       case 'CLUB LEADERSHIP': return 'bg-indigo-500/30 text-indigo-200';
       case 'TECHNICAL TEAM': return 'bg-blue-500/30 text-blue-200';
       case 'DESIGN TEAM': return 'bg-pink-500/30 text-pink-200';
       case 'MANAGEMENT TEAM': return 'bg-green-500/30 text-green-200';
       case 'SOCIAL MEDIA TEAM': return 'bg-yellow-500/30 text-yellow-200';
-      case 'GENERAL COORDINATOR': return 'bg-orange-500/30 text-orange-200';
+      case 'GENERAL COORDINATORS': return 'bg-orange-500/30 text-orange-200';
       default: return 'bg-gray-500/30 text-gray-200';
     }
   };
@@ -202,16 +248,36 @@ const TeamManager = () => {
   return (
     <div className="space-y-4 sm:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h2 className="text-2xl sm:text-3xl font-bold text-white">Team Management</h2>
+        <div>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white">Team Management</h2>
+          <div className="flex items-center space-x-2 mt-2">
+            <span className="text-blue-200 text-sm">Active Session:</span>
+            <select
+              value={selectedSession}
+              onChange={(e) => {
+                setSelectedSession(e.target.value);
+                setFormData(prev => ({ ...prev, session: e.target.value }));
+              }}
+              className="bg-white/10 text-white rounded-lg border border-white/20 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+            >
+              {sessions.map(s => (
+                <option key={s} value={s} className="bg-[#161D58]">{s}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        
         <button
-          onClick={() => setShowAddForm(true)}
-          className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 font-semibold text-sm sm:text-base"
+          onClick={() => {
+            setFormData(prev => ({ ...prev, session: selectedSession }));
+            setShowAddForm(true);
+          }}
+          className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 font-semibold text-sm sm:text-base self-start sm:self-auto"
         >
           + Add Member
         </button>
       </div>
 
-      
       {showAddForm && (
         <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 sm:p-6 border border-white/20">
           <h3 className="text-lg sm:text-xl font-semibold text-white mb-4">
@@ -247,18 +313,33 @@ const TeamManager = () => {
                 </select>
               </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-blue-200 mb-2">
-                Role
-              </label>
-              <input
-                type="text"
-                value={formData.role}
-                onChange={(e) => setFormData({...formData, role: e.target.value})}
-                className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-                placeholder="e.g., President, Developer"
-                required
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-blue-200 mb-2">
+                  Role(s) (comma separated if multiple)
+                </label>
+                <input
+                  type="text"
+                  value={formData.role}
+                  onChange={(e) => setFormData({...formData, role: e.target.value})}
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                  placeholder="e.g. Coordinator, Technical Lead"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-blue-200 mb-2">
+                  Session
+                </label>
+                <input
+                  type="text"
+                  value={formData.session}
+                  onChange={(e) => setFormData({...formData, session: e.target.value})}
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                  placeholder="e.g. 2026-2027"
+                  required
+                />
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
@@ -273,13 +354,11 @@ const TeamManager = () => {
               />
             </div>
             
-            
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
                 Profile Image <span className="text-red-400">*</span>
               </label>
               <div className="space-y-4">
-                
                 <div className="relative">
                   <input
                     type="file"
@@ -312,7 +391,6 @@ const TeamManager = () => {
                   </label>
                 </div>
 
-                
                 {imagePreview && (
                   <div className="relative">
                     <img
@@ -339,7 +417,6 @@ const TeamManager = () => {
                   </div>
                 )}
 
-                
                 {selectedImage && (
                   <div className="text-sm text-green-300 bg-green-500/20 px-3 py-2 rounded-lg">
                     ✓ Image ready for upload: {selectedImage.name}
@@ -347,10 +424,11 @@ const TeamManager = () => {
                 )}
               </div>
             </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-blue-200 mb-2">
-                  LinkedIn URL <span className="text-red-400">*</span>
+                  LinkedIn URL
                 </label>
                 <input
                   type="url"
@@ -358,12 +436,11 @@ const TeamManager = () => {
                   onChange={(e) => setFormData({...formData, linkedinUrl: e.target.value})}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   placeholder="https://linkedin.com/in/username"
-                  required
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-blue-200 mb-2">
-                  Instagram URL <span className="text-red-400">*</span>
+                  Instagram URL
                 </label>
                 <input
                   type="url"
@@ -371,7 +448,6 @@ const TeamManager = () => {
                   onChange={(e) => setFormData({...formData, instagramUrl: e.target.value})}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   placeholder="https://instagram.com/username"
-                  required
                 />
               </div>
             </div>
@@ -394,70 +470,76 @@ const TeamManager = () => {
         </div>
       )}
 
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-        {members.map((member) => (
-          <div key={member.id} className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 sm:p-6 border border-white/20">
-            <div className="text-center mb-4">
-              <img
-                src={member.imageUrl}
-                alt={member.name}
-                className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-full mx-auto mb-4"
-                onError={(e) => {
-                  e.target.src = 'https://placehold.co/96x96/161D58/FFFFFF?text=User';
-                }}
-              />
-              <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 break-words">{member.name}</h3>
-              <p className="text-blue-300 font-medium mb-2 text-sm sm:text-base">{member.role}</p>
-              <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm ${getPositionColor(member.position)}`}>
-                {member.position}
-              </span>
-              <p className="text-blue-200 text-xs sm:text-sm mt-3 leading-relaxed break-words">{member.description}</p>
-            </div>
-            
-            
-            <div className="flex justify-center space-x-2 sm:space-x-3 mb-4">
-              {member.linkedinUrl && (
-                <a 
-                  href={member.linkedinUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition-all duration-300 text-sm"
-                >
-                  📧
-                </a>
-              )}
-              {member.instagramUrl && (
-                <a 
-                  href={member.instagramUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="bg-pink-600 hover:bg-pink-700 text-white p-2 rounded-lg transition-all duration-300 text-sm"
-                >
-                  📷
-                </a>
-              )}
-            </div>
+      {loading ? (
+        <div className="text-white text-center py-10">Loading team members...</div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          {members.map((member) => {
+            const displayRoles = Array.isArray(member.role) ? member.role.join(', ') : member.role || '';
+            return (
+              <div key={member._id} className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 sm:p-6 border border-white/20 flex flex-col justify-between">
+                <div className="text-center mb-4">
+                  <img
+                    src={member.imageUrl}
+                    alt={member.name}
+                    className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-full mx-auto mb-4"
+                    onError={(e) => {
+                      e.target.src = 'https://placehold.co/96x96/161D58/FFFFFF?text=User';
+                    }}
+                  />
+                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 break-words">{member.name}</h3>
+                  <p className="text-blue-300 font-medium mb-2 text-xs sm:text-sm">{displayRoles}</p>
+                  <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-semibold ${getPositionColor(member.position)}`}>
+                    {member.position}
+                  </span>
+                  <p className="text-blue-200 text-xs mt-3 leading-relaxed break-words">{member.description}</p>
+                </div>
+                
+                <div>
+                  <div className="flex justify-center space-x-2 sm:space-x-3 mb-4">
+                    {(member.linkedin || member.linkedinUrl) && (
+                      <a 
+                        href={member.linkedin || member.linkedinUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition-all duration-300 text-sm"
+                      >
+                        🔗 LinkedIn
+                      </a>
+                    )}
+                    {(member.insta || member.instagram || member.instagramUrl) && (
+                      <a 
+                        href={member.insta || member.instagram || member.instagramUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="bg-pink-600 hover:bg-pink-700 text-white p-2 rounded-lg transition-all duration-300 text-sm"
+                      >
+                        📸 Instagram
+                      </a>
+                    )}
+                  </div>
 
-            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-              <button
-                onClick={() => handleEdit(member)}
-                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 text-xs sm:text-sm"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(member.id)}
-                className="flex-1 bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 text-xs sm:text-sm"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+                  <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                    <button
+                      onClick={() => handleEdit(member)}
+                      className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 text-xs sm:text-sm font-medium"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(member._id)}
+                      className="flex-1 bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 text-xs sm:text-sm font-medium"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
-      
       <ConfirmationModal
         isOpen={confirmModal.isOpen}
         onConfirm={confirmModal.type === 'delete' ? handleConfirmDelete : handleConfirmSave}
@@ -473,6 +555,3 @@ const TeamManager = () => {
 };
 
 export default TeamManager;
-
-
-
