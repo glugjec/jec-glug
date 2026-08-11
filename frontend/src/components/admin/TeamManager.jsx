@@ -5,11 +5,28 @@ import { buildXapiHeaders } from '../../config/xapiSession';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
+const getSessionSortValue = (session) => {
+  const match = /^([0-9]{4})-([0-9]{4})$/.exec(session || '');
+  if (!match) return -1;
+
+  const startYear = Number(match[1]);
+  const endYear = Number(match[2]);
+  if (Number.isNaN(startYear) || Number.isNaN(endYear)) return -1;
+
+  return endYear * 10000 + startYear;
+};
+
+const getLatestSession = (sessionList = []) => {
+  if (!Array.isArray(sessionList) || sessionList.length === 0) return '';
+
+  return [...sessionList].sort((first, second) => getSessionSortValue(second) - getSessionSortValue(first))[0] || '';
+};
+
 const TeamManager = () => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sessions, setSessions] = useState([]);
-  const [selectedSession, setSelectedSession] = useState('2026-2027');
+  const [selectedSession, setSelectedSession] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingMember, setEditingMember] = useState(null);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', data: null });
@@ -22,7 +39,7 @@ const TeamManager = () => {
     imageUrl: '',
     linkedinUrl: '',
     instagramUrl: '',
-    session: '2026-2027'
+    session: ''
   });
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -52,17 +69,18 @@ const TeamManager = () => {
       const response = await axios.get(`${baseURL}/session-members/sessions`);
       if (response.data && response.data.length > 0) {
         setSessions(response.data);
-        if (response.data.includes('2026-2027')) {
-          setSelectedSession('2026-2027');
-        } else {
-          setSelectedSession(response.data[0]);
-        }
+        const latestSession = getLatestSession(response.data);
+        setSelectedSession(latestSession);
       } else {
-        setSessions(['2026-2027', '2025-2026', '2024-2025']);
+        const fallbackSessions = ['2027-2028', '2026-2027', '2025-2026'];
+        setSessions(fallbackSessions);
+        setSelectedSession(getLatestSession(fallbackSessions));
       }
     } catch (error) {
       console.error('Error fetching sessions:', error);
-      setSessions(['2026-2027', '2025-2026', '2024-2025']);
+      const fallbackSessions = ['2027-2028', '2026-2027', '2025-2026'];
+      setSessions(fallbackSessions);
+      setSelectedSession(getLatestSession(fallbackSessions));
     }
   };
 
