@@ -1,51 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ConfirmationModal from './ConfirmationModal';
+import { buildXapiHeaders } from '../../config/xapiSession';
+
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const HomeSponsorManager = () => {
-  const [homeSponsors, setHomeSponsors] = useState([
-    {
-      id: 1,
-      name: 'Assam Government',
-      iconUrl: '/src/assets/sponsor_logo/assam.png',
-      linkUrl: 'https://assam.gov.in',
-      displayOrder: 1
-    },
-    {
-      id: 2,
-      name: 'Oil India Limited',
-      iconUrl: '/src/assets/sponsor_logo/oil.jpg',
-      linkUrl: 'https://www.oil-india.com',
-      displayOrder: 2
-    },
-    {
-      id: 3,
-      name: 'Saurabhi Enterprise',
-      iconUrl: '/src/assets/sponsor_logo/saurabhi.png',
-      linkUrl: 'https://saurabhi.com',
-      displayOrder: 3
-    },
-  ]);
+  const [homeSponsors, setHomeSponsors] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingSponsor, setEditingSponsor] = useState(null);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', data: null });
+  const [reorderModal, setReorderModal] = useState({ isOpen: false, data: null });
+  const [operationError, setOperationError] = useState('');
   const [formData, setFormData] = useState({
-    name: '',
-    iconUrl: '',
-    linkUrl: '',
-    displayOrder: 1
+    orderNo: 1,
+    imageUrl: ''
   });
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
+  useEffect(() => {
+    fetchHomeSponsors();
+  }, []);
+
+  const fetchHomeSponsors = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}/homepage-sponsors`);
+      setHomeSponsors(response.data || []);
+    } catch (error) {
+      console.error('Error fetching homepage sponsors:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+    setOperationError('');
     
     if (!editingSponsor && !selectedImage) {
       alert('Please select a sponsor icon');
       return;
     }
-    
     
     if (editingSponsor && !selectedImage && !imagePreview) {
       alert('Please select a sponsor icon');
@@ -53,17 +51,17 @@ const HomeSponsorManager = () => {
     }
     
     const isDuplicateOrder = homeSponsors.some(sponsor => 
-      sponsor.displayOrder === formData.displayOrder && 
-      sponsor.id !== (editingSponsor ? editingSponsor.id : null)
+      sponsor.orderNo === formData.orderNo && 
+      sponsor._id !== (editingSponsor ? editingSponsor._id : null)
     );
     
     if (isDuplicateOrder) {
-      alert(`Display order ${formData.displayOrder} is already taken. Please choose a different number.`);
+      alert(`Display order ${formData.orderNo} is already taken. Please choose a different number.`);
       return;
     }
     
     const action = editingSponsor ? 'update' : 'add';
-    const sponsorName = editingSponsor ? editingSponsor.name : formData.name;
+    const sponsorName = `Sponsor #${formData.orderNo}`;
     
     setConfirmModal({
       isOpen: true,
@@ -75,7 +73,6 @@ const HomeSponsorManager = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-     
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
         alert('File size must be less than 5MB. Please choose a smaller image.');
@@ -85,7 +82,6 @@ const HomeSponsorManager = () => {
       
       setSelectedImage(file);
       
-    
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreview(e.target.result);
@@ -94,108 +90,160 @@ const HomeSponsorManager = () => {
     }
   };
 
-  const handleConfirmAction = () => {
-    
-    const finalIconUrl = selectedImage ? 
-      imagePreview : 
-      formData.iconUrl;
-
-    const sponsorData = {
-      ...formData,
-      iconUrl: finalIconUrl
-    };
-
-    if (confirmModal.type === 'update') {
-      setHomeSponsors(homeSponsors.map(sponsor => 
-        sponsor.id === editingSponsor.id 
-          ? { ...sponsor, ...sponsorData }
-          : sponsor
-      ));
-      setEditingSponsor(null);
-    } else if (confirmModal.type === 'add') {
-      setHomeSponsors([...homeSponsors, { id: Date.now(), ...sponsorData }]);
+  const handleConfirmAction = async (xapiKey) => {
+    const formDataObj = new FormData();
+    formDataObj.append('orderNo', formData.orderNo);
+    if (selectedImage) {
+      formDataObj.append('logo', selectedImage);
     }
-    setFormData({ name: '', iconUrl: '', linkUrl: '', displayOrder: 1 });
-    setSelectedImage(null);
-    setImagePreview(null);
-    setShowAddForm(false);
-    setConfirmModal({ isOpen: false, type: '', data: null });
+
+    try {
+      if (confirmModal.type === 'update') {
+        await axios.patch(`${baseURL}/homepage-sponsors/${editingSponsor._id}`, formDataObj, {
+          headers: buildXapiHeaders(xapiKey, true)
+        });
+      } else if (confirmModal.type === 'add') {
+        await axios.post(`${baseURL}/homepage-sponsors`, formDataObj, {
+          headers: buildXapiHeaders(xapiKey, true)
+        });
+      }
+      fetchHomeSponsors();
+
+      setOperationError('');
+      setFormData({ orderNo: 1, imageUrl: '' });
+      setSelectedImage(null);
+      setImagePreview(null);
+      setShowAddForm(false);
+      setConfirmModal({ isOpen: false, type: '', data: null });
+    } catch (error) {
+      console.error('Error saving home sponsor:', error);
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
+    }
   };
 
   const handleEdit = (sponsor) => {
     setEditingSponsor(sponsor);
     setFormData({
-      name: sponsor.name,
-      iconUrl: sponsor.iconUrl,
-      linkUrl: sponsor.linkUrl,
-      displayOrder: sponsor.displayOrder
+      orderNo: sponsor.orderNo || 1,
+      imageUrl: sponsor.imageUrl || ''
     });
-    setImagePreview(sponsor.iconUrl);
+    setImagePreview(sponsor.imageUrl || null);
     setSelectedImage(null);
     setShowAddForm(true);
   };
 
   const handleDelete = (id) => {
-    const sponsor = homeSponsors.find(s => s.id === id);
+    const sponsor = homeSponsors.find(s => s._id === id);
     setConfirmModal({
       isOpen: true,
       type: 'delete',
-      data: { sponsorName: sponsor?.name || 'this sponsor', id }
+      data: { sponsorName: `Sponsor #${sponsor?.orderNo || ''}`, id }
     });
   };
 
-  const handleConfirmDelete = () => {
-    setHomeSponsors(homeSponsors.filter(sponsor => sponsor.id !== confirmModal.data.id));
-    setConfirmModal({ isOpen: false, type: '', data: null });
+  const handleConfirmDelete = async (xapiKey) => {
+    try {
+      await axios.delete(`${baseURL}/homepage-sponsors/${confirmModal.data.id}`, {
+        headers: buildXapiHeaders(xapiKey)
+      });
+      fetchHomeSponsors();
+      setOperationError('');
+      setConfirmModal({ isOpen: false, type: '', data: null });
+    } catch (error) {
+      console.error('Error deleting home sponsor:', error);
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
+    }
+  };
+
+  const openReorderModal = (data) => {
+    setOperationError('');
+    setReorderModal({ isOpen: true, data });
+  };
+
+  const closeReorderModal = () => {
+    setReorderModal({ isOpen: false, data: null });
+  };
+
+  const handleConfirmReorder = async (xapiKey) => {
+    const { currentSponsorId, previousSponsorId, currentOrder, previousOrder } = reorderModal.data || {};
+
+    if (!currentSponsorId || !previousSponsorId) {
+      throw new Error('Unable to reorder sponsors');
+    }
+
+    const fd1 = new FormData();
+    fd1.append('orderNo', 9999);
+    await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsorId}`, fd1, {
+      headers: buildXapiHeaders(xapiKey)
+    });
+
+    const fd2 = new FormData();
+    fd2.append('orderNo', currentOrder);
+    await axios.patch(`${baseURL}/homepage-sponsors/${previousSponsorId}`, fd2, {
+      headers: buildXapiHeaders(xapiKey)
+    });
+
+    const fd3 = new FormData();
+    fd3.append('orderNo', previousOrder);
+    await axios.patch(`${baseURL}/homepage-sponsors/${currentSponsorId}`, fd3, {
+      headers: buildXapiHeaders(xapiKey)
+    });
+
+    setOperationError('');
+    closeReorderModal();
+    fetchHomeSponsors();
   };
 
   const resetForm = () => {
-    setFormData({ name: '', iconUrl: '', linkUrl: '', displayOrder: 1 });
+    setOperationError('');
+    setFormData({ orderNo: 1, imageUrl: '' });
     setSelectedImage(null);
     setImagePreview(null);
     setEditingSponsor(null);
     setShowAddForm(false);
   };
 
-  const moveUp = (id) => {
-    const sortedSponsors = [...homeSponsors].sort((a, b) => a.displayOrder - b.displayOrder);
-    const index = sortedSponsors.findIndex(s => s.id === id);
+  const moveUp = async (id) => {
+    const sortedSponsors = [...homeSponsors].sort((a, b) => a.orderNo - b.orderNo);
+    const index = sortedSponsors.findIndex(s => s._id === id);
     
     if (index > 0) {
       const currentSponsor = sortedSponsors[index];
       const previousSponsor = sortedSponsors[index - 1];
-      
-      
-      const tempOrder = currentSponsor.displayOrder;
-      currentSponsor.displayOrder = previousSponsor.displayOrder;
-      previousSponsor.displayOrder = tempOrder;
-      
-      setHomeSponsors(homeSponsors.map(sponsor => {
-        if (sponsor.id === currentSponsor.id) return currentSponsor;
-        if (sponsor.id === previousSponsor.id) return previousSponsor;
-        return sponsor;
-      }));
+
+      openReorderModal({
+        currentSponsorId: currentSponsor._id,
+        previousSponsorId: previousSponsor._id,
+        currentOrder: currentSponsor.orderNo,
+        previousOrder: previousSponsor.orderNo,
+        title: 'Move Sponsor Up'
+      });
     }
   };
 
-  const moveDown = (id) => {
-    const sortedSponsors = [...homeSponsors].sort((a, b) => a.displayOrder - b.displayOrder);
-    const index = sortedSponsors.findIndex(s => s.id === id);
+  const moveDown = async (id) => {
+    const sortedSponsors = [...homeSponsors].sort((a, b) => a.orderNo - b.orderNo);
+    const index = sortedSponsors.findIndex(s => s._id === id);
     
     if (index < sortedSponsors.length - 1) {
       const currentSponsor = sortedSponsors[index];
       const nextSponsor = sortedSponsors[index + 1];
-      
-      
-      const tempOrder = currentSponsor.displayOrder;
-      currentSponsor.displayOrder = nextSponsor.displayOrder;
-      nextSponsor.displayOrder = tempOrder;
-      
-      setHomeSponsors(homeSponsors.map(sponsor => {
-        if (sponsor.id === currentSponsor.id) return currentSponsor;
-        if (sponsor.id === nextSponsor.id) return nextSponsor;
-        return sponsor;
-      }));
+
+      openReorderModal({
+        currentSponsorId: currentSponsor._id,
+        previousSponsorId: nextSponsor._id,
+        currentOrder: currentSponsor.orderNo,
+        previousOrder: nextSponsor.orderNo,
+        title: 'Move Sponsor Down'
+      });
     }
   };
 
@@ -214,50 +262,38 @@ const HomeSponsorManager = () => {
         </button>
       </div>
 
-      
+      {operationError && (
+        <div className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-red-200 text-sm">
+          {operationError}
+        </div>
+      )}
+
       {showAddForm && (
         <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
           <h3 className="text-xl font-semibold text-white mb-4">
             {editingSponsor ? 'Edit Home Sponsor' : 'Add New Home Sponsor'}
           </h3>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-blue-200 mb-2">
-                  Sponsor Name
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter sponsor name"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-blue-200 mb-2">
-                  Display Order
-                </label>
-                <input
-                  type="number"
-                  value={formData.displayOrder}
-                  onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value)})}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="1"
-                  min="1"
-                  required
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-blue-200 mb-2">
+                Display Order (Order No)
+              </label>
+              <input
+                type="number"
+                value={formData.orderNo}
+                onChange={(e) => setFormData({...formData, orderNo: parseInt(e.target.value) || 1})}
+                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="1"
+                min="1"
+                required
+              />
             </div>
             
-           
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
                 Sponsor Icon <span className="text-red-400">*</span>
               </label>
               <div className="space-y-4">
-                
                 <div className="relative">
                   <input
                     type="file"
@@ -290,7 +326,6 @@ const HomeSponsorManager = () => {
                   </label>
                 </div>
 
-                
                 {imagePreview && (
                   <div className="relative">
                     <img
@@ -303,7 +338,7 @@ const HomeSponsorManager = () => {
                       onClick={() => {
                         setImagePreview(null);
                         setSelectedImage(null);
-                        setFormData({...formData, iconUrl: ''});
+                        setFormData({...formData, imageUrl: ''});
                       }}
                       className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-1 rounded-full transition-colors duration-300"
                     >
@@ -317,26 +352,12 @@ const HomeSponsorManager = () => {
                   </div>
                 )}
 
-                
                 {selectedImage && (
                   <div className="text-sm text-green-300 bg-green-500/20 px-3 py-2 rounded-lg">
                     ✓ Icon ready for upload: {selectedImage.name}
                   </div>
                 )}
               </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-blue-200 mb-2">
-                Website Link URL
-              </label>
-              <input
-                type="text"
-                value={formData.linkUrl}
-                onChange={(e) => setFormData({...formData, linkUrl: e.target.value})}
-                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="https://sponsor-website.com"
-                required
-              />
             </div>
             <div className="flex space-x-4">
               <button
@@ -357,105 +378,92 @@ const HomeSponsorManager = () => {
         </div>
       )}
 
-      
-      <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-        <h3 className="text-lg font-semibold text-white mb-4">Homepage Preview</h3>
-        <div className="flex flex-wrap items-center justify-center gap-8 p-6 bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-xl">
-          {homeSponsors
-            .sort((a, b) => a.displayOrder - b.displayOrder)
-            .map((sponsor) => (
-              <div key={sponsor.id} className="group relative">
-                <a 
-                  href={sponsor.linkUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="block transition-transform duration-300 hover:scale-110"
-                >
-                  <img
-                    src={sponsor.iconUrl}
-                    alt={sponsor.name}
-                    className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                    onError={(e) => {
-                      e.target.src = 'https://placehold.co/80x60/161D58/FFFFFF?text=Logo';
-                    }}
-                  />
-                </a>
-                <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
-                    {sponsor.name}
-                  </span>
-                </div>
-              </div>
-            ))}
-        </div>
-      </div>
-
-     
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {homeSponsors
-          .sort((a, b) => a.displayOrder - b.displayOrder)
-          .map((sponsor, index) => (
-            <div key={sponsor.id} className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-              <div className="text-center mb-4">
-                <img
-                  src={sponsor.iconUrl}
-                  alt={sponsor.name}
-                  className="w-20 h-16 object-contain mx-auto mb-3 bg-white/10 rounded-xl p-2"
-                  onError={(e) => {
-                    e.target.src = 'https://placehold.co/80x60/161D58/FFFFFF?text=Logo';
-                  }}
-                />
-                <h3 className="text-lg font-semibold text-white mb-2">{sponsor.name}</h3>
-                <div className="flex items-center justify-center space-x-2 mb-3">
-                  <span className="bg-blue-500/30 text-blue-200 px-3 py-1 rounded-full text-sm">
-                    Order: {sponsor.displayOrder}
-                  </span>
-                </div>
-                <a 
-                  href={sponsor.linkUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-blue-300 hover:text-blue-200 text-sm break-all"
-                >
-                  {sponsor.linkUrl}
-                </a>
-              </div>
-              
-              
-              <div className="flex justify-center space-x-2 mb-4">
-                <button
-                  onClick={() => moveUp(sponsor.id)}
-                  disabled={index === 0}
-                  className="bg-blue-500/30 hover:bg-blue-500/50 disabled:bg-gray-500/20 disabled:text-gray-400 text-blue-200 px-3 py-1 rounded-lg transition-all duration-300 text-sm"
-                >
-                  ↑ Up
-                </button>
-                <button
-                  onClick={() => moveDown(sponsor.id)}
-                  disabled={index === homeSponsors.length - 1}
-                  className="bg-blue-500/30 hover:bg-blue-500/50 disabled:bg-gray-500/20 disabled:text-gray-400 text-blue-200 px-3 py-1 rounded-lg transition-all duration-300 text-sm"
-                >
-                  ↓ Down
-                </button>
-              </div>
-
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => handleEdit(sponsor)}
-                  className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(sponsor.id)}
-                  className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
-                >
-                  Delete
-                </button>
-              </div>
+      {loading ? (
+        <div className="text-white text-center py-10">Loading homepage sponsors...</div>
+      ) : (
+        <>
+          <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
+            <h3 className="text-lg font-semibold text-white mb-4">Homepage Preview</h3>
+            <div className="flex flex-wrap items-center justify-center gap-8 p-6 bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-xl">
+              {homeSponsors
+                .sort((a, b) => a.orderNo - b.orderNo)
+                .map((sponsor) => (
+                  <div key={sponsor._id} className="group relative">
+                    <img
+                      src={sponsor.imageUrl}
+                      alt={`Sponsor ${sponsor.orderNo}`}
+                      className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+                      onError={(e) => {
+                        e.target.src = 'https://placehold.co/80x60/161D58/FFFFFF?text=Logo';
+                      }}
+                    />
+                    <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
+                        Order: {sponsor.orderNo}
+                      </span>
+                    </div>
+                  </div>
+                ))}
             </div>
-          ))}
-      </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {homeSponsors
+              .sort((a, b) => a.orderNo - b.orderNo)
+              .map((sponsor, index) => (
+                <div key={sponsor._id} className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
+                  <div className="text-center mb-4">
+                    <img
+                      src={sponsor.imageUrl}
+                      alt={`Sponsor ${sponsor.orderNo}`}
+                      className="w-20 h-16 object-contain mx-auto mb-3 bg-white/10 rounded-xl p-2"
+                      onError={(e) => {
+                        e.target.src = 'https://placehold.co/80x60/161D58/FFFFFF?text=Logo';
+                      }}
+                    />
+                    <div className="flex items-center justify-center space-x-2 mb-3">
+                      <span className="bg-blue-500/30 text-blue-200 px-3 py-1 rounded-full text-sm font-semibold">
+                        Order No: {sponsor.orderNo}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-center space-x-2 mb-4">
+                    <button
+                      onClick={() => moveUp(sponsor._id)}
+                      disabled={index === 0}
+                      className="bg-blue-500/30 hover:bg-blue-500/50 disabled:bg-gray-500/20 disabled:text-gray-400 text-blue-200 px-3 py-1 rounded-lg transition-all duration-300 text-sm"
+                    >
+                      ↑ Up
+                    </button>
+                    <button
+                      onClick={() => moveDown(sponsor._id)}
+                      disabled={index === homeSponsors.length - 1}
+                      className="bg-blue-500/30 hover:bg-blue-500/50 disabled:bg-gray-500/20 disabled:text-gray-400 text-blue-200 px-3 py-1 rounded-lg transition-all duration-300 text-sm"
+                    >
+                      ↓ Down
+                    </button>
+                  </div>
+
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleEdit(sponsor)}
+                      className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(sponsor._id)}
+                      className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </>
+      )}
       
       <ConfirmationModal
         isOpen={confirmModal.isOpen}
@@ -472,6 +480,17 @@ const HomeSponsorManager = () => {
         confirmText={confirmModal.type === 'delete' ? 'Delete' : (confirmModal.type === 'update' ? 'Update' : 'Add Sponsor')}
         cancelText="Cancel"
         type={confirmModal.type === 'delete' ? 'danger' : 'default'}
+      />
+
+      <ConfirmationModal
+        isOpen={reorderModal.isOpen}
+        onConfirm={handleConfirmReorder}
+        onCancel={closeReorderModal}
+        title={reorderModal.data?.title || 'Reorder Sponsor'}
+        message="Enter the X-API key to reorder homepage sponsors."
+        confirmText="Reorder"
+        cancelText="Cancel"
+        type="default"
       />
     </div>
   );

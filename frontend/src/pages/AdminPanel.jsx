@@ -3,11 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 import AdminLogin from '../components/admin/AdminLogin';
 import AdminDashboard from '../components/admin/AdminDashboard';
-
-// Clear X-API session on logout
-const clearXapiSession = () => {
-  sessionStorage.removeItem('xapi_session');
-};
+import { clearXapiSession } from '../config/xapiSession';
 
 const AdminPanel = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

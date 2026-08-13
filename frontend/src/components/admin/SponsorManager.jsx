@@ -1,23 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ConfirmationModal from './ConfirmationModal';
+import { buildXapiHeaders } from '../../config/xapiSession';
+
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const SponsorManager = () => {
-  const [sponsors, setSponsors] = useState([
-    { 
-      id: 1, 
-      title: 'Assam Sponsor', 
-      tier: 'Gold', 
-      partnerType: 'Official Partner',
-      imageUrl: '/src/assets/sponsor_logo/assam.png'
-    },
-    { 
-      id: 2, 
-      title: 'Oil Company', 
-      tier: 'Silver', 
-      partnerType: 'Technical Partner',
-      imageUrl: '/src/assets/sponsor_logo/oil.jpg'
-    },
-  ]);
+  const [sponsors, setSponsors] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingSponsor, setEditingSponsor] = useState(null);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', data: null });
@@ -33,15 +23,29 @@ const SponsorManager = () => {
   const tierOptions = ['Gold', 'Silver', 'Bronze', 'Platinum'];
   const partnerTypes = ['Official Partner', 'Technical Partner', 'Media Partner', 'Community Partner'];
 
+  useEffect(() => {
+    fetchSponsors();
+  }, []);
+
+  const fetchSponsors = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}/sponsors`);
+      setSponsors(response.data || []);
+    } catch (error) {
+      console.error('Error fetching sponsors:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     
     if (!editingSponsor && !selectedImage) {
       alert('Please select a sponsor logo');
       return;
     }
-    
     
     if (editingSponsor && !selectedImage && !imagePreview) {
       alert('Please select a sponsor logo');
@@ -61,7 +65,6 @@ const SponsorManager = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
         alert('File size must be less than 5MB. Please choose a smaller image.');
@@ -71,7 +74,6 @@ const SponsorManager = () => {
       
       setSelectedImage(file);
       
-     
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreview(e.target.result);
@@ -80,49 +82,57 @@ const SponsorManager = () => {
     }
   };
 
-  const handleConfirmAction = () => {
-    
-    const finalImageUrl = selectedImage ? 
-      imagePreview : 
-      formData.imageUrl;
-
-    const sponsorData = {
-      ...formData,
-      imageUrl: finalImageUrl
-    };
-
-    if (confirmModal.type === 'update') {
-      setSponsors(sponsors.map(sponsor => 
-        sponsor.id === editingSponsor.id 
-          ? { ...sponsor, ...sponsorData }
-          : sponsor
-      ));
-      setEditingSponsor(null);
-    } else if (confirmModal.type === 'add') {
-      setSponsors([...sponsors, { id: Date.now(), ...sponsorData }]);
+  const handleConfirmAction = async (xapiKey) => {
+    const formDataObj = new FormData();
+    formDataObj.append('title', formData.title);
+    formDataObj.append('tier', formData.tier);
+    formDataObj.append('partnerType', formData.partnerType);
+    if (selectedImage) {
+      formDataObj.append('logo', selectedImage);
     }
-    setFormData({ title: '', tier: 'Gold', partnerType: 'Official Partner', imageUrl: '' });
-    setSelectedImage(null);
-    setImagePreview(null);
-    setShowAddForm(false);
-    setConfirmModal({ isOpen: false, type: '', data: null });
+
+    try {
+      if (confirmModal.type === 'update') {
+        await axios.patch(`${baseURL}/sponsors/${editingSponsor._id}`, formDataObj, {
+          headers: buildXapiHeaders(xapiKey, true)
+        });
+      } else if (confirmModal.type === 'add') {
+        await axios.post(`${baseURL}/sponsors`, formDataObj, {
+          headers: buildXapiHeaders(xapiKey, true)
+        });
+      }
+      fetchSponsors();
+
+      setFormData({ title: '', tier: 'Gold', partnerType: 'Official Partner', imageUrl: '' });
+      setSelectedImage(null);
+      setImagePreview(null);
+      setShowAddForm(false);
+      setConfirmModal({ isOpen: false, type: '', data: null });
+    } catch (error) {
+      console.error('Error saving sponsor:', error);
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
+    }
   };
 
   const handleEdit = (sponsor) => {
     setEditingSponsor(sponsor);
     setFormData({
-      title: sponsor.title,
-      tier: sponsor.tier,
-      partnerType: sponsor.partnerType,
-      imageUrl: sponsor.imageUrl
+      title: sponsor.title || '',
+      tier: sponsor.tier || 'Gold',
+      partnerType: sponsor.partnerType || 'Official Partner',
+      imageUrl: sponsor.imageUrl || ''
     });
-    setImagePreview(sponsor.imageUrl);
+    setImagePreview(sponsor.imageUrl || null);
     setSelectedImage(null);
     setShowAddForm(true);
   };
 
   const handleDelete = (id) => {
-    const sponsor = sponsors.find(s => s.id === id);
+    const sponsor = sponsors.find(s => s._id === id);
     setConfirmModal({
       isOpen: true,
       type: 'delete',
@@ -130,9 +140,21 @@ const SponsorManager = () => {
     });
   };
 
-  const handleConfirmDelete = () => {
-    setSponsors(sponsors.filter(sponsor => sponsor.id !== confirmModal.data.id));
-    setConfirmModal({ isOpen: false, type: '', data: null });
+  const handleConfirmDelete = async (xapiKey) => {
+    try {
+      await axios.delete(`${baseURL}/sponsors/${confirmModal.data.id}`, {
+        headers: buildXapiHeaders(xapiKey)
+      });
+      fetchSponsors();
+      setConfirmModal({ isOpen: false, type: '', data: null });
+    } catch (error) {
+      console.error('Error deleting sponsor:', error);
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
+    }
   };
 
   const resetForm = () => {
@@ -165,7 +187,6 @@ const SponsorManager = () => {
         </button>
       </div>
 
-      
       {showAddForm && (
         <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
           <h3 className="text-xl font-semibold text-white mb-4">
@@ -216,13 +237,11 @@ const SponsorManager = () => {
               </select>
             </div>
             
-            
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
                 Sponsor Logo <span className="text-red-400">*</span>
               </label>
               <div className="space-y-4">
-                
                 <div className="relative">
                   <input
                     type="file"
@@ -255,7 +274,6 @@ const SponsorManager = () => {
                   </label>
                 </div>
 
-                
                 {imagePreview && (
                   <div className="relative">
                     <img
@@ -282,7 +300,6 @@ const SponsorManager = () => {
                   </div>
                 )}
 
-                
                 {selectedImage && (
                   <div className="text-sm text-green-300 bg-green-500/20 px-3 py-2 rounded-lg">
                     ✓ Logo ready for upload: {selectedImage.name}
@@ -309,46 +326,49 @@ const SponsorManager = () => {
         </div>
       )}
 
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sponsors.map((sponsor) => (
-          <div key={sponsor.id} className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-            <div className="text-center mb-4">
-              <img
-                src={sponsor.imageUrl}
-                alt={sponsor.title}
-                className="w-20 h-20 object-contain mx-auto mb-4 bg-white rounded-xl p-2"
-                onError={(e) => {
-                  e.target.src = 'https://placehold.co/80x80/161D58/FFFFFF?text=Logo';
-                }}
-              />
-              <h3 className="text-xl font-semibold text-white mb-2">{sponsor.title}</h3>
-              <div className="flex flex-col space-y-2">
-                <span className={`${getTierColor(sponsor.tier)} text-white px-3 py-1 rounded-full text-sm font-medium`}>
-                  {sponsor.tier}
-                </span>
-                <span className="bg-blue-500/30 text-blue-200 px-3 py-1 rounded-full text-sm">
-                  {sponsor.partnerType}
-                </span>
+      {loading ? (
+        <div className="text-white text-center py-10">Loading sponsors...</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sponsors.map((sponsor) => (
+            <div key={sponsor._id} className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
+              <div className="text-center mb-4">
+                <img
+                  src={sponsor.imageUrl}
+                  alt={sponsor.title}
+                  className="w-20 h-20 object-contain mx-auto mb-4 bg-white rounded-xl p-2"
+                  onError={(e) => {
+                    e.target.src = 'https://placehold.co/80x80/161D58/FFFFFF?text=Logo';
+                  }}
+                />
+                <h3 className="text-xl font-semibold text-white mb-2">{sponsor.title}</h3>
+                <div className="flex flex-col space-y-2">
+                  <span className={`${getTierColor(sponsor.tier)} text-white px-3 py-1 rounded-full text-sm font-medium`}>
+                    {sponsor.tier}
+                  </span>
+                  <span className="bg-blue-500/30 text-blue-200 px-3 py-1 rounded-full text-sm">
+                    {sponsor.partnerType}
+                  </span>
+                </div>
+              </div>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => handleEdit(sponsor)}
+                  className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(sponsor._id)}
+                  className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
+                >
+                  Delete
+                </button>
               </div>
             </div>
-            <div className="flex space-x-2">
-              <button
-                onClick={() => handleEdit(sponsor)}
-                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(sponsor.id)}
-                className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
       
       <ConfirmationModal
         isOpen={confirmModal.isOpen}

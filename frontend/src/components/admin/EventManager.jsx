@@ -1,25 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ConfirmationModal from './ConfirmationModal';
+import { buildXapiHeaders } from '../../config/xapiSession';
+
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const EventManager = () => {
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: 'Open Source Workshop',
-      description: 'Learn the basics of open source development and contributing to projects.',
-      date: '2024-08-15',
-      tags: ['Workshop', 'Open Source', 'Beginner'],
-      imageUrl: 'https://placehold.co/400x200/161D58/FFFFFF?text=Workshop'
-    },
-    {
-      id: 2,
-      title: 'Hackathon 2024',
-      description: 'A 24-hour coding competition to build innovative solutions.',
-      date: '2024-09-20',
-      tags: ['Hackathon', 'Competition', 'Innovation'],
-      imageUrl: 'https://placehold.co/400x200/161D58/FFFFFF?text=Hackathon+2024'
-    },
-  ]);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, type: '', data: null });
@@ -33,15 +21,35 @@ const EventManager = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}/events`);
+      const data = response.data;
+      if (data && data.status === 'success') {
+        const allEvents = [...(data.upcoming || []), ...(data.past || [])];
+        setEvents(allEvents);
+      } else {
+        setEvents(Array.isArray(data) ? data : []);
+      }
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validation
     if (!editingEvent && !selectedImage) {
       alert('Please select an image for the event');
       return;
     }
-    
     
     if (editingEvent && !selectedImage && !imagePreview) {
       alert('Please select an image for the event');
@@ -61,7 +69,6 @@ const EventManager = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
         alert('File size must be less than 5MB. Please choose a smaller image.');
@@ -71,7 +78,6 @@ const EventManager = () => {
       
       setSelectedImage(file);
       
-      // Create preview URL
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreview(e.target.result);
@@ -80,51 +86,70 @@ const EventManager = () => {
     }
   };
 
-  const handleConfirmAction = () => {
+  const handleConfirmAction = async (xapiKey) => {
+    const formDataObj = new FormData();
+    formDataObj.append('title', formData.title);
+    formDataObj.append('description', formData.description);
     
-    const finalImageUrl = selectedImage ? 
-      imagePreview : 
-      formData.imageUrl;
-
-    const eventData = {
-      title: formData.title,
-      description: formData.description,
-      date: formData.date,
-      tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
-      imageUrl: finalImageUrl
-    };
-
-    if (confirmModal.type === 'update') {
-      setEvents(events.map(event => 
-        event.id === editingEvent.id 
-          ? { ...event, ...eventData }
-          : event
-      ));
-      setEditingEvent(null);
-    } else if (confirmModal.type === 'add') {
-      setEvents([...events, { id: Date.now(), ...eventData }]);
+    // The backend expects DD/MM/YYYY or YYYY-MM-DD or standard Date string.
+    // Let's send the raw date string from the HTML input (YYYY-MM-DD).
+    formDataObj.append('date', formData.date);
+    formDataObj.append('tags', formData.tags);
+    
+    if (selectedImage) {
+      formDataObj.append('image', selectedImage);
     }
-    
-    resetForm();
-    setConfirmModal({ isOpen: false, type: '', data: null });
+
+    try {
+      if (confirmModal.type === 'update') {
+        await axios.patch(`${baseURL}/events/${editingEvent._id}`, formDataObj, {
+          headers: buildXapiHeaders(xapiKey, true)
+        });
+      } else if (confirmModal.type === 'add') {
+        await axios.post(`${baseURL}/events`, formDataObj, {
+          headers: buildXapiHeaders(xapiKey, true)
+        });
+      }
+      fetchEvents();
+
+      resetForm();
+      setConfirmModal({ isOpen: false, type: '', data: null });
+    } catch (error) {
+      console.error('Error saving event:', error);
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
+    }
   };
 
   const handleEdit = (event) => {
     setEditingEvent(event);
+    
+    // Format date value back to YYYY-MM-DD for <input type="date" />
+    let formattedDate = '';
+    if (event.date) {
+      const d = new Date(event.date);
+      if (!isNaN(d.getTime())) {
+        formattedDate = d.toISOString().split('T')[0];
+      }
+    }
+
     setFormData({
-      title: event.title,
-      description: event.description,
-      date: event.date,
+      title: event.title || '',
+      description: event.description || '',
+      date: formattedDate,
       tags: Array.isArray(event.tags) ? event.tags.join(', ') : '',
-      imageUrl: event.imageUrl
+      imageUrl: event.imageUrl || ''
     });
-    setImagePreview(event.imageUrl);
+    setImagePreview(event.imageUrl || null);
     setSelectedImage(null);
     setShowAddForm(true);
   };
 
   const handleDelete = (id) => {
-    const event = events.find(e => e.id === id);
+    const event = events.find(e => e._id === id);
     setConfirmModal({
       isOpen: true,
       type: 'delete',
@@ -132,9 +157,21 @@ const EventManager = () => {
     });
   };
 
-  const handleConfirmDelete = () => {
-    setEvents(events.filter(event => event.id !== confirmModal.data.id));
-    setConfirmModal({ isOpen: false, type: '', data: null });
+  const handleConfirmDelete = async (xapiKey) => {
+    try {
+      await axios.delete(`${baseURL}/events/${confirmModal.data.id}`, {
+        headers: buildXapiHeaders(xapiKey)
+      });
+      fetchEvents();
+      setConfirmModal({ isOpen: false, type: '', data: null });
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      throw new Error(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        'Invalid X-API key'
+      );
+    }
   };
 
   const resetForm = () => {
@@ -153,6 +190,7 @@ const EventManager = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString;
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -184,7 +222,6 @@ const EventManager = () => {
         </button>
       </div>
 
-      
       {showAddForm && (
         <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
           <h3 className="text-xl font-semibold text-white mb-4">
@@ -244,13 +281,11 @@ const EventManager = () => {
               </div>
             </div>
             
-            
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
                 Event Image <span className="text-red-400">*</span>
               </label>
               <div className="space-y-4">
-               
                 <div className="relative">
                   <input
                     type="file"
@@ -283,7 +318,6 @@ const EventManager = () => {
                   </label>
                 </div>
 
-                
                 {imagePreview && (
                   <div className="relative">
                     <img
@@ -310,7 +344,6 @@ const EventManager = () => {
                   </div>
                 )}
 
-                {/* Upload Status  */}
                 {selectedImage && (
                   <div className="text-sm text-green-300 bg-green-500/20 px-3 py-2 rounded-lg">
                     ✓ Image ready for upload: {selectedImage.name}
@@ -338,59 +371,61 @@ const EventManager = () => {
         </div>
       )}
 
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {events.map((event) => (
-          <div key={event.id} className="bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/20">
-            <img
-              src={event.imageUrl}
-              alt={event.title}
-              className="w-full h-48 object-cover"
-              onError={(e) => {
-                e.target.src = 'https://placehold.co/400x200/161D58/FFFFFF?text=Event+Image';
-              }}
-            />
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-3">
-                <h3 className="text-xl font-semibold text-white">{event.title}</h3>
-                <span className="text-blue-300 text-sm bg-blue-500/20 px-3 py-1 rounded-full">
-                  {formatDate(event.date)}
-                </span>
-              </div>
-              <p className="text-blue-200 mb-4">{event.description}</p>
-              
-              
-              {event.tags && event.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {event.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${getTagColor(index)}`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
+      {loading ? (
+        <div className="text-white text-center py-10">Loading events...</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {events.map((event) => (
+            <div key={event._id} className="bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/20">
+              <img
+                src={event.imageUrl}
+                alt={event.title}
+                className="w-full h-48 object-cover"
+                onError={(e) => {
+                  e.target.src = 'https://placehold.co/400x200/161D58/FFFFFF?text=Event+Image';
+                }}
+              />
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-xl font-semibold text-white">{event.title}</h3>
+                  <span className="text-blue-300 text-sm bg-blue-500/20 px-3 py-1 rounded-full">
+                    {formatDate(event.date)}
+                  </span>
                 </div>
-              )}
-              
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => handleEdit(event)}
-                  className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(event.id)}
-                  className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
-                >
-                  Delete
-                </button>
+                <p className="text-blue-200 mb-4">{event.description}</p>
+                
+                {event.tags && event.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {event.tags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${getTagColor(index)}`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => handleEdit(event)}
+                    className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(event._id)}
+                    className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-300 text-sm"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
       
       <ConfirmationModal
         isOpen={confirmModal.isOpen}

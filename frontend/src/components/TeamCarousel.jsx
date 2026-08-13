@@ -20,7 +20,7 @@ const TeamCarousel = () => {
     if (position === 'CLUB - HEAD') return 1;
     if (position === 'CLUB LEADERSHIP') return 2;
     if (position === 'CO-HEAD') return 3;
-    if (position === 'ADVISOR') return 4;
+    if (position === 'ADVISOR' || position === 'CLUB ADVISOR' || position === 'CLUB ADVISORY') return 4;
     return 999;
   };
 
@@ -35,7 +35,9 @@ const TeamCarousel = () => {
             member.position === "CLUB - HEAD" ||
             member.position === "CLUB LEADERSHIP"||
             member.position === "CO-HEAD" ||
-            member.position === "ADVISOR"
+            member.position === "ADVISOR" ||
+            member.position === "CLUB ADVISOR" ||
+            member.position === "CLUB ADVISORY"
         ).sort((memberA, memberB) => {
           const priorityA = getPositionPriority(memberA.position);
           const priorityB = getPositionPriority(memberB.position);

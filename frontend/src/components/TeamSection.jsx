@@ -10,11 +10,17 @@ const TeamSection = ({ title, members = [] }) => {
 
   const hasPresident = members.some(
     (member) =>
-      member.role.includes('CLUB HEAD') ||
-      member.role.includes('CO-HEAD') ||
-      member.role.includes('MENTOR')||
-      member.role.includes('FACULTY-MENTOR')||
-      member.role.includes('ADVISOR')
+      Array.isArray(member.role) &&
+      member.role.some((r) => {
+        const val = String(r).toUpperCase();
+        return (
+          val.includes('CLUB HEAD') ||
+          val.includes('CO-HEAD') ||
+          val.includes('MENTOR') ||
+          val.includes('FACULTY-MENTOR') ||
+          val.includes('ADVISOR')
+        );
+      })
   );
 
   const handleClick = (e) => {
