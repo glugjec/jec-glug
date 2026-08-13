@@ -91,9 +91,17 @@ const EventManager = () => {
     formDataObj.append('title', formData.title);
     formDataObj.append('description', formData.description);
     
-    // The backend expects DD/MM/YYYY or YYYY-MM-DD or standard Date string.
-    // Let's send the raw date string from the HTML input (YYYY-MM-DD).
-    formDataObj.append('date', formData.date);
+    // Convert date value from YYYY-MM-DD to DD/MM/YYYY for the backend
+    let formattedDate = '';
+    if (formData.date) {
+      const parts = formData.date.split('-');
+      if (parts.length === 3) {
+        formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+    }
+    
+    formDataObj.append('date', formattedDate);
+    formDataObj.append('time', '00:00'); // The backend expects time to compile the full Date object
     formDataObj.append('tags', formData.tags);
     
     if (selectedImage) {
