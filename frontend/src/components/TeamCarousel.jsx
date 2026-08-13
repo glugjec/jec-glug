@@ -72,7 +72,7 @@ const TeamCarousel = () => {
           {allMembers.map((member, index) => (
             <CarouselItem
               key={member._id || index}
-              className="pl-3 basis-1/1 sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/3"
+              className="pl-3 basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/3"
             >
               <div className="p-3 relative">
                 <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -118,7 +118,7 @@ const TeamCarousel = () => {
               </div>
             </CarouselItem>
           ))}
-          <CarouselItem className="pl-3 basis-1/1 sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/3">
+          <CarouselItem className="pl-3 basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/3">
             <div className="p-3 relative h-full flex items-center justify-center">
               <Link to="/team" className="w-full">
                 <div className="w-full aspect-[3/4] flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl overflow-hidden hover:from-gray-100 hover:to-gray-200 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border border-gray-200">
