@@ -46,7 +46,7 @@ const Hero = () => {
       <div className="font-helvetica flex flex-col sm:flex-row items-center justify-center gap-4">
         
         <a
-          href="https://chat.whatsapp.com/HsoDfVe5hYa2L9mFPJfR5t"
+          href="https://chat.whatsapp.com/C3ZPRyoG0OI5Uy5ZEs7xxL"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold rounded-full px-8 py-3 shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-300 transform hover:scale-105"

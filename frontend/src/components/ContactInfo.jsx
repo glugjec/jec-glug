@@ -11,7 +11,7 @@ const ContactInfo = () => {
     {
       icon: <Mail className="w-5 h-5" />,
       label: "Email",
-      value: "glug.jec@gmail.com"
+      value: "contact@glugjec.com"
     },
     {
       icon: <MapPin className="w-5 h-5" />,
@@ -19,6 +19,7 @@ const ContactInfo = () => {
       value: "Jorhat Engineering College"
     }
   ];
+
 
   return (
     <div className=" p-6 rounded-lg shadow-sm ">

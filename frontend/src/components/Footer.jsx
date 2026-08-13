@@ -37,7 +37,7 @@ export default function Footer() {
           <a href="https://www.google.com/maps/search/?api=1&query=Jorhat+Engineering+College" target="_blank" rel="noopener noreferrer" className="text-blue-900">Jorhat Engineering College,<br />Assam, India </a>
           <br/>
           <br/>
-          <a href="mailto:glug.jec@gmail.com" className="text-blue-900">glug.jec@gmail.com &nbsp;</a>
+          <a href="mailto:contact@glugjec.com" className="text-blue-900">glug.jec@gmail.com &nbsp;</a>
         </div>
 
         {/* Follow Us */}
@@ -76,7 +76,7 @@ export default function Footer() {
       {/* Bottom horizontal bar */}
     </footer>
     <div className="py-4 bg-[#03022C] text-white text-center py-2">
-        <p className="text-sm">All rights reserved&nbsp;&nbsp;&nbsp;© 2025 GLUG JEC</p>
+        <p className="text-sm">Made by 2026 GLUG JEC</p>
       </div>
       </>
   );
