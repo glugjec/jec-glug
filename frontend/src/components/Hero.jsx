@@ -26,13 +26,13 @@ const Hero = () => {
     alt=""
     role="presentation"
     loading="lazy"
-    className={`absolute top-[18%] sm:top-[18%] md:top-[18%] lg:top-[10%] portrait:top-0 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[600px] h-auto pointer-events-none transition-all duration-1000 ease-out
+    className={`absolute top-[18%] sm:top-[18%] md:top-[18%] lg:top-[10%] left-1/2 transform -translate-x-1/2 w-[90%] max-w-[600px] h-auto pointer-events-none transition-all duration-1000 ease-out
       ${circleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-32'}
-      z-10 portrait:z-0`}
+      z-10`}
   />
 
       {/* Hero stuff*/}
-      <div className="relative z-20 text-center px-4 pt-24">
+     <div className="relative z-20 text-center px-4 pt-12 sm:pt-16 md:pt-20 lg:pt-24">
       
       <h1 className="font-canno text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-blue-400 tracking-wide leading-[1.1] drop-shadow-[0px_4px_24px_rgba(80,140,255,0.25)] pb-4">
         Unleash Innovation <br />Through Open Source
