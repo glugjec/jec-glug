@@ -22,11 +22,11 @@ const Hero = () => {
     <section className="relative w-full min-h-[90vh] bg-[#03022B] flex flex-col items-center justify-center overflow-hidden">
   
   <img
-    src="images/newbg.png"
+    src="images/bg.png"
     alt=""
     role="presentation"
     loading="lazy"
-    className={`absolute top-[18%] sm:top-[18%] md:top-[18%] lg:top-[10%] portrait:top-0 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[600px] h-auto pointer-events-none transition-all duration-1000 ease-out brightness-50
+    className={`absolute top-[28%] sm:top-[28%] md:top-[28%] lg:top-[18%] portrait:top-0 left-1/2 transform -translate-x-1/2 w-[90vw] max-w-[600px] h-auto pointer-events-none transition-all duration-1000 ease-out brightness-50
       ${circleVisible ? 'opacity-80 translate-y-0' : 'opacity-0 translate-y-32'}
       z-10 portrait:z-0`}
   />
