@@ -9,7 +9,7 @@ const TeamMemberCard = ({ member }) => {
 
   return (
     <div className="bg-gradient-to-b from-black/70 to-slate-600/70 backdrop-blur-sm 
-    sm:rounded-[25px] rounded-[20px] p-6 flex flex-col space-y-4 shadow-lg w-full h-full hover:scale-105 hover:shadow-x1 transition-transform duration-300">
+    sm:rounded-[25px] rounded-[20px] p-6 flex flex-col space-y-4 shadow-lg w-full h-full">
       
       <div className="flex items-start space-x-3 sm:space-x-6">
         <img
