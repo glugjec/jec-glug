@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import EventShowCard from './EventShowCard';
+import { isToday } from '@/lib/utils';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -14,8 +15,31 @@ const EventsComponent = () => {
     const fetchEvents = async () => {
       try {
         const res = await axios.get(`${baseURL}/events`);
-        setUpcomingEvents(res.data.upcoming || []);
-        setPastEvents(res.data.past || []);
+        const allUpcoming = res.data.upcoming || [];
+        const allPast = res.data.past || [];
+
+        const todayEvents = [];
+        const remainingPast = [];
+        const remainingUpcoming = [];
+
+        allUpcoming.forEach(event => {
+          if (isToday(event.date)) {
+            todayEvents.push(event);
+          } else {
+            remainingUpcoming.push(event);
+          }
+        });
+
+        allPast.forEach(event => {
+          if (isToday(event.date)) {
+            todayEvents.push(event);
+          } else {
+            remainingPast.push(event);
+          }
+        });
+
+        setUpcomingEvents([...todayEvents, ...remainingUpcoming]);
+        setPastEvents(remainingPast);
       } catch (err) {
         console.error('Failed to fetch events:', err);
       } finally {
