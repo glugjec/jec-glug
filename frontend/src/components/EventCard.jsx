@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CarouselItem } from "@/components/ui/carousel";
+import EventImageGallery from './EventImageGallery';
 
 const EventCard = ({ event }) => {
   // Since tags already include #, just join directly
@@ -12,14 +13,12 @@ const EventCard = ({ event }) => {
         <div className="bg-slate-800 rounded-lg overflow-hidden h-80 flex flex-col justify-between shadow-lg hover:shadow-blue-500/20 transition-shadow duration-300 relative">
           
           <div className="flex-grow flex items-center justify-center p-4">
-            <img 
-              src={event.imageUrl} 
-              alt={event.title} 
-              className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300 rounded-md"
-              onError={(e) => {
-                e.currentTarget.src = 'https://placehold.co/320x320/1e293b/ffffff?text=No+Image';
-                e.currentTarget.onerror = null;
-              }}
+            <EventImageGallery 
+              imageUrls={event.imageUrls}
+              imageUrl={event.imageUrl}
+              alt={event.title}
+              className="h-full w-full rounded-md"
+              imgClassName="group-hover:scale-105 transition-transform duration-300"
             />
           </div>
 

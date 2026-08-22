@@ -1,5 +1,6 @@
 import React from 'react';
 import { isToday } from '@/lib/utils';
+import EventImageGallery from './EventImageGallery';
 
 const EventShowCard = ({ event }) => {
   const formattedDate = new Date(event.date).toLocaleDateString('en-IN', {
@@ -12,10 +13,11 @@ const EventShowCard = ({ event }) => {
     <div className="max-w-sm w-full bg-white rounded-[3rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-900">
       {/* Image Section */}
       <div className="bg-gray-200 h-40 w-full overflow-hidden rounded-t-[3rem]">
-        <img
-          src={event.imageUrl || '/images/default-event.png'}
+        <EventImageGallery
+          imageUrls={event.imageUrls}
+          imageUrl={event.imageUrl || '/images/default-event.png'}
           alt={event.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full"
         />
       </div>
 
