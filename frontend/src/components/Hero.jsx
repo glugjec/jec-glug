@@ -285,12 +285,14 @@ const Hero = () => {
             Join Us
           </a>
 
-          <button
-            onClick={scrollTosec}
+       <a
+            href="https://community.glugjec.com/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-transparent border-2 border-blue-400 text-blue-300 font-semibold rounded-full px-8 py-3 shadow-md hover:bg-blue-500 hover:text-white transition-all duration-300 transform hover:scale-105"
           >
-            Explore
-          </button>
+            Explore Community
+          </a>
         </div>
       </div>
 
