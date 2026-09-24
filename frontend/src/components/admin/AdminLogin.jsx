@@ -10,7 +10,7 @@ const AdminLogin = ({ onLogin }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const cleanUsername = credentials.username.trim();
-    const cleanPassword = credentials.password.trim();
+    const cleanPassword = credentials.password;
 
     if (cleanUsername === AUTH_CONFIG.ADMIN_USERNAME && cleanPassword === AUTH_CONFIG.ADMIN_PASSWORD) {
       setError('');
@@ -24,9 +24,9 @@ const AdminLogin = ({ onLogin }) => {
     <div className="min-h-screen bg-gradient-to-br from-[#03022B] to-[#161D58] flex items-center justify-center px-4">
       <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-8 w-full max-w-md border border-white/20 shadow-2xl">
         <div className="text-center mb-8">
-          <img 
-            src="/images/logo.png" 
-            alt="Logo" 
+          <img
+            src="/images/logo.png"
+            alt="Logo"
             className="h-16 mx-auto mb-4"
             onError={(e) => {
               e.currentTarget.style.display = 'none';

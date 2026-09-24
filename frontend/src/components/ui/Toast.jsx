@@ -8,12 +8,12 @@ const Toast = ({
   onClose
 }) => {
   useEffect(() => {
-    if (!duration || !onClose) return;
+    if (!message || !duration || !onClose) return;
     const timer = setTimeout(() => {
       onClose();
     }, duration);
     return () => clearTimeout(timer);
-  }, [duration, onClose]);
+  }, [message, duration, onClose]);
 
   if (!message) return null;
 
@@ -33,9 +33,8 @@ const Toast = ({
     <div
       role="status"
       aria-live="polite"
-      className={`fixed bottom-5 right-5 z-50 flex items-center gap-3 px-4 py-3 rounded-xl border backdrop-blur-xl shadow-2xl transition-all duration-300 animate-in fade-in slide-in-from-bottom-5 max-w-md ${
-        typeStyles[type] || typeStyles.info
-      }`}
+      className={`fixed bottom-5 right-5 z-50 flex items-center gap-3 px-4 py-3 rounded-xl border backdrop-blur-xl shadow-2xl transition-all duration-300 animate-in fade-in slide-in-from-bottom-5 max-w-md ${typeStyles[type] || typeStyles.info
+        }`}
     >
       <IconComponent className="w-5 h-5 flex-shrink-0" />
       <span className="text-sm font-medium">{message}</span>

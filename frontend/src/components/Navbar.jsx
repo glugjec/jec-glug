@@ -146,9 +146,8 @@ const Navbar = () => {
                 to={item.path}
                 ref={(el) => (navLinksRef.current[index] = el)}
                 onMouseEnter={() => handleMouseEnter(index)}
-                className={`relative z-10 px-8 py-2 rounded-full transition-colors duration-300 text-sm font-medium ${
-                  activeIndex === index ? "text-white" : "text-blue-200 hover:text-white"
-                }`}
+                className={`relative z-10 px-8 py-2 rounded-full transition-colors duration-300 text-sm font-medium ${activeIndex === index ? "text-white" : "text-blue-200 hover:text-white"
+                  }`}
               >
                 {item.name}
               </Link>
@@ -171,9 +170,11 @@ const Navbar = () => {
 
         {/* Mobile Navigation Drawer */}
         <div
-          className={`w-full lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${
-            menuOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0 pointer-events-none"
-          }`}
+          id="mobile-nav-drawer"
+          inert={!menuOpen ? "" : undefined}
+          aria-hidden={!menuOpen}
+          className={`w-full lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${menuOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0 pointer-events-none"
+            }`}
         >
           <div className="flex flex-col bg-[#0f1443]/95 backdrop-blur-xl rounded-2xl p-4 space-y-2 border border-blue-400/30 shadow-2xl shadow-blue-500/20">
             {NAV_ITEMS.map((item) => (
@@ -181,11 +182,10 @@ const Navbar = () => {
                 key={item.name}
                 to={item.path}
                 onClick={() => setMenuOpen(false)}
-                className={`block px-4 py-3 rounded-xl transition-all duration-200 text-base font-medium ${
-                  location.pathname === item.path
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
-                    : "text-blue-100 hover:text-white hover:bg-white/10"
-                }`}
+                className={`block px-4 py-3 rounded-xl transition-all duration-200 text-base font-medium ${location.pathname === item.path
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
+                  : "text-blue-100 hover:text-white hover:bg-white/10"
+                  }`}
               >
                 {item.name}
               </Link>
