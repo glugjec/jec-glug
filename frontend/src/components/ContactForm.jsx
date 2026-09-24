@@ -39,7 +39,7 @@ const ContactForm = () => {
     setFocusedField(fieldName);
   };
 
-  const handleBlur = (fieldName) => {
+  const handleBlur = () => {
     setFocusedField('');
   };
 

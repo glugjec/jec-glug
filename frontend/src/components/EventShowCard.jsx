@@ -1,8 +1,9 @@
 import React from 'react';
 import { isToday } from '@/lib/utils';
 import EventImageGallery from './EventImageGallery';
+import EventCountdown from './ui/EventCountdown';
 
-const EventShowCard = ({ event }) => {
+const EventShowCard = ({ event, showCountdown = false, onCountdownExpire }) => {
   const formattedDate = new Date(event.date).toLocaleDateString('en-IN', {
     year: 'numeric',
     month: 'short',
@@ -36,6 +37,10 @@ const EventShowCard = ({ event }) => {
             {formattedDate}
           </p>
         </div>
+
+        {showCountdown && (
+          <EventCountdown targetDate={event.date} onExpire={onCountdownExpire} />
+        )}
 
         <p className="text-sm leading-relaxed text-white/90 mb-6">
           {event.description}

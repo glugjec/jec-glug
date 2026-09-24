@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   return (
     <>
-    <footer className="w-full bg-white  pb-8 text-[#060038] px-8 md:px-20 pt-16">
-      <div className="font-helvetica max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+    <footer className="w-full bg-white pb-8 text-[#060038] px-4 sm:px-8 md:px-20 pt-10 sm:pt-16">
+      <div className="font-helvetica max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
 
         {/* GLUG Info */}
         <div className="font-helvetica relative">

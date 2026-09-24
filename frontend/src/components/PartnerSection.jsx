@@ -4,18 +4,18 @@ import { Link } from "react-router-dom";
 const PartnerSection = () => {
   return (
     // The section already takes the full width, padding controls the inner spacing.
-    <section className="w-screen bg-gradient-to-b from-white to-[#EBF5FF] py-20 px-8 md:px-16 lg:px-24">
+    <section className="w-full bg-gradient-to-b from-white to-[#EBF5FF] py-12 sm:py-20 px-4 sm:px-8 md:px-16 lg:px-24">
       {/* MODIFICATION: Removed "max-w-7xl mx-auto" to allow content to fill the container.
         Changed "justify-center" to "justify-between" to push items to the sides.
       */}
-      <div className="w-full flex flex-col md:flex-row items-center justify-between gap-16">
+      <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
         
         {/* Left Content Block */}
         <div className="font-poppins max-w-2xl text-center md:text-left">
-          <h2 className="text-4xl md:text-5xl text-[#0A1F44] mb-8">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl text-[#0A1F44] mb-4 sm:mb-8 font-bold">
             Partner with GLUG
           </h2>
-          <p className="text-gray-600 text-lg mb-8 text-justify">
+          <p className="text-gray-600 text-base sm:text-lg mb-6 sm:mb-8 text-left sm:text-justify leading-relaxed">
             Collaborate with GLUG JEC to support innovation, learning, and open-source growth. By partnering, you help empower students through events, mentorship, and real-world tech exposure.
           </p>
           <Link

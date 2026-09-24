@@ -30,7 +30,7 @@ const HomeSponsorSection = () => {
   const extendedSponsors = [...sponsors, ...sponsors, ...sponsors, ...sponsors];
 
   return (
-    <div className="w-screen py-6 mx-auto mt-12 mb-8 relative left-1/2 right-1/2 -translate-x-1/2">
+    <div className="w-full max-w-full py-6 mx-auto mt-8 sm:mt-12 mb-6 sm:mb-8 px-4">
       <h2 className="text-2xl font-bold text-gray-100 mb-6 text-center">Our Sponsors</h2>
       
       <div className="overflow-hidden w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-4xl mx-auto px-2">

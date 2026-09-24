@@ -47,7 +47,7 @@ const Gallery = () => {
 
   if (isLoading) {
     return (
-      <section className="w-screen flex justify-center items-center py-12 min-h-[600px]" style={{ background: "linear-gradient(to bottom, #03022C, #151C57)" }}>
+      <section className="w-full max-w-full flex justify-center items-center py-12 min-h-[400px] sm:min-h-[600px]" style={{ background: "linear-gradient(to bottom, #03022C, #151C57)" }}>
         <div className="text-white text-xl">Loading gallery...</div>
       </section>
     );
@@ -55,20 +55,20 @@ const Gallery = () => {
 
   if (images.length === 0) {
     return (
-      <section className="w-screen flex justify-center items-center py-12 min-h-[600px]" style={{ background: "linear-gradient(to bottom, #03022C, #151C57)" }}>
+      <section className="w-full max-w-full flex justify-center items-center py-12 min-h-[400px] sm:min-h-[600px]" style={{ background: "linear-gradient(to bottom, #03022C, #151C57)" }}>
         <div className="text-white text-xl">No gallery images found.</div>
       </section>
     );
   }
 
   return (
-    <section className="w-screen flex justify-center items-center py-12" style={{ background: "linear-gradient(to bottom, #03022C, #151C57)" }}>
+    <section className="w-full max-w-full flex justify-center items-center py-8 sm:py-12" style={{ background: "linear-gradient(to bottom, #03022C, #151C57)" }}>
       <div className="max-w-6xl w-full px-4">
-        <h2 className="font-poppins text-4xl font-bold text-white mb-8 text-center">
+        <h2 className="font-poppins text-3xl sm:text-4xl font-bold text-white mb-6 sm:mb-8 text-center">
           Gallery
         </h2>
-        <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20">
-          <div className="relative overflow-hidden rounded-2xl mb-6 group">
+        <div className="relative bg-white/10 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-white/20">
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl mb-4 sm:mb-6 group">
             <div
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -78,15 +78,15 @@ const Gallery = () => {
                   <img
                     src={image.imageUrl}
                     alt={image.title}
-                    className="w-full h-[400px] md:h-[500px] object-cover"
+                    className="w-full h-[250px] sm:h-[400px] md:h-[500px] object-cover"
                     onError={(e) => {
                       e.target.src = 'https://placehold.co/800x500/161D58/FFFFFF?text=Gallery+Image';
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-6 left-6 text-white">
-                      <h3 className="text-2xl font-bold mb-2 line-clamp-1 overflow-hidden text-ellipsis">{image.title}</h3>
-                      <p className="text-blue-200 line-clamp-2 overflow-hidden text-ellipsis">{image.description}</p>
+                    <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 text-white">
+                      <h3 className="text-lg sm:text-2xl font-bold mb-1 sm:mb-2 line-clamp-1 overflow-hidden text-ellipsis">{image.title}</h3>
+                      <p className="text-blue-200 text-xs sm:text-base line-clamp-2 overflow-hidden text-ellipsis">{image.description}</p>
                     </div>
                   </div>
                 </div>
@@ -96,38 +96,41 @@ const Gallery = () => {
             {/* Navigation buttons */}
             <button
               onClick={goToPrevious}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"
+              className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"
+              aria-label="Previous image"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"
+              className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"
+              aria-label="Next image"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>
 
           {/* Thumbnail preview */}
-          <div className="flex justify-center space-x-3 mb-4">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4 max-w-full">
             {images.map((image, index) => (
               <button
                 key={image._id}
                 onClick={() => goToSlide(index)}
                 className={`relative overflow-hidden rounded-lg transition-all duration-300 ${
                   index === currentIndex 
-                    ? 'ring-2 ring-blue-400 scale-110' 
+                    ? 'ring-2 ring-blue-400 scale-105 sm:scale-110' 
                     : 'hover:scale-105 opacity-70 hover:opacity-100'
                 }`}
+                aria-label={`Go to slide ${index + 1}`}
               >
                 <img
                   src={image.imageUrl}
                   alt={image.title}
-                  className="w-16 h-16 md:w-20 md:h-20 object-cover"
+                  className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-cover"
                   onError={(e) => {
                     e.target.src = 'https://placehold.co/80x80/161D58/FFFFFF?text=Img';
                   }}
@@ -142,7 +145,8 @@ const Gallery = () => {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                aria-label={`Slide indicator ${index + 1}`}
+                className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
                   index === currentIndex 
                     ? 'bg-blue-400 scale-125' 
                     : 'bg-white/30 hover:bg-white/50'

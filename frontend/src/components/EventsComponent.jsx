@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import EventShowCard from './EventShowCard';
+import SkeletonCard from './ui/SkeletonCard';
+import ErrorAlert from './ui/ErrorAlert';
 import { isToday } from '@/lib/utils';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -10,45 +12,69 @@ const EventsComponent = () => {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentTime, setCurrentTime] = useState(Date.now());
+
+  const handleCountdownExpire = useCallback(() => {
+    setCurrentTime(Date.now());
+  }, []);
+
+  const nearestUpcomingEvent = React.useMemo(() => {
+    const futureEvents = upcomingEvents.filter((ev) => {
+      if (!ev?.date) return false;
+      const t = new Date(ev.date).getTime();
+      return !isNaN(t) && t > currentTime;
+    });
+
+    if (futureEvents.length === 0) return null;
+
+    return futureEvents.reduce((nearest, ev) => {
+      if (!nearest) return ev;
+      return new Date(ev.date).getTime() < new Date(nearest.date).getTime() ? ev : nearest;
+    }, null);
+  }, [upcomingEvents, currentTime]);
+
+  const fetchEvents = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axios.get(`${baseURL}/events`);
+      const allUpcoming = res.data?.upcoming || [];
+      const allPast = res.data?.past || [];
+
+      const todayEvents = [];
+      const remainingPast = [];
+      const remainingUpcoming = [];
+
+      allUpcoming.forEach((event) => {
+        if (isToday(event.date)) {
+          todayEvents.push(event);
+        } else {
+          remainingUpcoming.push(event);
+        }
+      });
+
+      allPast.forEach((event) => {
+        if (isToday(event.date)) {
+          todayEvents.push(event);
+        } else {
+          remainingPast.push(event);
+        }
+      });
+
+      setUpcomingEvents([...todayEvents, ...remainingUpcoming]);
+      setPastEvents(remainingPast);
+    } catch (err) {
+      console.error('Failed to fetch events:', err);
+      setError('Unable to load events from server. Please check your connection and try again.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const res = await axios.get(`${baseURL}/events`);
-        const allUpcoming = res.data.upcoming || [];
-        const allPast = res.data.past || [];
-
-        const todayEvents = [];
-        const remainingPast = [];
-        const remainingUpcoming = [];
-
-        allUpcoming.forEach(event => {
-          if (isToday(event.date)) {
-            todayEvents.push(event);
-          } else {
-            remainingUpcoming.push(event);
-          }
-        });
-
-        allPast.forEach(event => {
-          if (isToday(event.date)) {
-            todayEvents.push(event);
-          } else {
-            remainingPast.push(event);
-          }
-        });
-
-        setUpcomingEvents([...todayEvents, ...remainingUpcoming]);
-        setPastEvents(remainingPast);
-      } catch (err) {
-        console.error('Failed to fetch events:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchEvents();
-  }, []);
+  }, [fetchEvents]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -88,42 +114,31 @@ const EventsComponent = () => {
       </div>
 
       
-      {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-2 sm:p-6 transition-all duration-300">
-          {[...Array(6)].map((_, index) => (
-            <div key={index} className="bg-gradient-to-b from-gray-700/80 to-gray-800/80 backdrop-blur-sm rounded-[16px] sm:rounded-[20px] overflow-hidden animate-pulse">
-              
-              <div className="h-28 sm:h-36 bg-blue-400/30 animate-shimmer"></div>
-              
-              
-              <div className="p-3 sm:p-4 space-y-2 sm:space-y-3">
-                
-                <div className="h-4 sm:h-6 bg-blue-300/40 rounded w-3/4 animate-shimmer"></div>
-                
-                
-                <div className="h-2 sm:h-3 bg-blue-200/30 rounded w-1/3 animate-shimmer"></div>
-                
-                
-                <div className="space-y-1 sm:space-y-2">
-                  <div className="h-2 sm:h-3 bg-blue-200/30 rounded w-full animate-shimmer"></div>
-                  <div className="h-2 sm:h-3 bg-blue-200/30 rounded w-4/5 animate-shimmer"></div>
-                </div>
-                
-                
-                <div className="flex flex-wrap gap-1 sm:gap-2 mt-2 sm:mt-3">
-                  <div className="h-4 sm:h-5 bg-blue-400/40 rounded-full w-10 sm:w-14 animate-shimmer"></div>
-                  <div className="h-4 sm:h-5 bg-blue-300/40 rounded-full w-12 sm:w-16 animate-shimmer"></div>
-                  <div className="h-4 sm:h-5 bg-blue-500/40 rounded-full w-8 sm:w-12 animate-shimmer"></div>
-                </div>
-              </div>
-            </div>
-          ))}
+      {error ? (
+        <ErrorAlert message={error} onRetry={fetchEvents} />
+      ) : loading ? (
+        <SkeletonCard count={6} />
+      ) : (activeTab === 'upcoming' ? upcomingEvents : pastEvents).length === 0 ? (
+        <div className="text-center py-12 text-slate-400">
+          <p className="text-lg">No {activeTab} events found at this moment.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-2 sm:p-6 transition-all duration-300">
-          {(activeTab === 'upcoming' ? upcomingEvents : pastEvents).map(event => (
-            <EventShowCard key={event._id} event={event} />
-          ))}
+          {(activeTab === 'upcoming' ? upcomingEvents : pastEvents).map((event) => {
+            const isNearest = activeTab === 'upcoming' && nearestUpcomingEvent && (
+              (event._id && event._id === nearestUpcomingEvent._id) ||
+              (!event._id && event.title === nearestUpcomingEvent.title)
+            );
+
+            return (
+              <EventShowCard
+                key={event._id || event.title}
+                event={event}
+                showCountdown={Boolean(isNearest)}
+                onCountdownExpire={handleCountdownExpire}
+              />
+            );
+          })}
         </div>
       )}
     </div>

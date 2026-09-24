@@ -136,8 +136,8 @@ const TeamCarousel = () => {
             </div>
           </CarouselItem>
         </CarouselContent>
-        <CarouselPrevious className="text-black" />
-        <CarouselNext className="text-black" />
+        <CarouselPrevious className="hidden sm:flex text-black" />
+        <CarouselNext className="hidden sm:flex text-black" />
       </Carousel>
     </div>
   );

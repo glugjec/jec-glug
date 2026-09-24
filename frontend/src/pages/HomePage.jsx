@@ -47,13 +47,13 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex flex-col w-full">
       <div className='w-full bg-gradient-to-b from-[#03022C] to-[#161D58] text-white'>
         <Hero />
-        <div className="font-canno py-10 text-center text-3xl sm:text-4xl md:text-5xl">
+        <div className="font-canno py-8 sm:py-10 text-center text-3xl sm:text-4xl md:text-5xl">
           Our Team
         </div>
-        <div className='w-full px-4 sm:px-16 py-auto'>
+        <div className='w-full px-4 sm:px-16'>
           <TeamCarousel />
         </div>
         <AboutGLUG />
@@ -63,7 +63,7 @@ const HomePage = () => {
         <HomeSponsorSection />
       </div>
 
-      <div className="bg-[#03022C] color-white w-full py-12">
+      <div className="bg-[#03022C] text-white w-full py-8 sm:py-12">
         {eventSections.map(section => (
           <Event key={section.id} singleEvent={section} />
         ))}
