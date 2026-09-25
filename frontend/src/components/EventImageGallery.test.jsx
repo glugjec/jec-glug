@@ -33,4 +33,11 @@ describe('EventImageGallery component', () => {
     fireEvent.keyDown(region, { key: 'ArrowLeft' });
     expect(screen.getByRole('img')).toHaveAttribute('src', images[0]);
   });
+
+  it('renders image with object-contain to prevent cropping', () => {
+    render(<EventImageGallery imageUrl="https://example.com/poster.jpg" alt="Poster Event" />);
+    const img = screen.getByRole('img');
+    expect(img.className).toContain('object-contain');
+    expect(img.className).not.toContain('object-cover');
+  });
 });

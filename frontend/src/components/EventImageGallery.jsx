@@ -50,7 +50,7 @@ const EventImageGallery = ({
 
   if (images.length === 0) {
     return (
-      <div className={`bg-slate-800 flex items-center justify-center ${className}`}>
+      <div className={`bg-slate-900 flex items-center justify-center ${className}`}>
         <span className="text-gray-400 text-sm">No Image</span>
       </div>
     );
@@ -64,14 +64,26 @@ const EventImageGallery = ({
       aria-label={`${alt} gallery`}
       tabIndex={isMultiple ? 0 : -1}
       onKeyDown={handleKeyDown}
-      className={`relative overflow-hidden group focus:outline-none focus:ring-2 focus:ring-blue-500/50 rounded-xl ${className}`}
+      className={`relative overflow-hidden group focus:outline-none focus:ring-2 focus:ring-blue-500/50 flex items-center justify-center bg-slate-900 ${className}`}
     >
-      {/* Image container */}
+      {/* Ambient background to elegantly fill container without leaving stark empty gaps */}
+      <img
+        src={images[currentIndex]}
+        alt=""
+        role="presentation"
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover blur-md scale-110 opacity-30 pointer-events-none select-none"
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+
+      {/* Main foreground image */}
       <img
         key={currentIndex}
         src={images[currentIndex]}
         alt={`${alt} - Image ${currentIndex + 1} of ${images.length}`}
-        className={`w-full h-full object-cover transition-opacity duration-300 ${imgClassName}`}
+        className={`relative z-10 w-full h-full object-contain drop-shadow-md transition-opacity duration-300 ${imgClassName}`}
         onError={(e) => {
           e.currentTarget.src = 'https://placehold.co/400x300/1e293b/ffffff?text=No+Image';
           e.currentTarget.onerror = null;
@@ -83,7 +95,7 @@ const EventImageGallery = ({
         <>
           <button
             onClick={handlePrev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full p-2 backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100 z-10 cursor-pointer shadow-lg"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full p-2 backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100 z-20 cursor-pointer shadow-lg"
             aria-label="Previous image"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,7 +104,7 @@ const EventImageGallery = ({
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full p-2 backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100 z-10 cursor-pointer shadow-lg"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full p-2 backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100 z-20 cursor-pointer shadow-lg"
             aria-label="Next image"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -104,7 +116,7 @@ const EventImageGallery = ({
 
       {/* Dots Indicator */}
       {isMultiple && (
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1.5 z-10 bg-black/40 px-2.5 py-1 rounded-full backdrop-blur-sm shadow-md">
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1.5 z-20 bg-black/40 px-2.5 py-1 rounded-full backdrop-blur-sm shadow-md">
           {images.map((_, index) => (
             <button
               key={index}

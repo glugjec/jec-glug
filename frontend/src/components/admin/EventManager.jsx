@@ -424,7 +424,7 @@ const EventManager = () => {
                           <img
                             src={preview}
                             alt={`Preview ${index + 1}`}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                           />
                           
                           {/* Reordering Overlay Controls */}

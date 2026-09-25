@@ -12,7 +12,7 @@ const EventCard = ({ event }) => {
       <Link to="/events" className="block group">
         <div className="bg-slate-800 rounded-lg overflow-hidden h-80 flex flex-col justify-between shadow-lg hover:shadow-blue-500/20 transition-shadow duration-300 relative">
           
-          <div className="flex-grow flex items-center justify-center p-4">
+          <div className="flex-grow flex items-center justify-center p-4 pb-20">
             <EventImageGallery 
               imageUrls={event.imageUrls}
               imageUrl={event.imageUrl}

@@ -13,7 +13,7 @@ const EventShowCard = ({ event, showCountdown = false, onCountdownExpire }) => {
   return (
     <div className="max-w-sm w-full bg-white rounded-[3rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-900">
       {/* Image Section */}
-      <div className="bg-gray-200 h-40 w-full overflow-hidden rounded-t-[3rem]">
+      <div className="bg-slate-900 w-full aspect-[16/9] overflow-hidden rounded-t-[3rem] flex items-center justify-center relative">
         <EventImageGallery
           imageUrls={event.imageUrls}
           imageUrl={event.imageUrl || '/images/default-event.png'}
