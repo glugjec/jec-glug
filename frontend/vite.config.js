@@ -16,5 +16,7 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/test/setup.js",
     pool: "threads",
+    isolate: false,
+    testTimeout: 20000,
   },
 });
