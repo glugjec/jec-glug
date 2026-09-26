@@ -1,11 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 
 const EventImageGallery = ({ imageUrls = [], imageUrl, alt = 'Event Image', className = '', imgClassName = '' }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
   const images = imageUrls && imageUrls.length > 0 
     ? imageUrls 
     : (imageUrl ? [imageUrl] : []);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+      emblaApi.off('reInit', onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
+  const scrollPrev = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const scrollTo = useCallback((e, index) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (emblaApi) emblaApi.scrollTo(index);
+  }, [emblaApi]);
 
   if (images.length === 0) {
     return (
@@ -15,45 +51,40 @@ const EventImageGallery = ({ imageUrls = [], imageUrl, alt = 'Event Image', clas
     );
   }
 
-  const handleNext = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const handlePrev = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
-
-  const handleDotClick = (e, index) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setCurrentIndex(index);
-  };
-
   const isMultiple = images.length > 1;
 
   return (
     <div className={`relative overflow-hidden group ${className}`}>
-      {/* Image container */}
-      <img
-        src={images[currentIndex]}
-        alt={`${alt} - Image ${currentIndex + 1}`}
-        className={`w-full h-full object-cover transition-all duration-300 ${imgClassName}`}
-        onError={(e) => {
-          e.currentTarget.src = 'https://placehold.co/400x300/1e293b/ffffff?text=No+Image';
-          e.currentTarget.onerror = null;
-        }}
-      />
+      {/* Embla Viewport */}
+      <div className="overflow-hidden w-full h-full" ref={isMultiple ? emblaRef : null}>
+        {/* Embla Container */}
+        <div className="flex w-full h-full">
+          {images.map((src, index) => (
+            <div className="flex-[0_0_100%] min-w-0 w-full h-full relative" key={`${src}-${index}`}>
+              <img
+                src={src}
+                alt={`${alt} image ${index + 1}`}
+                loading={index === 0 ? undefined : "lazy"}
+                className={`w-full h-full object-cover block ${imgClassName}`}
+                onError={(e) => {
+                  const fallbackSrc = 'https://placehold.co/400x300/1e293b/ffffff?text=No+Image';
+                  if (e.currentTarget.src !== fallbackSrc) {
+                    e.currentTarget.src = fallbackSrc;
+                  }
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Navigation Arrows */}
       {isMultiple && (
         <>
           <button
-            onClick={handlePrev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-1.5 backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100 z-10 cursor-pointer"
+            type="button"
+            onClick={scrollPrev}
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-1.5 backdrop-blur-sm motion-safe:transition-opacity duration-300 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 z-10 cursor-pointer hidden sm:block outline-none focus-visible:ring-2 focus-visible:ring-[#8AE6FF]"
             aria-label="Previous image"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,8 +92,9 @@ const EventImageGallery = ({ imageUrls = [], imageUrl, alt = 'Event Image', clas
             </svg>
           </button>
           <button
-            onClick={handleNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-1.5 backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100 z-10 cursor-pointer"
+            type="button"
+            onClick={scrollNext}
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-1.5 backdrop-blur-sm motion-safe:transition-opacity duration-300 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 z-10 cursor-pointer hidden sm:block outline-none focus-visible:ring-2 focus-visible:ring-[#8AE6FF]"
             aria-label="Next image"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,9 +110,10 @@ const EventImageGallery = ({ imageUrls = [], imageUrl, alt = 'Event Image', clas
           {images.map((_, index) => (
             <button
               key={index}
-              onClick={(e) => handleDotClick(e, index)}
-              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                index === currentIndex ? 'bg-white scale-125' : 'bg-white/50'
+              type="button"
+              onClick={(e) => scrollTo(e, index)}
+              className={`w-1.5 h-1.5 rounded-full motion-safe:transition-all duration-300 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#8AE6FF] focus-visible:ring-offset-1 focus-visible:ring-offset-transparent ${
+                index === selectedIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/80'
               }`}
               aria-label={`Go to image ${index + 1}`}
             />
