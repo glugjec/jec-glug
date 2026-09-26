@@ -22,10 +22,10 @@ function AppContent() {
   }, []);
 
   return (
-    <div className='<div className="flex flex-col items-center w-full overflow-x-hidden">'>
+    <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
       {!isAdminRoute && <Navbar />}
       <div
-        className={`min-h-screen transition-all duration-300 ${
+        className={`flex-grow w-full flex flex-col transition-all duration-300 ${
           isAdminRoute 
             ? 'bg-gradient-to-br from-[#0F1629] via-[#161D58] to-[#0F1629]' 
             : 'bg-cover bg-center'
