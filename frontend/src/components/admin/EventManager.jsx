@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ConfirmationModal from './ConfirmationModal';
 import { buildXapiHeaders } from '../../config/xapiSession';
+import EventImageGallery from '../EventImageGallery';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -18,8 +19,9 @@ const EventManager = () => {
     tags: '',
     imageUrl: ''
   });
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
 
   useEffect(() => {
     fetchEvents();
@@ -46,13 +48,13 @@ const EventManager = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (!editingEvent && !selectedImage) {
-      alert('Please select an image for the event');
+    if (!editingEvent && (!selectedImages || selectedImages.length === 0)) {
+      alert('Please select at least one image for the event');
       return;
     }
     
-    if (editingEvent && !selectedImage && !imagePreview) {
-      alert('Please select an image for the event');
+    if (editingEvent && (!selectedImages || selectedImages.length === 0) && (!imagePreviews || imagePreviews.length === 0)) {
+      alert('Please select at least one image for the event');
       return;
     }
     
@@ -67,22 +69,82 @@ const EventManager = () => {
   };
 
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
       const maxSize = 5 * 1024 * 1024;
-      if (file.size > maxSize) {
-        alert('File size must be less than 5MB. Please choose a smaller image.');
-        e.target.value = ''; 
-        return;
+      const validFiles = [];
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.size > maxSize) {
+          alert(`File "${file.name}" size must be less than 5MB. Please choose a smaller image.`);
+          continue;
+        }
+        validFiles.push(file);
       }
       
-      setSelectedImage(file);
-      
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      if (validFiles.length > 0) {
+        setSelectedImages(validFiles);
+        
+        const previews = new Array(validFiles.length);
+        let loaded = 0;
+        validFiles.forEach((file, index) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            previews[index] = e.target.result;
+            loaded++;
+            if (loaded === validFiles.length) {
+              setImagePreviews(previews);
+            }
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+    }
+  };
+
+  const handleClearImages = () => {
+    setSelectedImages([]);
+    if (editingEvent) {
+      setImagePreviews(existingImages);
+    } else {
+      setImagePreviews([]);
+    }
+    const fileInput = document.getElementById('image-upload');
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  };
+
+  const handleMoveImage = (index, direction) => {
+    if (selectedImages.length === 0) return; // Can only rearrange newly selected files
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= selectedImages.length) return;
+
+    const newSelected = [...selectedImages];
+    const tempFile = newSelected[index];
+    newSelected[index] = newSelected[targetIndex];
+    newSelected[targetIndex] = tempFile;
+    setSelectedImages(newSelected);
+
+    const newPreviews = [...imagePreviews];
+    const tempPreview = newPreviews[index];
+    newPreviews[index] = newPreviews[targetIndex];
+    newPreviews[targetIndex] = tempPreview;
+    setImagePreviews(newPreviews);
+  };
+
+  const handleRemoveImage = (index) => {
+    if (selectedImages.length === 0) return;
+    const newSelected = selectedImages.filter((_, i) => i !== index);
+    const newPreviews = imagePreviews.filter((_, i) => i !== index);
+    setSelectedImages(newSelected);
+    setImagePreviews(newPreviews);
+    if (newSelected.length === 0) {
+      const fileInput = document.getElementById('image-upload');
+      if (fileInput) {
+        fileInput.value = '';
+      }
     }
   };
 
@@ -104,8 +166,14 @@ const EventManager = () => {
     formDataObj.append('time', '00:00'); // The backend expects time to compile the full Date object
     formDataObj.append('tags', formData.tags);
     
-    if (selectedImage) {
-      formDataObj.append('image', selectedImage);
+    if (selectedImages && selectedImages.length > 0) {
+      if (selectedImages.length > 1) {
+        selectedImages.forEach(file => {
+          formDataObj.append('images', file);
+        });
+      } else {
+        formDataObj.append('image', selectedImages[0]);
+      }
     }
 
     try {
@@ -151,8 +219,13 @@ const EventManager = () => {
       tags: Array.isArray(event.tags) ? event.tags.join(', ') : '',
       imageUrl: event.imageUrl || ''
     });
-    setImagePreview(event.imageUrl || null);
-    setSelectedImage(null);
+    
+    const initialImages = event.imageUrls && event.imageUrls.length > 0
+      ? event.imageUrls
+      : (event.imageUrl ? [event.imageUrl] : []);
+    setExistingImages(initialImages);
+    setImagePreviews(initialImages);
+    setSelectedImages([]);
     setShowAddForm(true);
   };
 
@@ -190,8 +263,9 @@ const EventManager = () => {
       tags: '', 
       imageUrl: ''
     });
-    setSelectedImage(null);
-    setImagePreview(null);
+    setSelectedImages([]);
+    setImagePreviews([]);
+    setExistingImages([]);
     setEditingEvent(null);
     setShowAddForm(false);
   };
@@ -291,22 +365,23 @@ const EventManager = () => {
             
             <div>
               <label className="block text-sm font-medium text-blue-200 mb-2">
-                Event Image <span className="text-red-400">*</span>
+                Event Images <span className="text-red-400">*</span>
               </label>
               <div className="space-y-4">
                 <div className="relative">
                   <input
                     type="file"
                     accept="image/*"
+                    multiple
                     onChange={handleImageUpload}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     id="image-upload"
-                    required={!editingEvent || !imagePreview}
+                    required={!editingEvent || imagePreviews.length === 0}
                   />
                   <label
                     htmlFor="image-upload"
                     className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-colors duration-300 bg-white/5 ${
-                      (!editingEvent && !selectedImage) || (editingEvent && !selectedImage && !imagePreview)
+                      (!editingEvent && selectedImages.length === 0) || (editingEvent && selectedImages.length === 0 && imagePreviews.length === 0)
                         ? 'border-red-400/50 hover:border-red-400' 
                         : 'border-white/30 hover:border-blue-400'
                     }`}
@@ -316,45 +391,94 @@ const EventManager = () => {
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                       </svg>
                       <p className="mb-2 text-sm text-blue-300">
-                        <span className="font-semibold">Click to upload</span> or drag and drop
+                        <span className="font-semibold">Click to upload multiple</span> or drag and drop
                       </p>
-                      <p className="text-xs text-blue-400">PNG, JPG, JPEG or GIF (MAX. 5MB)</p>
-                      {(!editingEvent && !selectedImage) || (editingEvent && !selectedImage && !imagePreview) ? (
-                        <p className="text-xs text-red-400 mt-1">* Image required</p>
+                      <p className="text-xs text-blue-400">PNG, JPG, JPEG or GIF (MAX. 5MB per image)</p>
+                      {(!editingEvent && selectedImages.length === 0) || (editingEvent && selectedImages.length === 0 && imagePreviews.length === 0) ? (
+                        <p className="text-xs text-red-400 mt-1">* At least one image required</p>
                       ) : null}
                     </div>
                   </label>
                 </div>
 
-                {imagePreview && (
-                  <div className="relative">
-                    <img
-                      src={imagePreview}
-                      alt="Preview"
-                      className="w-full h-48 object-cover rounded-xl border border-white/20"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setImagePreview(null);
-                        setSelectedImage(null);
-                        setFormData({...formData, imageUrl: ''});
-                      }}
-                      className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-1 rounded-full transition-colors duration-300"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                      </svg>
-                    </button>
-                    <div className="absolute bottom-2 left-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
-                      {selectedImage ? 'New Image Selected' : 'Current Image'}
+                {imagePreviews && imagePreviews.length > 0 && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <div className="flex flex-col">
+                        <span className="text-sm text-blue-200 font-semibold">Previews ({imagePreviews.length} images)</span>
+                        {selectedImages.length > 0 && (
+                          <span className="text-[11px] text-blue-400">Hover images to reorder or remove</span>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleClearImages}
+                        className="text-xs text-red-400 hover:text-red-300 transition-colors cursor-pointer"
+                      >
+                        Clear Selection
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {imagePreviews.map((preview, index) => (
+                        <div key={index} className="relative group rounded-xl overflow-hidden border border-white/20 h-28 bg-black/20">
+                          <img
+                            src={preview}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                          
+                          {/* Reordering Overlay Controls */}
+                          {selectedImages.length > 0 && (
+                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-1.5 transition-opacity duration-300">
+                              {index > 0 && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleMoveImage(index, -1)}
+                                  className="p-1 bg-white/20 hover:bg-white/40 text-white rounded-full transition-colors cursor-pointer"
+                                  title="Move Left"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                                  </svg>
+                                </button>
+                              )}
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveImage(index)}
+                                className="p-1 bg-red-500/80 hover:bg-red-600 text-white rounded-full transition-colors cursor-pointer"
+                                title="Remove"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                              </button>
+                              {index < selectedImages.length - 1 && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleMoveImage(index, 1)}
+                                  className="p-1 bg-white/20 hover:bg-white/40 text-white rounded-full transition-colors cursor-pointer"
+                                  title="Move Right"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                                  </svg>
+                                </button>
+                              )}
+                            </div>
+                          )}
+
+                          <div className="absolute bottom-1 left-1 bg-black/60 text-white px-1.5 py-0.5 rounded text-[10px]">
+                            {selectedImages.length > 0 ? `New #${index + 1}` : `Existing #${index + 1}`}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
 
-                {selectedImage && (
+                {selectedImages && selectedImages.length > 0 && (
                   <div className="text-sm text-green-300 bg-green-500/20 px-3 py-2 rounded-lg">
-                    ✓ Image ready for upload: {selectedImage.name}
+                    ✓ {selectedImages.length} {selectedImages.length === 1 ? 'image' : 'images'} ready for upload: {selectedImages.map(f => f.name).join(', ')}
                   </div>
                 )}
               </div>
@@ -385,13 +509,11 @@ const EventManager = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {events.map((event) => (
             <div key={event._id} className="bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/20">
-              <img
-                src={event.imageUrl}
+              <EventImageGallery
+                imageUrls={event.imageUrls}
+                imageUrl={event.imageUrl}
                 alt={event.title}
-                className="w-full h-48 object-cover"
-                onError={(e) => {
-                  e.target.src = 'https://placehold.co/400x200/161D58/FFFFFF?text=Event+Image';
-                }}
+                className="w-full h-48"
               />
               <div className="p-6">
                 <div className="flex justify-between items-start mb-3">
