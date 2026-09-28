@@ -5,6 +5,8 @@ import { isToday } from '@/lib/utils';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
+import InteractiveBackground from './InteractiveBackground';
+
 const EventsComponent = () => {
   const [activeTab, setActiveTab] = useState('upcoming');
   const [upcomingEvents, setUpcomingEvents] = useState([]);
@@ -84,20 +86,14 @@ const EventsComponent = () => {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 relative">
-      {/* Subtle Background Particles */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute top-[15%] left-[20%] w-1.5 h-1.5 bg-[#8AE6FF] rounded-full opacity-20 motion-safe:animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute top-[60%] left-[10%] w-1 h-1 bg-white rounded-full opacity-10 motion-safe:animate-pulse" style={{ animationDuration: '3s', animationDelay: '1s' }} />
-        <div className="absolute top-[30%] right-[25%] w-2 h-2 bg-[#8AE6FF] rounded-full opacity-20 motion-safe:animate-pulse" style={{ animationDuration: '5s', animationDelay: '2s' }} />
-        <div className="absolute top-[75%] right-[15%] w-1.5 h-1.5 bg-white rounded-full opacity-10 motion-safe:animate-pulse" style={{ animationDuration: '4s', animationDelay: '1.5s' }} />
-        <div className="absolute top-[40%] left-[50%] w-1 h-1 bg-[#8AE6FF] rounded-full opacity-20 motion-safe:animate-pulse" style={{ animationDuration: '6s', animationDelay: '0.5s' }} />
-      </div>
+    <div className="max-w-7xl mx-auto px-4 py-8 relative z-0">
+      <InteractiveBackground />
 
-      <div className="text-center mb-6 sm:mb-8 mt-4 px-2 sm:px-4 relative z-0">
-        <h1 className="bg-gradient-to-r from-[#8AE6FF] via-[#8AE6FF] to-[#FFFFFF] bg-clip-text text-transparent font-canno text-4xl sm:text-5xl md:text-6xl font-bold mb-3 sm:mb-4 tracking-tight">
-          EVENTS
-        </h1>
+      <div className="relative z-10">
+        <div className="text-center mb-6 sm:mb-8 mt-4 px-2 sm:px-4">
+          <h1 className="bg-gradient-to-r from-[#8AE6FF] via-[#8AE6FF] to-[#FFFFFF] bg-clip-text text-transparent font-canno text-4xl sm:text-5xl md:text-6xl font-bold mb-3 sm:mb-4 tracking-tight">
+            EVENTS
+          </h1>
         <p className="font-poppins text-gray-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
           Discover our upcoming events and explore the exciting activities we've organized for the community.
         </p>
@@ -150,7 +146,7 @@ const EventsComponent = () => {
                   </div>
                   <div className="h-6 w-20 bg-gray-700/80 rounded-full"></div>
                 </div>
-                
+
                 <div className="space-y-2 mb-6">
                   <div className="h-3 w-full bg-gray-700/40 rounded"></div>
                   <div className="h-3 w-full bg-gray-700/40 rounded"></div>
@@ -175,10 +171,12 @@ const EventsComponent = () => {
             return (
               <div
                 key={type}
-                className={`transition-all duration-300 ease-out motion-reduce:transition-none ${
+                className={`transition-all duration-500 ease-out motion-reduce:transition-none ${
                   isActive
-                    ? 'opacity-100 relative z-10 translate-y-0'
-                    : 'opacity-0 absolute top-0 left-0 w-full h-full pointer-events-none translate-y-2 overflow-hidden'
+                    ? 'opacity-100 relative z-10 translate-x-0'
+                    : `opacity-0 absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden ${
+                        type === 'upcoming' ? '-translate-x-4' : 'translate-x-4'
+                      }`
                 }`}
               >
                 {activeEvents.length === 0 ? (
@@ -224,6 +222,7 @@ const EventsComponent = () => {
           })}
         </div>
       )}
+      </div>
     </div>
   );
 };

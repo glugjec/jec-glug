@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import EventCountdown from '../components/EventCountdown';
 import EventImageGallery from '../components/EventImageGallery';
+import InteractiveBackground from '../components/InteractiveBackground';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -85,15 +86,8 @@ const EventDetailPage = () => {
   const displayTags = hasTags ? event.tags : ['Hackathon', 'Innovation', 'Coding'];
 
   return (
-    <div className={`max-w-7xl mx-auto px-4 py-12 md:py-16 pt-24 md:pt-32 transform motion-safe:transition-all motion-safe:duration-700 motion-safe:ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} relative`}>
-      {/* Subtle Background Particles */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute top-[15%] left-[20%] w-1.5 h-1.5 bg-[#8AE6FF] rounded-full opacity-20 motion-safe:animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute top-[60%] left-[10%] w-1 h-1 bg-white rounded-full opacity-10 motion-safe:animate-pulse" style={{ animationDuration: '3s', animationDelay: '1s' }} />
-        <div className="absolute top-[30%] right-[25%] w-2 h-2 bg-[#8AE6FF] rounded-full opacity-20 motion-safe:animate-pulse" style={{ animationDuration: '5s', animationDelay: '2s' }} />
-        <div className="absolute top-[75%] right-[15%] w-1.5 h-1.5 bg-white rounded-full opacity-10 motion-safe:animate-pulse" style={{ animationDuration: '4s', animationDelay: '1.5s' }} />
-        <div className="absolute top-[40%] left-[50%] w-1 h-1 bg-[#8AE6FF] rounded-full opacity-20 motion-safe:animate-pulse" style={{ animationDuration: '6s', animationDelay: '0.5s' }} />
-      </div>
+    <div className={`max-w-7xl mx-auto px-4 py-12 md:py-16 pt-24 md:pt-32 transform motion-safe:transition-all motion-safe:duration-700 motion-safe:ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} relative z-0`}>
+      <InteractiveBackground className="-z-10" densityMultiplier={0.6} opacityMultiplier={1.8} color="71, 133, 165" />
 
       {/* Back button */}
       <Link to="/events" className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-8 font-poppins text-sm group">
