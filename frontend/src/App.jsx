@@ -6,6 +6,7 @@ import TeamPage from './pages/TeamPage';
 import Footer from './components/Footer';
 import ContactPage from './pages/ContactPage';
 import EventsComponent from './components/EventsComponent';
+import EventDetailPage from './pages/EventDetailPage';
 import SponsorPage from './pages/SponsorPage';
 import AdminPanel from './pages/AdminPanel';
 import ScrollToTop from './components/ScrollToTop';
@@ -38,6 +39,7 @@ function AppContent() {
           <Route path="/team" element={<TeamPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/events" element={<EventsComponent />} />
+          <Route path="/events/:id" element={<EventDetailPage />} />
           <Route path="/sponsors" element={<SponsorPage />} />
           <Route path="/admin" element={<AdminPanel />} />
         </Routes>

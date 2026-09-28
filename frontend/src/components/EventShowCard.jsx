@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { isToday } from '@/lib/utils';
 import EventImageGallery from './EventImageGallery';
 
@@ -15,7 +16,10 @@ const EventShowCard = ({ event }) => {
   const extraTagsCount = displayTags.length - 3;
 
   return (
-    <div className="group max-w-sm w-full bg-white rounded-[3rem] shadow-lg overflow-hidden border border-gray-900 flex flex-col h-full motion-safe:transition-all motion-safe:duration-300 motion-safe:hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(138,230,255,0.12)]">
+    <Link
+      to={`/events/${event._id}`}
+      className="block group max-w-sm w-full bg-white rounded-[3rem] shadow-lg overflow-hidden border border-gray-900 flex flex-col h-full motion-safe:transition-all motion-safe:duration-300 motion-safe:hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(138,230,255,0.12)] cursor-pointer"
+    >
       {/* Image Section */}
       <div className="bg-gray-200 h-40 w-full overflow-hidden rounded-t-[3rem]">
         <EventImageGallery
@@ -36,7 +40,7 @@ const EventShowCard = ({ event }) => {
                 Today
               </span>
             )}
-            <h1 className="font-canno text-xl font-bold leading-tight">{event.title}</h1>
+            <h1 className="font-canno text-xl font-bold leading-tight group-hover:text-[#8AE6FF] transition-colors">{event.title}</h1>
           </div>
           <p className="font-poppins text-sm bg-white/10 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-full whitespace-nowrap">
             {formattedDate}
@@ -64,7 +68,7 @@ const EventShowCard = ({ event }) => {
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
