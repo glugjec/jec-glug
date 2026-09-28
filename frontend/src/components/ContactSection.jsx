@@ -97,129 +97,129 @@ const ContactSection = () => {
                   Let's start a conversation
                 </h2>
 
-                <p className="text-gray-400 mt-2 text-sm sm:text-base">
+                <p className="text-gray-400 mt-3 text-sm sm:text-base leading-relaxed">
                   Have something you'd like to ask? Drop us a message below.
                 </p>
 
-              </div>
-
-              <ContactForm />
-
             </div>
 
-          </div>
-
-        </div>
-
-        <div className="mt-16 sm:mt-20">
-
-          <div className="text-center mb-8">
-
-            <p className="text-[#60B5FF] text-sm uppercase tracking-wider font-medium mb-2">
-              Why GLUG JEC?
-            </p>
-
-            <h2 className="text-2xl sm:text-3xl font-semibold">
-              Learn, explore and grow together.
-            </h2>
+            <ContactForm />
 
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-            {reasons.map((reason, index) => (
-              <div
-                key={index}
-                className="group p-6 rounded-2xl bg-white/[0.06] border border-white/10 hover:bg-white/[0.1] hover:border-[#3093E5]/40 transition-all duration-300"
-              >
-
-                <div className="w-11 h-11 rounded-xl bg-[#3093E5]/15 border border-[#3093E5]/20 flex items-center justify-center text-[#60B5FF] mb-4 group-hover:scale-105 transition-transform duration-300">
-                  {reason.icon}
-                </div>
-
-                <h3 className="text-white font-medium text-lg">
-                  {reason.title}
-                </h3>
-
-                <p className="text-gray-400 text-sm leading-relaxed mt-2">
-                  {reason.description}
-                </p>
-
-              </div>
-            ))}
-
-          </div>
-
-        </div>
-
-        <div className="mt-16 sm:mt-20">
-
-          <div className="relative p-6 sm:p-8 rounded-3xl bg-white/[0.05] border border-white/10 overflow-hidden">
-
-            <div className="absolute inset-0 bg-gradient-to-r from-[#3093E5]/10 via-transparent to-purple-500/5 pointer-events-none"></div>
-
-            <div className="relative text-center">
-
-              <p className="text-[#60B5FF] text-sm uppercase tracking-wider font-medium mb-2">
-                Explore & Learn
-              </p>
-
-              <h2 className="text-2xl sm:text-3xl font-semibold mb-6">
-                Technology, open source and beyond.
-              </h2>
-
-              <div className="flex flex-wrap justify-center gap-3">
-
-                {techAreas.map((area, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/[0.06] border border-white/10 text-gray-300 hover:text-white hover:border-[#3093E5]/40 transition-all duration-300"
-                  >
-
-                    <span className="text-[#60B5FF]">
-                      {area.icon}
-                    </span>
-
-                    <span className="text-sm">
-                      {area.name}
-                    </span>
-
-                  </div>
-                ))}
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-        <div className="mt-16 text-center">
-
-          <div className="inline-flex items-center gap-2 text-[#60B5FF] mb-3">
-
-            <Lightbulb className="w-5 h-5" />
-
-            <span className="text-sm uppercase tracking-wider font-medium">
-              Curious about technology?
-            </span>
-
-          </div>
-
-          <h2 className="text-2xl sm:text-3xl font-semibold">
-            There's always something new to learn.
-          </h2>
-
-          <p className="text-gray-400 text-sm sm:text-base mt-3">
-            Explore open source, participate in events and grow with GLUG JEC.
-          </p>
 
         </div>
 
       </div>
 
-    </section>
+      <div className="mt-16 sm:mt-20">
+
+        <div className="text-center mb-8">
+
+          <p className="text-[#60B5FF] text-sm uppercase tracking-wider font-medium mb-2">
+            Why GLUG JEC?
+          </p>
+
+          <h2 className="text-2xl sm:text-3xl font-semibold">
+            Learn, explore and grow together.
+          </h2>
+
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+          {reasons.map((reason, index) => (
+            <div
+              key={index}
+              className="group p-6 rounded-2xl bg-white/[0.06] border border-white/10 hover:bg-white/[0.1] hover:border-[#3093E5]/40 transition-all duration-300"
+            >
+
+              <div className="w-11 h-11 rounded-xl bg-[#3093E5]/15 border border-[#3093E5]/20 flex items-center justify-center text-[#60B5FF] mb-4 group-hover:scale-105 transition-transform duration-300">
+                {reason.icon}
+              </div>
+
+              <h3 className="text-white font-medium text-lg">
+                {reason.title}
+              </h3>
+
+              <p className="text-gray-400 text-sm leading-relaxed mt-2">
+                {reason.description}
+              </p>
+
+            </div>
+          ))}
+
+        </div>
+
+      </div>
+
+      <div className="mt-16 sm:mt-20">
+
+        <div className="relative p-6 sm:p-8 rounded-3xl bg-white/[0.05] border border-white/10 overflow-hidden">
+
+          <div className="absolute inset-0 bg-gradient-to-r from-[#3093E5]/10 via-transparent to-purple-500/5 pointer-events-none"></div>
+
+          <div className="relative text-center">
+
+            <p className="text-[#60B5FF] text-sm uppercase tracking-wider font-medium mb-2">
+              Explore & Learn
+            </p>
+
+            <h2 className="text-2xl sm:text-3xl font-semibold mb-6">
+              Technology, open source and beyond.
+            </h2>
+
+            <div className="flex flex-wrap justify-center gap-3">
+
+              {techAreas.map((area, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/[0.06] border border-white/10 text-gray-300 hover:text-white hover:border-[#3093E5]/40 transition-all duration-300"
+                >
+
+                  <span className="text-[#60B5FF]">
+                    {area.icon}
+                  </span>
+
+                  <span className="text-sm">
+                    {area.name}
+                  </span>
+
+                </div>
+              ))}
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="mt-16 text-center">
+
+        <div className="inline-flex items-center gap-2 text-[#60B5FF] mb-3">
+
+          <Lightbulb className="w-5 h-5" />
+
+          <span className="text-sm uppercase tracking-wider font-medium">
+            Curious about technology?
+          </span>
+
+        </div>
+
+        <h2 className="text-2xl sm:text-3xl font-semibold">
+          There's always something new to learn.
+        </h2>
+
+        <p className="text-gray-400 text-sm sm:text-base mt-3">
+          Explore open source, participate in events and grow with GLUG JEC.
+        </p>
+
+      </div>
+
+    </div>
+
+    </section >
   );
 };
 

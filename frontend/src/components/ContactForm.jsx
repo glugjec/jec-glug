@@ -145,17 +145,15 @@ const ContactForm = () => {
   ];
 
   const inputClass = (field) =>
-    `w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/[0.05] border text-white placeholder-transparent focus:outline-none transition-all duration-300 ${
-      focusedField === field
-        ? 'border-[#3093E5] ring-1 ring-[#3093E5]/40 bg-white/[0.07]'
-        : 'border-white/10 hover:border-white/20'
+    `w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/[0.05] border text-white placeholder-transparent focus:outline-none transition-all duration-300 ${focusedField === field
+      ? 'border-[#3093E5] ring-1 ring-[#3093E5]/40 bg-white/[0.07]'
+      : 'border-white/10 hover:border-white/20'
     }`;
 
   const labelClass = (field) =>
-    `absolute left-11 transition-all duration-200 pointer-events-none ${
-      focusedField === field || formData[field]
-        ? 'text-[#60B5FF] text-xs -top-2.5 bg-[#17165A] px-2'
-        : 'text-gray-500 top-3.5 text-sm'
+    `absolute left-11 -translate-y-1/2 transition-all duration-200 pointer-events-none ${focusedField === field || formData[field]
+      ? 'top-0 text-[#60B5FF] text-xs bg-[#17165A] px-2 rounded'
+      : 'top-1/2 text-gray-500 text-sm'
     }`;
 
   return (
@@ -170,11 +168,10 @@ const ContactForm = () => {
             <div className="relative" key={field.name}>
 
               <Icon
-                className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 ${
-                  focusedField === field.name
+                className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 ${focusedField === field.name
                     ? 'text-[#60B5FF]'
                     : 'text-gray-500'
-                }`}
+                  }`}
               />
 
               <input
@@ -203,11 +200,10 @@ const ContactForm = () => {
         <div className="relative">
 
           <MessageSquare
-            className={`absolute left-4 top-4 w-4 h-4 transition-colors duration-300 ${
-              focusedField === 'message'
+            className={`absolute left-4 top-[19px] w-4 h-4 transition-colors duration-300 ${focusedField === 'message'
                 ? 'text-[#60B5FF]'
                 : 'text-gray-500'
-            }`}
+              }`}
           />
 
           <textarea
@@ -225,11 +221,10 @@ const ContactForm = () => {
 
           <label
             htmlFor="message"
-            className={`absolute left-11 transition-all duration-200 pointer-events-none ${
-              focusedField === 'message' || formData.message
-                ? 'text-[#60B5FF] text-xs -top-2.5 bg-[#17165A] px-2'
-                : 'text-gray-500 top-3.5 text-sm'
-            }`}
+            className={`absolute left-11 transition-all duration-200 pointer-events-none ${focusedField === 'message' || formData.message
+                ? '-top-2.5 text-[#60B5FF] text-xs bg-[#17165A] px-2 rounded'
+                : 'top-4 text-gray-500 text-sm'
+              }`}
           >
             Your message
           </label>
@@ -242,11 +237,10 @@ const ContactForm = () => {
 
         {submitStatus.message && (
           <div
-            className={`flex items-center gap-3 p-4 rounded-xl text-sm border ${
-              submitStatus.type === 'success'
+            className={`flex items-center gap-3 p-4 rounded-xl text-sm border ${submitStatus.type === 'success'
                 ? 'bg-green-500/10 text-green-300 border-green-500/20'
                 : 'bg-red-500/10 text-red-300 border-red-500/20'
-            }`}
+              }`}
           >
             {submitStatus.type === 'success' ? (
               <CheckCircle className="w-5 h-5 flex-shrink-0" />
@@ -261,11 +255,10 @@ const ContactForm = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`group w-full py-3.5 px-5 rounded-xl font-medium transition-all duration-300 ${
-            isSubmitting
+          className={`group w-full py-3.5 px-5 rounded-xl font-medium transition-all duration-300 ${isSubmitting
               ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
               : 'bg-gradient-to-r from-[#3093E5] to-[#2563EB] text-white hover:shadow-lg hover:shadow-[#3093E5]/25 hover:-translate-y-0.5'
-          }`}
+            }`}
         >
           <span className="flex items-center justify-center gap-2">
 

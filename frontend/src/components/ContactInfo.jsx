@@ -69,13 +69,11 @@ const ContactInfo = () => {
         </h2>
 
         <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
-          Whether you have a question, want to learn more about GLUG JEC,
-          or simply want to connect, feel free to reach out.
+          Questions about GLUG JEC? Reach out and connect with us.
         </p>
       </div>
 
-      <div className="space-y-4 mt-8">
-
+      <div className="space-y-4 mt-[27px]">
         {contactDetails.map((detail, index) => (
           <a
             key={index}
