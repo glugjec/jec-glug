@@ -5,13 +5,13 @@ const SponsorsSection = ({ sponsorsData, loading = false }) => {
     <div className="min-h-screen pt-12 sm:pt-16 px-2 sm:px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <h1 className="font-canno text-[2rem] sm:text-[2.5rem] md:text-[3rem] font-bold text-center mb-2 bg-gradient-to-r from-[#3093E5] to-[#FFFFFF] bg-clip-text text-transparent">
+        <h1 className="font-canno text-[2.2rem] sm:text-[2.8rem] md:text-[3.2rem] font-bold text-center mb-3 bg-gradient-to-r from-[#3093E5] to-[#FFFFFF] bg-clip-text text-transparent">
           OUR SPONSORS
         </h1>
          
         {/* Intro Text */}
-        <p className="font-poppins text-base sm:text-lg text-white text-center max-w-2xl mx-auto mb-8 sm:mb-12 opacity-90 px-2">
-          We are grateful to our sponsors who support sports mission and help us organize amazing events for the community.
+        <p className="font-poppins text-base sm:text-lg leading-relaxed text-white/90 text-center max-w-2xl mx-auto mb-12 sm:mb-16 px-2">
+          We are grateful to our sponsors who support our mission and help us organize amazing events for the community.
         </p>
 
         
@@ -42,11 +42,11 @@ const SponsorsSection = ({ sponsorsData, loading = false }) => {
         ) : (
           sponsorsData.map((sponsorTier, index) => (
             <div key={index} className="flex flex-col items-center mb-12 sm:mb-16">
-              <h3 className="font-poppins text-xl sm:text-2xl font-semibold text-white mb-6 sm:mb-8 capitalize">
-                {sponsorTier.tier.charAt(0).toUpperCase() + sponsorTier.tier.slice(1)} Sponsors
-              </h3>
+              <h3 className="font-canno text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-wide text-center mb-7 sm:mb-9 bg-gradient-to-r from-[#3093E5] to-[#FFFFFF] bg-clip-text text-transparent">
+               {sponsorTier.tier} Sponsors
+             </h3>
 
-              <div className="flex justify-center gap-3 sm:gap-6 flex-wrap px-2">
+              <div className="flex justify-center items-center gap-4 sm:gap-6 flex-wrap w-full px-2">
               { sponsorTier.sponsors.map((sponsor) => (
                 <SponsorCard key={sponsor._id} sponsor={sponsor} tier={sponsorTier.tier} />
               )) }
