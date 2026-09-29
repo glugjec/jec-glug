@@ -71,8 +71,8 @@ const HomePage = () => {
 
       <Gallery />
       <PartnerSection />
-      <div className='w-full'>
-        <ContactSection bgColor="#03022C" />
+      <div className='w-full bg-gradient-to-br from-[#2B2973] via-[#090754] to-[#2B2973]'>
+        <ContactSection />
       </div>
     </div>
   );
